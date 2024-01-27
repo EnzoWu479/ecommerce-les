@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "EditorConfig.EditorConfig",
+        "dbaeumer.vscode-eslint",
+        "csstools.postcss",
+        "esbenp.prettier-vscode",
+        "rvest.vs-code-prettier-eslint",
+        "Prisma.prisma",
+        "WillLuke.nextjs",
+        "bradlc.vscode-tailwindcss"
+    ]
+}
