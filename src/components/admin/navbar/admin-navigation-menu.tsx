@@ -5,6 +5,7 @@ import {
   Archive,
   ArchiveX,
   ArrowLeftRight,
+  CircleDollarSign,
   File,
   Inbox,
   Layers,
@@ -18,23 +19,17 @@ import {
   ShoppingBasket,
   ShoppingCart,
   Target,
+  TicketPercent,
   Trash2,
   Users2,
   UsersRound
 } from 'lucide-react';
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle
-} from '../ui/navigation-menu';
-import { ResizablePanel, ResizablePanelGroup } from '../ui/resizable';
-import { Separator } from '../ui/separator';
-import { Nav } from './navbar/nav';
+import { ResizablePanel, ResizablePanelGroup } from '../../ui/resizable';
+import { Separator } from '../../ui/separator';
+import { Nav } from './nav';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarImage } from '../../ui/avatar';
 
 interface Props {
   isCollapsed: boolean;
@@ -66,31 +61,47 @@ export const AdminNavigationMenu = ({ isCollapsed }: Props) => {
           {
             title: 'Clientes',
             icon: UsersRound,
-            href: '/admin/auth/clientes',
+            href: '/admin/auth/clientes'
           },
           {
             title: 'Produtos',
             label: '',
             icon: Target,
+            href: '/admin/auth/produtos'
           },
           {
             title: 'Categorias',
             label: '',
             icon: Shapes,
+            href: '/admin/auth/categorias'
+          },
+          {
+            title: 'Grupo de precificação',
+            icon: CircleDollarSign,
+            href: '/admin/auth/grupo-de-precificacao'
           },
           {
             title: 'Vendas',
-            icon: ShoppingBasket,
+            href: "/admin/auth/vendas",
+            icon: ShoppingBasket
           },
           {
             title: 'Estoque',
             label: '',
-            icon: Layers,
+            href: "/admin/auth/estoque",
+            icon: Layers
+          },
+          {
+            title: 'Cupons',
+            label: '',
+            href: "/admin/auth/cupons",
+            icon: TicketPercent
           },
           {
             title: 'Trocas',
             label: '',
-            icon: ArrowLeftRight,
+            href: "/admin/auth/trocas",
+            icon: ArrowLeftRight
           }
         ]}
       />
@@ -100,7 +111,7 @@ export const AdminNavigationMenu = ({ isCollapsed }: Props) => {
         links={[
           {
             title: 'Logout',
-            icon: LogOut,
+            icon: LogOut
           }
         ]}
       />

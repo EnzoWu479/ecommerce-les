@@ -23,8 +23,8 @@ interface NavProps {
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
-  const pathname = usePathname();
-  const isActive = (href: string) => href.startsWith(pathname);
+  const pathname = usePathname(); 
+  const isActive = (href: string) => pathname.startsWith(href);
   return (
     <div
       data-collapsed={isCollapsed}

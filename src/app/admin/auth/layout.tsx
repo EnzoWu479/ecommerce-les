@@ -1,6 +1,6 @@
 'use client';
 
-import { AdminNavigationMenu } from '@/components/admin/admin-navigation-menu';
+import { AdminNavigationMenu } from '@/components/admin/navbar/admin-navigation-menu';
 import {
   ResizableHandle,
   ResizablePanel,
