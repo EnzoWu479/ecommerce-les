@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import { Card } from '../ui/card';
 
 const product = {
   id: 1,
   name: 'Harry Potter',
-  href: '#',
+  href: '/produto/1',
   imageSrc: '/assets/book-1.webp',
   imageAlt: "Front of men's Basic Tee in black.",
   price: '$35',
@@ -23,10 +24,10 @@ export const ProductCard = () => {
       <div className="mt-2 flex justify-between p-2">
         <div>
           <h3 className="text-sm text-gray-700">
-            <a href={product.href}>
+            <Link href={product.href}>
               <span aria-hidden="true" className="absolute inset-0" />
               {product.name}
-            </a>
+            </Link>
           </h3>
           <p className="mt-1 text-sm text-gray-500">{product.color}</p>
         </div>
