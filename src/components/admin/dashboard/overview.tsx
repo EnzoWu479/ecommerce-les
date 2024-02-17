@@ -1,62 +1,83 @@
-"use client"
+'use client';
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Line,
+  LineChart,
+  Legend
+} from 'recharts';
 
 const data = [
   {
-    name: "Jan",
+    name: 'Jan',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Feb",
+    name: 'Feb',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Mar",
+    name: 'Mar',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Apr",
+    name: 'Apr',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "May",
+    name: 'May',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Jun",
+    name: 'Jun',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Jul",
+    name: 'Jul',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Aug",
+    name: 'Aug',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Sep",
+    name: 'Sep',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Oct",
+    name: 'Oct',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Nov",
+    name: 'Nov',
     total: Math.floor(Math.random() * 5000) + 1000,
+    total1: Math.floor(Math.random() * 5000) + 1000
   },
   {
-    name: "Dec",
+    name: 'Dec',
     total: Math.floor(Math.random() * 5000) + 1000,
-  },
-]
+    total1: Math.floor(Math.random() * 5000) + 1000
+  }
+];
 
 export function Overview() {
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data}>
+      <LineChart data={data}>
         <XAxis
           dataKey="name"
           stroke="#888888"
@@ -69,15 +90,12 @@ export function Overview() {
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => `$${value}`}
+          tickFormatter={value => `$${value}`}
         />
-        <Bar
-          dataKey="total"
-          fill="currentColor"
-          radius={[4, 4, 0, 0]}
-          className="fill-primary"
-        />
-      </BarChart>
+        <Legend />
+        <Line dataKey="total" stroke="#f6c6d5" className="fill-primary" />
+        <Line dataKey="total1" fill="currentColor" className="fill-primary" />
+      </LineChart>
     </ResponsiveContainer>
-  )
+  );
 }

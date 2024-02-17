@@ -1,10 +1,11 @@
 export const formatMoney = (number: number) => {
+  const formater = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
   try {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(number);
+    return formater.format(number);
   } catch {
     return number;
   }
-}
+};
