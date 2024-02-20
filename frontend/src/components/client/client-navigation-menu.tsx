@@ -20,28 +20,28 @@ const navigation = {
     {
       id: 'books',
       name: 'Livros',
-      featured: [
-        {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc:
-            'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-          imageAlt:
-            'Models sitting back to back, wearing Basic Tee in black and bone.'
-        },
-        {
-          name: 'Basic Tees',
-          href: '#',
-          imageSrc:
-            'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
-          imageAlt:
-            'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.'
-        }
-      ],
+      // featured: [
+      //   {
+      //     name: 'New Arrivals',
+      //     href: '#',
+      //     imageSrc:
+      //       'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
+      //     imageAlt:
+      //       'Models sitting back to back, wearing Basic Tee in black and bone.'
+      //   },
+      //   {
+      //     name: 'Basic Tees',
+      //     href: '#',
+      //     imageSrc:
+      //       'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
+      //     imageAlt:
+      //       'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.'
+      //   }
+      // ],
       sections: [
         {
-          id: 'clothing',
-          name: 'Clothing',
+          id: 'categories',
+          name: 'Categorias',
           items: [
             { name: 'Tops', href: '#' },
             { name: 'Dresses', href: '#' },
@@ -54,36 +54,9 @@ const navigation = {
             { name: 'Browse All', href: '#' }
           ]
         },
-        {
-          id: 'accessories',
-          name: 'Accessories',
-          items: [
-            { name: 'Watches', href: '#' },
-            { name: 'Wallets', href: '#' },
-            { name: 'Bags', href: '#' },
-            { name: 'Sunglasses', href: '#' },
-            { name: 'Hats', href: '#' },
-            { name: 'Belts', href: '#' }
-          ]
-        },
-        {
-          id: 'brands',
-          name: 'Brands',
-          items: [
-            { name: 'Full Nelson', href: '#' },
-            { name: 'My Way', href: '#' },
-            { name: 'Re-Arranged', href: '#' },
-            { name: 'Counterfeit', href: '#' },
-            { name: 'Significant Other', href: '#' }
-          ]
-        }
       ]
     }
   ],
-  pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' }
-  ]
 };
 
 export function ClientNavigationMenu() {
@@ -132,7 +105,7 @@ export function ClientNavigationMenu() {
 
                 {/* Links */}
                 <Tab.Group as="div" className="mt-2">
-                  <div className="border-b border-gray-200">
+                  {/* <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex space-x-8 px-4">
                       {navigation.categories.map(category => (
                         <Tab
@@ -150,14 +123,14 @@ export function ClientNavigationMenu() {
                         </Tab>
                       ))}
                     </Tab.List>
-                  </div>
+                  </div> */}
                   <Tab.Panels as={Fragment}>
                     {navigation.categories.map(category => (
                       <Tab.Panel
                         key={category.name}
                         className="space-y-10 px-4 pb-8 pt-10"
                       >
-                        <div className="grid grid-cols-2 gap-x-4">
+                        {/* <div className="grid grid-cols-2 gap-x-4">
                           {category.featured.map(item => (
                             <div
                               key={item.name}
@@ -185,7 +158,7 @@ export function ClientNavigationMenu() {
                               </p>
                             </div>
                           ))}
-                        </div>
+                        </div> */}
                         {category.sections.map(section => (
                           <div key={section.name}>
                             <p
@@ -217,7 +190,7 @@ export function ClientNavigationMenu() {
                   </Tab.Panels>
                 </Tab.Group>
 
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                {/* <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map(page => (
                     <div key={page.name} className="flow-root">
                       <a
@@ -228,28 +201,28 @@ export function ClientNavigationMenu() {
                       </a>
                     </div>
                   ))}
-                </div>
+                </div> */}
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    <a
-                      href="#"
+                    <Link
+                      href="/login"
                       className="-m-2 block p-2 font-medium text-gray-900"
                     >
-                      Sign in
-                    </a>
+                      Fazer login
+                    </Link>
                   </div>
                   <div className="flow-root">
                     <a
                       href="#"
                       className="-m-2 block p-2 font-medium text-gray-900"
                     >
-                      Create account
+                      Criar conta
                     </a>
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 px-4 py-6">
+                {/* <div className="border-t border-gray-200 px-4 py-6">
                   <a href="#" className="-m-2 flex items-center p-2">
                     <img
                       src="https://tailwindui.com/img/flags/flag-canada.svg"
@@ -261,7 +234,7 @@ export function ClientNavigationMenu() {
                     </span>
                     <span className="sr-only">, change currency</span>
                   </a>
-                </div>
+                </div> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -292,7 +265,7 @@ export function ClientNavigationMenu() {
                   <Image src="/assets/logo.png" width={50} height={50} alt="" />
                 </Link>
               </div>
-              <div className="z-10 lg:ml-8 lg:block lg:self-stretch">
+              <div className="z-10 max-lg:invisible lg:ml-8 lg:block lg:self-stretch">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="relative z-10 -mb-px flex h-full items-center border-b-2 border-transparent pt-px text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800">
                     Categorias

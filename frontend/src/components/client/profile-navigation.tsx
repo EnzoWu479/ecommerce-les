@@ -24,12 +24,11 @@ export const ProfileNavigation = () => {
               })}
             />
           </Avatar>
-
-          {profileInfos.name}
+          <span className="max-sm:sr-only">{profileInfos.name}</span>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem asChild className='hover:bg-slate-100 cursor-pointer'>
+        <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100">
           <Link
             href={{
               pathname: '/livros',
@@ -39,7 +38,7 @@ export const ProfileNavigation = () => {
             Endereços
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild className='hover:bg-slate-100 cursor-pointer'>
+        <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100">
           <Link
             href={{
               pathname: '/livros',
@@ -49,7 +48,17 @@ export const ProfileNavigation = () => {
             Cartões de crédito
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild className='hover:bg-slate-100 cursor-pointer'>
+        <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100">
+          <Link
+            href={{
+              pathname: '/compras',
+              query: { category: 'Ação' }
+            }}
+          >
+            Compras
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100">
           <Link
             href={{
               pathname: '/livros',
