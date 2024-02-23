@@ -76,11 +76,6 @@ export const AdminNavigationMenu = ({ isCollapsed }: Props) => {
             href: '/admin/auth/categorias'
           },
           {
-            title: 'Grupo de precificação',
-            icon: CircleDollarSign,
-            href: '/admin/auth/grupo-de-precificacao'
-          },
-          {
             title: 'Vendas',
             href: "/admin/auth/vendas",
             icon: ShoppingBasket

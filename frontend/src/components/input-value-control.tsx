@@ -9,7 +9,7 @@ import {
 interface Props {
   onIncrement?: () => void;
   onDecrement?: () => void;
-  value: number;
+  value: string | number;
   tooltip?: string;
 }
 export const InputValueControl = ({
@@ -30,7 +30,7 @@ export const InputValueControl = ({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <span className="text-sm">{value}%</span>
+            <span className="text-sm">{value}</span>
           </TooltipTrigger>
           {tooltip && <TooltipContent>{tooltip}</TooltipContent>}
         </Tooltip>
