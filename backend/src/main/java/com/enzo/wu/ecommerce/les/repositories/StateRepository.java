@@ -9,5 +9,5 @@ import com.enzo.wu.ecommerce.les.models.Address.State;
 
 @Repository
 public interface StateRepository extends JpaRepository<State, Long> {
-    Optional<State> findByName(String name);
+    Optional<State> findByUf(String uf);
 }

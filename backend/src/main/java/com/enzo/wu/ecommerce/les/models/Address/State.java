@@ -30,9 +30,6 @@ public class State {
     @Column(name = "sta_id")
     private Long id;
 
-    @Column(name = "sta_name", nullable = false, length = 100)
-    private String name;
-
     @Column(name = "sta_uf", nullable = false, length = 2)
     private String uf;
 

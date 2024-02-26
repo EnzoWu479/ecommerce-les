@@ -1,10 +1,16 @@
 package com.enzo.wu.ecommerce.les.models.User;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +44,21 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @CollectionTable(name = "user_roles")
+    @Column(name = "usr_role", nullable = false)
+    private Set<Integer> roles = new HashSet<>();
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = true)
     private UserClient userClient;
+
+
+    public Set<UserRoles> getRoles() {
+        Set<UserRoles> roles = new HashSet<>();
+        for (Integer role : this.roles) {
+            roles.add(UserRoles.toEnum(role));
+        }
+        return roles;
+    }
 }

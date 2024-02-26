@@ -25,7 +25,7 @@ public class CreditCardBrand {
 
     @Id
     @Column(name = "brand_id", nullable = false)
-    private long id;
+    private Long id;
 
     @Column(name = "brand_name", nullable = false, unique = true)
     private String name;

@@ -5,6 +5,7 @@ import java.util.Set;
 import com.enzo.wu.ecommerce.les.models.User.UserClient;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -48,9 +49,20 @@ public class ClientAddress {
     @JoinColumn(name = "usr_cli_id", nullable = false)
     private UserClient userClient;
 
-    @ElementCollection(targetClass = ClientAddressType.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "client_address_type", joinColumns = @JoinColumn(name = "usr_adr_id"))
+    @ElementCollection(targetClass = ClientAddressType.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_address_type")
     @Column(name = "address_type")
-    @Enumerated(EnumType.STRING) // ou EnumType.ORDINAL, dependendo de como você deseja armazenar o enum
     private Set<ClientAddressType> clientAddressTypes;
+
+    public Boolean isResident() {
+        return this.clientAddressTypes.contains(ClientAddressType.RESIDENCE);
+    }
+
+    public Boolean isShipping() {
+        return this.clientAddressTypes.contains(ClientAddressType.SHIPPING);
+    }
+
+    public Boolean isBilling() {
+        return this.clientAddressTypes.contains(ClientAddressType.BILLING);
+    }
 }
