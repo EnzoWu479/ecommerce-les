@@ -1,9 +1,11 @@
 import { City, PrismaClient } from "@prisma/client";
-
-export class StateRepository {
+import { prisma } from '@/server/lib/prisma';
+import { injectable } from 'inversify';
+@injectable()
+export class CityRepository {
   prisma: PrismaClient;
 
-  constructor(prisma: PrismaClient) {
+  constructor() {
     this.prisma = prisma;
   }
 

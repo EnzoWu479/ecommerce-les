@@ -1,9 +1,11 @@
 import { CreditCardBrand, PrismaClient } from "@prisma/client";
-
+import { prisma } from '@/server/lib/prisma';
+import { injectable } from 'inversify';
+@injectable()
 export class CreditCardBrandRepository {
   prisma: PrismaClient;
 
-  constructor(prisma: PrismaClient) {
+  constructor() {
     this.prisma = prisma;
   }
   async findAll() {

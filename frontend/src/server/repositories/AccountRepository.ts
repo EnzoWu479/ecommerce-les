@@ -1,9 +1,11 @@
-import { Account, PrismaClient } from "@prisma/client";
-
+import { Account, PrismaClient } from '@prisma/client';
+import { prisma } from '@/server/lib/prisma';
+import { injectable } from 'inversify';
+@injectable()
 export class AccountRepository {
   prisma: PrismaClient;
 
-  constructor(prisma: PrismaClient) {
+  constructor() {
     this.prisma = prisma;
   }
 

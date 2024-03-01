@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const clientSchema = z.object({
+export const clientFormSchema = z.object({
   personal: z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
     email: z.string().email('Email inválido'),

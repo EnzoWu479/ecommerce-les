@@ -1,9 +1,11 @@
 import { ClientAddress, PrismaClient } from "@prisma/client";
-
+import { prisma } from '@/server/lib/prisma';
+import { injectable } from 'inversify';
+@injectable()
 export class ClientAddressRepository {
   prisma: PrismaClient;
 
-  constructor(prisma: PrismaClient) {
+  constructor() {
     this.prisma = prisma;
   }
   async create(data: ClientAddress) {
