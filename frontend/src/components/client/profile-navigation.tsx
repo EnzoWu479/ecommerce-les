@@ -52,7 +52,6 @@ export const ProfileNavigation = () => {
           <Link
             href={{
               pathname: '/compras',
-              query: { category: 'Ação' }
             }}
           >
             Compras
@@ -62,7 +61,6 @@ export const ProfileNavigation = () => {
           <Link
             href={{
               pathname: '/livros',
-              query: { category: 'Ação' }
             }}
           >
             Logout
