@@ -24,9 +24,7 @@ const CategoriesPage = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Cupons
-        </h2>
+        <h2 className="text-3xl font-bold tracking-tight">Cupons</h2>
         <Link href="/admin/auth/clientes/cadastrar">
           <Button>Novo cupom</Button>
         </Link>
@@ -36,7 +34,7 @@ const CategoriesPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Código</TableHead>
-              <TableHead>Tipo</TableHead>
+              <TableHead>Valor</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Validade</TableHead>
               <TableHead>Opções</TableHead>
@@ -45,7 +43,7 @@ const CategoriesPage = () => {
           <TableBody>
             <TableRow>
               <TableCell>QUERO20</TableCell>
-              <TableCell>Troca</TableCell>
+              <TableCell>{formaters.money(54)}</TableCell>
               <TableCell>Ativo</TableCell>
               <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
               <TableCell>

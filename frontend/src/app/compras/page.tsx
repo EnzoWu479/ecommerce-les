@@ -14,7 +14,15 @@ import {
   HoverCardContent,
   HoverCardTrigger
 } from '@/components/ui/hover-card';
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from '@/components/ui/pagination';
 import {
   Table,
   TableBody,
@@ -34,6 +42,7 @@ import { masks } from '@/helpers/masks';
 import { ClientLayout } from '@/layouts/client-layout';
 import { ArrowLeftRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Bought() {
   return (
@@ -91,8 +100,10 @@ export default function Bought() {
                 <div className="flex gap-2">
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger>
-                        <ArrowLeftRight />
+                      <TooltipTrigger asChild>
+                        <Link href="/compras/troca/1">
+                          <ArrowLeftRight />
+                        </Link>
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>Trocar produto</p>
