@@ -19,14 +19,19 @@ import {
 import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
 import { PencilLine, Trash2 } from 'lucide-react';
+import { ModalSearch } from '@/components/admin/modal-search';
+import { categorySearchFields } from './utils';
 
 const CategoriesPage = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Categorias de produtos
-        </h2>
+        <div className="flex gap-4">
+          <h2 className="text-3xl font-bold tracking-tight">
+            Categorias de produtos
+          </h2>
+          <ModalSearch fields={categorySearchFields} />
+        </div>
         <Link href="/admin/auth/categorias/cadastrar">
           <Button>Nova categoria</Button>
         </Link>

@@ -1,3 +1,4 @@
+import { ModalSearch } from '@/components/admin/modal-search';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -28,12 +29,16 @@ import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
 import { PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { clientSearchFields } from './utils';
 
 const ClientsPage = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Clientes</h2>
+        <div className="flex gap-4">
+          <h2 className="text-3xl font-bold tracking-tight">Clientes</h2>
+          <ModalSearch fields={clientSearchFields} />
+        </div>
         <Link href="/admin/auth/clientes/cadastrar">
           <Button>Novo cliente</Button>
         </Link>
@@ -47,6 +52,7 @@ const ClientsPage = () => {
               <TableHead>Email</TableHead>
               <TableHead>Data de nascimento</TableHead>
               <TableHead>CPF</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead>Opções</TableHead>
             </TableRow>
           </TableHeader>
@@ -57,6 +63,7 @@ const ClientsPage = () => {
               <TableCell>joao@email.com</TableCell>
               <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
               <TableCell>{masks.cpf('99999999999')}</TableCell>
+              <TableCell>Ativo</TableCell>
               <TableCell>
                 <div className="flex gap-2">
                   <Link href={`/admin/auth/clientes/${1}`}>
@@ -83,7 +90,7 @@ const ClientsPage = () => {
           </TableBody>
         </Table>
       </div>
-      <div className='flex justify-end'>
+      <div className="flex justify-end">
         <Pagination>
           <PaginationContent>
             <PaginationItem>

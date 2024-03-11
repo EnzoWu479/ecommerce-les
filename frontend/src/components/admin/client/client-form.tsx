@@ -52,6 +52,10 @@ export const ClientForm = () => {
               <Label>Email</Label>
               <Input className="w-80" />
             </div>
+            <div>
+              <Label>CPF</Label>
+              <Input className="w-80" />
+            </div>
             <div className="grid max-w-[41rem] grid-cols-2 gap-4">
               <div>
                 <Label>Senha</Label>

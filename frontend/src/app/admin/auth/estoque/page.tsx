@@ -1,3 +1,4 @@
+import { ModalSearch } from '@/components/admin/modal-search';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -30,12 +31,16 @@ import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
 import { ArrowUpLeftFromSquare, PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { stockSearchFields } from './utils';
 
 const SellsPage = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Estoque</h2>
+        <div className="flex gap-4">
+          <h2 className="text-3xl font-bold tracking-tight">Estoque</h2>
+          <ModalSearch fields={stockSearchFields} />
+        </div>
       </div>
       <div className="mt-5 rounded border">
         <Table>
@@ -72,7 +77,7 @@ const SellsPage = () => {
                           <Button>Adicionar</Button>
                           <Button>Remover</Button>
                           <DialogClose asChild>
-                            <Button variant={"ghost"}>Cancelar</Button>
+                            <Button variant={'ghost'}>Cancelar</Button>
                           </DialogClose>
                         </div>
                       </div>

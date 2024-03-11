@@ -37,15 +37,16 @@ import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
 import { PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { productSearchFields } from './utils';
 
 const ProductList = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Produtos
-          {/* <ModalSearch /> */}
-        </h2>
+        <div className="flex gap-4">
+          <h2 className="text-3xl font-bold tracking-tight">Produtos</h2>
+          <ModalSearch fields={productSearchFields} />
+        </div>
         <Button asChild>
           <Link href="/admin/auth/produtos/cadastrar">Novo produto</Link>
         </Button>
@@ -95,7 +96,7 @@ const ProductList = () => {
               <TableCell>Ativo</TableCell>
               <TableCell>
                 <div className="flex gap-2">
-                  <Link href={`/admin/auth/clientes/${1}`}>
+                  <Link href={`/admin/auth/produtos/${1}`}>
                     <PencilLine />
                   </Link>
                   <Dialog>
