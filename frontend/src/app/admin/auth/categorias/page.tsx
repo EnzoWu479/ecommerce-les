@@ -46,7 +46,7 @@ const CategoriesPage = () => {
               <TableCell>Roupas</TableCell>
               <TableCell className="flex items-center justify-end">
                 <div className="flex gap-2">
-                  <Link href={`/admin/auth/clientes/${1}`}>
+                  <Link href={`/admin/auth/categorias/${1}`}>
                     <PencilLine />
                   </Link>
                   <Dialog>

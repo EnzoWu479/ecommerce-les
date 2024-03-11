@@ -9,9 +9,7 @@ const RegisterCategory = () => {
     <>
       <div className="flex items-center gap-2">
         <GoBackButton />
-        <h2 className="text-3xl font-bold tracking-tight">
-          Cadastrar categoria
-        </h2>
+        <h1 className="text-3xl font-bold tracking-tight">Editar categoria</h1>
       </div>
       <CategoryForm />
     </>

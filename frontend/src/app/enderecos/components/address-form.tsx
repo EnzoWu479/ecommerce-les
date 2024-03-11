@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -10,12 +11,27 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { useForm } from 'react-hook-form';
 import { Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
 
 export const AddressForm = () => {
+  const { handleSubmit } = useForm();
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const onSubmit = handleSubmit(async () => {
+    toast({
+      title: 'Endereço salvo com sucesso',
+      description: 'O endereço foi salvo com sucesso'
+    });
+    router.back();
+  });
+
   return (
     <div className="flex flex-col space-y-2">
-      <div>
+      <form onSubmit={onSubmit}>
         <Card className="grid grid-cols-3 gap-4 p-4">
           <div>
             <Label>CEP</Label>
@@ -77,10 +93,10 @@ export const AddressForm = () => {
             <Label>Endereço de entrega</Label>
           </div>
           <div className="col-span-3 flex justify-end">
-            <Button>Salvar</Button>
+            <Button type="submit">Salvar</Button>
           </div>
         </Card>
-      </div>
+      </form>
     </div>
   );
 };

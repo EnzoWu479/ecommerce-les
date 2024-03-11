@@ -18,6 +18,7 @@ interface NavProps {
     title: string;
     label?: string;
     href?: string;
+    onClick?: () => void;
     icon: LucideIcon;
   }[];
 }
@@ -68,6 +69,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
             <Link
               key={index}
               href={link.href || '#'}
+              as={link.onClick && '/admin'}
+              onClick={link.onClick}
               className={cn(
                 buttonVariants({ variant: variant, size: 'sm' }),
                 variant === 'default' &&

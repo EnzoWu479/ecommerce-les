@@ -26,7 +26,7 @@ const Addresses = () => {
       <div className="mx-auto mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Meus cartões de crédito</h2>
-          <Link href="/enderecos/cadastrar">
+          <Link href="/cartoes-de-credito/cadastrar">
             <Button>Novo cartão</Button>
           </Link>
         </div>
@@ -55,7 +55,7 @@ const Addresses = () => {
                 <TableCell>SP</TableCell>
                 <TableCell className="flex items-center justify-end">
                   <div className="flex gap-2">
-                    <Link href={`/enderecos/${1}`}>
+                    <Link href={`/cartoes-de-credito/${1}`}>
                       <PencilLine />
                     </Link>
                     <Dialog>
@@ -65,7 +65,7 @@ const Addresses = () => {
                       <DialogContent>
                         <DialogHeader>
                           <DialogTitle>
-                            Tem certeza que deseja excluir esse endereço?
+                            Tem certeza que deseja excluir esse cartão de crédito?
                           </DialogTitle>
                           <DialogDescription>
                             Essa ação não poderá ser desfeita.
