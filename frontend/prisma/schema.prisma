@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id        String         @id @default(uuid())
+  email     String         @unique
+  password  String
+  roles     AccountRoles[]
+  clientId  String
+  client    Client?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+enum AccountRoles {
+  ADMIN
+  USER
+}
+
+model Client {
+  id         String          @id @default(uuid())
+  name       String
+  cpf        String          @unique
+  birth      DateTime
+  accountId  String          @unique
+  account    Account         @relation(fields: [accountId], references: [id])
+  addresses  ClientAddress[]
+  cards      CreditCard[]
+  mainCardId String          @unique
+  mainCard   MainCard?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+}
+
+model ClientAddress {
+  id        String              @id @default(uuid())
+  clientId  String
+  client    Client              @relation(fields: [clientId], references: [id])
+  addressId String              @unique
+  address   Address             @relation(fields: [addressId], references: [id])
+  types     ClientAddressType[]
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+}
+
+enum ClientAddressType {
+  BILLING
+  RESIDENCE
+  SHIPPING
+}
+
+model Address {
+  id              String         @id @default(uuid())
+  street          String
+  number          String
+  cityId          String
+  city            City           @relation(fields: [cityId], references: [id])
+  clientAddressId String         @unique
+  clientAddress   ClientAddress?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model City {
+  id        String    @id @default(uuid())
+  name      String
+  stateId   String
+  state     State     @relation(fields: [stateId], references: [id])
+  addresses Address[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model State {
+  id        String   @id @default(uuid())
+  uf        String
+  cities    City[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CreditCard {
+  id         String          @id @default(uuid())
+  number     String
+  cvv        String
+  expDate    DateTime
+  holderName String
+  brandId    String
+  brand      CreditCardBrand @relation(fields: [brandId], references: [id])
+  clientId   String
+  client     Client          @relation(fields: [clientId], references: [id])
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  MainCard   MainCard[]
+}
+
+model CreditCardBrand {
+  id        String       @id @default(uuid())
+  name      String
+  cards     CreditCard[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model MainCard {
+  id           String     @id @default(uuid())
+  creditCardId String
+  creditCard   CreditCard @relation(fields: [creditCardId], references: [id])
+  clientId     String     @unique
+  client       Client     @relation(fields: [clientId], references: [id])
+}

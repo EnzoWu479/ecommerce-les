@@ -1,3 +1,4 @@
+import { CategoryForm } from '@/components/admin/category-form';
 import { GoBackButton } from '@/components/go-back-button';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,13 +13,7 @@ const RegisterCategory = () => {
           Cadastrar categoria
         </h2>
       </div>
-      <form action="" className="mt-6 space-y-6">
-        <div className="w-96">
-          <Label>Nome da categoria</Label>
-          <Input />
-        </div>
-        <Button type="submit">Cadastrar</Button>
-      </form>
+      <CategoryForm />
     </>
   );
 };

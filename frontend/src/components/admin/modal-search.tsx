@@ -21,50 +21,59 @@ import {
   SelectTrigger,
   SelectValue
 } from '../ui/select';
+import { DatePicker } from '../date-picker';
 
 interface Props {
   fields: SearchField[];
 }
 
 export const ModalSearch = ({ fields }: Props) => {
+  const renderField = (field: SearchField) => {
+    if (field.type === SearchType.STRING) {
+      return <Input id={field.name} />;
+    }
+    if (field.type === SearchType.OPTION) {
+      return (
+        <Select name={field.name}>
+          <SelectTrigger>
+            <SelectValue placeholder="Selecione" />
+          </SelectTrigger>
+          <SelectContent>
+            {field.options.map((option, index) => (
+              <SelectItem value={option.value}>{option.label}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      );
+    }
+    if (field.type === SearchType.DATE) {
+      return <DatePicker />;
+    }
+    return <></>;
+  };
   return (
     <Drawer>
       <DrawerTrigger>
         <Search />
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="px-10">
         <DrawerHeader>
           <DrawerTitle>Filtre</DrawerTitle>
           {/* <DrawerDescription></DrawerDescription> */}
         </DrawerHeader>
-        <div className="grid">
+        <div className="mx-4 grid gap-x-4 gap-y-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4">
           {fields.map((field, index) => (
-            <div>
-              <Label htmlFor={field.name}>{field.name}</Label>
-              {field.type === SearchType.STRING ? (
-                <Input id={field.name} />
-              ) : (
-                <Select name={field.name}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {field.options.map((option, index) => (
-                      <SelectItem value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
+            <div className="w-full" key={field.name}>
+              <Label htmlFor={field.name}>{field.label}</Label>
+              {renderField(field)}
             </div>
           ))}
         </div>
-        <DrawerFooter>
-          <Button>Submit</Button>
-          <DrawerClose>
+        <DrawerFooter className="flex flex-row">
+          <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
           </DrawerClose>
+          <Button>Pesquisar</Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

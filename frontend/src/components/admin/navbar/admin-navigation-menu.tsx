@@ -30,12 +30,18 @@ import { Nav } from './nav';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarImage } from '../../ui/avatar';
+import { buttonVariants } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   isCollapsed: boolean;
 }
 
 export const AdminNavigationMenu = ({ isCollapsed }: Props) => {
+  const router = useRouter();
+  const handleLogout = () => {
+    router.push('/admin');
+  };
   return (
     <div className="h-full">
       <div
@@ -77,36 +83,38 @@ export const AdminNavigationMenu = ({ isCollapsed }: Props) => {
           },
           {
             title: 'Vendas',
-            href: "/admin/auth/vendas",
+            href: '/admin/auth/vendas',
             icon: ShoppingBasket
           },
           {
             title: 'Estoque',
             label: '',
-            href: "/admin/auth/estoque",
+            href: '/admin/auth/estoque',
             icon: Layers
           },
           {
             title: 'Cupons',
             label: '',
-            href: "/admin/auth/cupons",
+            href: '/admin/auth/cupons',
             icon: TicketPercent
           },
           {
             title: 'Trocas',
             label: '',
-            href: "/admin/auth/trocas",
+            href: '/admin/auth/trocas',
             icon: ArrowLeftRight
           }
         ]}
       />
       <Separator className="flex" />
+
       <Nav
         isCollapsed={isCollapsed}
         links={[
           {
             title: 'Logout',
-            icon: LogOut
+            icon: LogOut,
+            onClick: handleLogout
           }
         ]}
       />

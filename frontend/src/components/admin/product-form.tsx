@@ -15,6 +15,10 @@ import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SelectMultiple } from '../ui/select-multiple';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useToast } from '../ui/use-toast';
+import { Button } from '../ui/button';
 
 const people = [
   { value: '1', label: 'Durward Reynolds' },
@@ -24,41 +28,57 @@ const people = [
   { value: '5', label: 'Katelyn Rohan' }
 ];
 export const ProductForm = () => {
+  const { handleSubmit } = useForm();
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const onSubmit = handleSubmit(async () => {
+    toast({
+      title: 'Produto salvo com sucesso',
+      description: 'O produto foi salvo com sucesso'
+    });
+    router.back();
+  });
   const [selectedPeople, setSelectedPeople] = useState<string[]>([]);
   return (
-    <form className="flex flex-wrap gap-x-8 gap-y-4">
-      <div className="min-w-72 max-w-96">
-        <Label>Nome da produto</Label>
-        <Input />
+    <form className="space-y-4" onSubmit={onSubmit}>
+      <div className="flex flex-wrap gap-x-8 gap-y-4">
+        <div className="min-w-72 max-w-96">
+          <Label>Nome da produto</Label>
+          <Input />
+        </div>
+        <div className="min-w-72 max-w-96">
+          <Label>Código SKU</Label>
+          <Input />
+        </div>
+        <div className="min-w-72 max-w-96">
+          <Label>Preço</Label>
+          <Input />
+        </div>
+        <div className="min-w-72 max-w-96">
+          <Label>Fabricante</Label>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione" />
+            </SelectTrigger>
+            <SelectContent>
+              {/* {field.options.map((option, index) => ( */}
+              <SelectItem value={'a'}>{'ab'}</SelectItem>
+              {/* ))} */}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="min-w-72 max-w-96">
+          <Label>Categorias</Label>
+          <SelectMultiple
+            value={selectedPeople}
+            onChange={setSelectedPeople}
+            options={people}
+          />
+        </div>
       </div>
-      <div className="min-w-72 max-w-96">
-        <Label>Código SKU</Label>
-        <Input />
-      </div>
-      <div className="min-w-72 max-w-96">
-        <Label>Preço</Label>
-        <Input />
-      </div>
-      <div className="min-w-72 max-w-96">
-        <Label>Fabricante</Label>
-        <Select>
-          <SelectTrigger>
-            <SelectValue placeholder="Selecione" />
-          </SelectTrigger>
-          <SelectContent>
-            {/* {field.options.map((option, index) => ( */}
-            <SelectItem value={'a'}>{'ab'}</SelectItem>
-            {/* ))} */}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="min-w-72 max-w-96">
-        <Label>Categorias</Label>
-        <SelectMultiple
-          value={selectedPeople}
-          onChange={setSelectedPeople}
-          options={people}
-        />
+      <div>
+        <Button type="submit">Salvar</Button>
       </div>
     </form>
   );

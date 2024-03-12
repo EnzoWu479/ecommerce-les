@@ -7,6 +7,14 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -23,58 +31,65 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip';
 import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
-import { PencilLine, Trash2 } from 'lucide-react';
+import { Ban, PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 const SellsPage = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Vendas</h2>
+        <h2 className="text-3xl font-bold tracking-tight">Trocas</h2>
       </div>
       <div className="mt-5 rounded border">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Código</TableHead>
-              <TableHead>Nome</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Data de nascimento</TableHead>
-              <TableHead>CPF</TableHead>
-              <TableHead>Opções</TableHead>
+              <TableHead>Cliente</TableHead>
+              <TableHead>Produtos</TableHead>
+              <TableHead>Valor trocado</TableHead>
+              <TableHead>Data</TableHead>
+              <TableHead>Cupom gerado</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
               <TableCell>1</TableCell>
               <TableCell>João</TableCell>
-              <TableCell>joao@email.com</TableCell>
-              <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
-              <TableCell>{masks.cpf('99999999999')}</TableCell>
               <TableCell>
-                <div className="flex gap-2">
-                  <Link href={`/admin/auth/clientes/${1}`}>
-                    <PencilLine />
-                  </Link>
-                  <Dialog>
-                    <DialogTrigger>
-                      <Trash2 />
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>
-                          Tem certeza que deseja excluir esse usuário?
-                        </DialogTitle>
-                        <DialogDescription>
-                          Essa ação não poderá ser desfeita.
-                        </DialogDescription>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="hover:underline">
+                    Ver produtos
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Produtos</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <div className="max-h-48 overflow-auto">
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Team</DropdownMenuItem>
+                      <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TableCell>
+              <TableCell>{formaters.money(54)}</TableCell>
+              <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
+              <TableCell>QUERO54</TableCell>
             </TableRow>
           </TableBody>
         </Table>

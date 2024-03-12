@@ -13,11 +13,25 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/components/ui/use-toast';
 import { Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 
 export const ClientForm = () => {
+  const { handleSubmit } = useForm();
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const onSubmit = handleSubmit(async () => {
+    toast({
+      title: 'Cliente salvo com sucesso',
+      description: 'O cliente foi salvo com sucesso'
+    });
+    router.back();
+  });
   return (
-    <form className="space-y-4">
+    <form className="space-y-4" onSubmit={onSubmit}>
       <Tabs defaultValue="personal">
         <TabsList>
           <TabsTrigger value="personal">Dados pessoais</TabsTrigger>
@@ -36,6 +50,10 @@ export const ClientForm = () => {
             </div>
             <div>
               <Label>Email</Label>
+              <Input className="w-80" />
+            </div>
+            <div>
+              <Label>CPF</Label>
               <Input className="w-80" />
             </div>
             <div className="grid max-w-[41rem] grid-cols-2 gap-4">
@@ -141,56 +159,18 @@ export const ClientForm = () => {
                   <Input />
                 </div>
                 <div>
-                  <Label>Tipo de logradouro</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="street">Rua</SelectItem>
-                      <SelectItem value="Av">Avenida</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label>Número</Label>
+                  <Label>CVV</Label>
                   <Input />
                 </div>
                 <div>
-                  <Label>Bairro</Label>
+                  <Label>Data de validade</Label>
                   <Input />
                 </div>
                 <div>
-                  <Label>Tipo de residência</Label>
+                  <Label>Bandeira</Label>
                   <Input />
                 </div>
-                <div>
-                  <Label>Cidade</Label>
-                  <Input />
-                </div>
-                <div>
-                  <Label>Estado</Label>
-                  <Input />
-                </div>
-                <div>
-                  <Label>País</Label>
-                  <Input />
-                </div>
-                <div className="col-span-3">
-                  <h3>Tipo de endereço</h3>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox />
-                  <Label>Endereço residencial</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox />
-                  <Label>Endereço comercial</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox />
-                  <Label>Endereço de entrega</Label>
-                </div>
+
                 <div className="col-span-3 flex justify-end">
                   <button type="button">
                     <Trash2 />
@@ -201,6 +181,9 @@ export const ClientForm = () => {
           </div>
         </TabsContent>
       </Tabs>
+      <div>
+        <Button>Salvar</Button>
+      </div>
     </form>
   );
 };

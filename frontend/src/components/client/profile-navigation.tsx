@@ -31,8 +31,7 @@ export const ProfileNavigation = () => {
         <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100">
           <Link
             href={{
-              pathname: '/livros',
-              query: { category: 'Ação' }
+              pathname: '/enderecos'
             }}
           >
             Endereços
@@ -41,8 +40,7 @@ export const ProfileNavigation = () => {
         <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100">
           <Link
             href={{
-              pathname: '/livros',
-              query: { category: 'Ação' }
+              pathname: '/cartoes-de-credito'
             }}
           >
             Cartões de crédito
@@ -51,8 +49,7 @@ export const ProfileNavigation = () => {
         <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100">
           <Link
             href={{
-              pathname: '/compras',
-              query: { category: 'Ação' }
+              pathname: '/compras'
             }}
           >
             Compras
@@ -61,8 +58,7 @@ export const ProfileNavigation = () => {
         <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100">
           <Link
             href={{
-              pathname: '/livros',
-              query: { category: 'Ação' }
+              pathname: '/livros'
             }}
           >
             Logout

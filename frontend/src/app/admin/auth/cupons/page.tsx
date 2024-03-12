@@ -19,14 +19,17 @@ import {
 import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
 import { PencilLine, Trash2 } from 'lucide-react';
+import { ModalSearch } from '@/components/admin/modal-search';
+import { coupomSearchFields } from './utils';
 
 const CategoriesPage = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">
-          Cupons
-        </h2>
+        <div className="flex gap-4">
+          <h2 className="text-3xl font-bold tracking-tight">Cupons</h2>
+          <ModalSearch fields={coupomSearchFields} />
+        </div>
         <Link href="/admin/auth/clientes/cadastrar">
           <Button>Novo cupom</Button>
         </Link>
@@ -36,40 +39,17 @@ const CategoriesPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Código</TableHead>
-              <TableHead>Tipo</TableHead>
+              <TableHead>Valor</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Validade</TableHead>
-              <TableHead>Opções</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
               <TableCell>QUERO20</TableCell>
-              <TableCell>Troca</TableCell>
+              <TableCell>{formaters.money(54)}</TableCell>
               <TableCell>Ativo</TableCell>
               <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
-              <TableCell>
-                <div className="flex gap-2">
-                  <Link href={`/admin/auth/clientes/${1}`}>
-                    <PencilLine />
-                  </Link>
-                  <Dialog>
-                    <DialogTrigger>
-                      <Trash2 />
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>
-                          Tem certeza que deseja excluir esse cupom?
-                        </DialogTitle>
-                        <DialogDescription>
-                          Essa ação não poderá ser desfeita.
-                        </DialogDescription>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

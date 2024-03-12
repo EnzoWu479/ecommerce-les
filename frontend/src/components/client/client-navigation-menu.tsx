@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { FormEvent, Fragment, useState } from 'react';
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
 import { cn } from '@/lib/utils';
 import { Menu, Search, ShoppingBag, X } from 'lucide-react';
@@ -14,6 +14,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { ProfileNavigation } from './profile-navigation';
+import { Input } from '../ui/input';
+import { useRouter } from 'next/navigation';
 
 const navigation = {
   categories: [
@@ -53,15 +55,23 @@ const navigation = {
             { name: 'Activewear', href: '#' },
             { name: 'Browse All', href: '#' }
           ]
-        },
+        }
       ]
     }
-  ],
+  ]
 };
 
 export function ClientNavigationMenu() {
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState();
   const { products, setIsOpen } = useBagStore();
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    router.push('/pesquisa?q=' + (e.target as HTMLFormElement).search.value);
+  };
 
   return (
     <div className="bg-white">
@@ -265,7 +275,7 @@ export function ClientNavigationMenu() {
                   <Image src="/assets/logo.png" width={50} height={50} alt="" />
                 </Link>
               </div>
-              <div className="z-10 max-lg:invisible lg:ml-8 lg:block lg:self-stretch">
+              <div className="z-10 flex flex-row items-center max-lg:invisible lg:ml-8 lg:self-stretch">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="relative z-10 -mb-px flex h-full items-center border-b-2 border-transparent pt-px text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800">
                     Categorias
@@ -286,6 +296,13 @@ export function ClientNavigationMenu() {
               </div>
 
               <div className="ml-auto flex items-center">
+                <form onSubmit={handleSearch}>
+                  <Input
+                    placeholder="Pesquise"
+                    className="mr-4 w-[10rem]"
+                    name="search"
+                  />
+                </form>
                 {true ? (
                   <ProfileNavigation />
                 ) : (

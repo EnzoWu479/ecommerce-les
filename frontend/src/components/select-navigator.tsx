@@ -11,13 +11,13 @@ export const SelectNavigator = ({ keyword, ...rest }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const newParams = new URLSearchParams(searchParams);
+  const newParams = new URLSearchParams(searchParams || '');
   return (
     <Select
       {...rest}
       onValueChange={value => {
         newParams.set(keyword, value);
-        router.push(`${pathname}?${newParams.toString()}`)
+        router.push(`${pathname}?${newParams.toString()}`);
       }}
     />
   );
