@@ -25,6 +25,10 @@ export const CreditCardForm = () => {
     <form onSubmit={onSubmit}>
       <Card className="grid grid-cols-3 gap-4 p-4">
         <div>
+          <Label>Nome do cartão de crédito</Label>
+          <Input />
+        </div>
+        <div>
           <Label>Número</Label>
           <Input />
         </div>
