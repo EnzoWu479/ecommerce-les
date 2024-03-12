@@ -76,6 +76,10 @@ export const ClientForm = () => {
             <div>
               <Card className="grid grid-cols-3 gap-4 p-4">
                 <div>
+                  <Label>Nome do endereço</Label>
+                  <Input />
+                </div>
+                <div>
                   <Label>CEP</Label>
                   <Input />
                 </div>
@@ -150,6 +154,10 @@ export const ClientForm = () => {
             </Button>
             <div>
               <Card className="grid grid-cols-3 gap-4 p-4">
+                <div>
+                  <Label>Nome do cartão</Label>
+                  <Input />
+                </div>
                 <div>
                   <Label>Número</Label>
                   <Input />
