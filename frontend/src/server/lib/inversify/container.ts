@@ -1,3 +1,4 @@
+import { ClientController } from '@/server/controllers/ClientController';
 import { AccountRepository } from '@/server/repositories/AccountRepository';
 import { AddressRepository } from '@/server/repositories/AddressRepository';
 import { CityRepository } from '@/server/repositories/CityRepository';
@@ -8,10 +9,11 @@ import { CreditCardRepository } from '@/server/repositories/CreditCardRepository
 import { StateRepository } from '@/server/repositories/StateRepository';
 import { PrismaClient } from '@prisma/client';
 import { Container } from 'inversify';
+import "reflect-metadata";
+
 
 const container = new Container();
 
-container.bind<PrismaClient>(PrismaClient).toConstantValue(new PrismaClient());
 container.bind<AccountRepository>(AccountRepository).toSelf();
 container.bind<AddressRepository>(AddressRepository).toSelf();
 container.bind<CityRepository>(CityRepository).toSelf();
@@ -20,5 +22,6 @@ container.bind<ClientRepository>(ClientRepository).toSelf();
 container.bind<CreditCardBrandRepository>(CreditCardBrandRepository).toSelf();
 container.bind<CreditCardRepository>(CreditCardRepository).toSelf();
 container.bind<StateRepository>(StateRepository).toSelf();
+container.bind<ClientController>(ClientController).toSelf();
 
 export default container;
