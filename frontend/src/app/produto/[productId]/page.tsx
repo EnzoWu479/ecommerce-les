@@ -57,7 +57,7 @@ export default function Example() {
                 <p className="text-3xl tracking-tight text-gray-900">
                   {formaters.money(39.99)}
                 </p>
-                <div className='flex gap-4'>
+                <div className="flex gap-4">
                   <InputValueControl
                     value={quantity}
                     tooltip={`${quantity}`}
@@ -66,7 +66,7 @@ export default function Example() {
                       setQuantity(prev => Math.max(prev - 1, 1))
                     }
                   />
-                  <Button>Comprar</Button>
+                  <Button>Adicionar ao carrinho</Button>
                 </div>
               </div>
             </div>

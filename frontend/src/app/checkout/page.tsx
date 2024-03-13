@@ -155,7 +155,7 @@ const CheckoutPage = () => {
                     </HoverCard>
                   </div>
                 </div>
-                <Link href="" className="text-sm hover:underline">
+                <Link href="/enderecos/cadastrar" className="text-sm hover:underline">
                   Adicionar Endereço
                 </Link>
               </RadioGroup>
@@ -226,7 +226,7 @@ const CheckoutPage = () => {
                   <InputValueControl value={50} tooltip={'R$ 50,00'} />
                 </div>
               </div>
-              <Link href="" className="text-sm hover:underline">
+              <Link href="/cartoes-de-credito/cadastrar" className="text-sm hover:underline">
                 Adicionar cartão
               </Link>
             </CardContent>
