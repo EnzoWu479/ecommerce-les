@@ -44,7 +44,15 @@ import { masks } from '@/helpers/masks';
 import { ArrowLeftRight, Eye, PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { sellSearchFields } from './utils';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 
 const SellsPage = () => {
   return (
@@ -107,14 +115,11 @@ const SellsPage = () => {
                       <SelectItem value="b">Em transporte</SelectItem>
                       <SelectItem value="c">Em transito</SelectItem>
                       <SelectItem value="d">Entregue</SelectItem>
-                      <SelectItem value="e">Em troca</SelectItem>
-                      <SelectItem value="f">Troca autorizada</SelectItem>
-                      <SelectItem value="g">Trocado</SelectItem>
                       <SelectItem value="h">Aprovado</SelectItem>
                       <SelectItem value="i">Reprovado</SelectItem>
                     </SelectGroup>
                   </SelectContent>
-                </Select> 
+                </Select>
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">

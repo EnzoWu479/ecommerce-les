@@ -24,6 +24,15 @@ import {
   PaginationPrevious
 } from '@/components/ui/pagination';
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
+import {
   Table,
   TableBody,
   TableCell,
@@ -43,6 +52,7 @@ import { Ban, PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 const SellsPage = () => {
+  
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
@@ -57,6 +67,7 @@ const SellsPage = () => {
               <TableHead>Produtos</TableHead>
               <TableHead>Valor trocado</TableHead>
               <TableHead>Data</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead>Cupom gerado</TableHead>
             </TableRow>
           </TableHeader>
@@ -89,6 +100,21 @@ const SellsPage = () => {
               </TableCell>
               <TableCell>{formaters.money(54)}</TableCell>
               <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
+              <TableCell>
+                <Select>
+                  <SelectTrigger className="w-[170px] border-none outline-none">
+                    <SelectValue placeholder="Selecione o status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Status da troca</SelectLabel>
+                      <SelectItem value="e">Em troca</SelectItem>
+                      <SelectItem value="f">Troca autorizada</SelectItem>
+                      <SelectItem value="g">Trocado</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>{' '}
+              </TableCell>
               <TableCell>QUERO54</TableCell>
             </TableRow>
           </TableBody>

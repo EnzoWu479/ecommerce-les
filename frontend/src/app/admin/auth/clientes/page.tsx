@@ -39,9 +39,9 @@ const ClientsPage = () => {
           <h2 className="text-3xl font-bold tracking-tight">Clientes</h2>
           <ModalSearch fields={clientSearchFields} />
         </div>
-        <Link href="/admin/auth/clientes/cadastrar">
+        {/* <Link href="/admin/auth/clientes/cadastrar">
           <Button>Novo cliente</Button>
-        </Link>
+        </Link> */}
       </div>
       <div className="mt-5 rounded border">
         <Table>

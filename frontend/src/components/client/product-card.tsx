@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Card } from '../ui/card';
 import { IProduct } from '@/types/product';
+import { formaters } from '@/helpers/formaters';
 
 interface Props {
   product: IProduct;
@@ -25,7 +26,9 @@ export const ProductCard = ({ product }: Props) => {
           </h3>
           {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
         </div>
-        <p className="text-sm font-medium text-gray-900">{product.price}</p>
+        <p className="text-sm font-medium text-gray-900">
+          {formaters.money(product.price)}
+        </p>
       </div>
     </Card>
   );
