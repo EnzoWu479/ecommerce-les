@@ -56,6 +56,12 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover';
+import { Textarea } from '@/components/ui/textarea';
 
 const ProductList = () => {
   return (
@@ -73,7 +79,7 @@ const ProductList = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Código SKU</TableHead>
+              <TableHead>Código ISBN</TableHead>
               <TableHead>Nome</TableHead>
               <TableHead>Custo</TableHead>
               <TableHead>Preço de venda</TableHead>
@@ -86,7 +92,7 @@ const ProductList = () => {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell>1</TableCell>
+              <TableCell>978312732</TableCell>
               <TableCell>Livro do Harry Potter</TableCell>
               <TableCell>{formaters.money(10)}</TableCell>
               <TableCell>
@@ -108,38 +114,111 @@ const ProductList = () => {
                     <DropdownMenuLabel>Categorias</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <div className="max-h-48 overflow-auto">
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Team</DropdownMenuItem>
-                      <DropdownMenuItem>Subscription</DropdownMenuItem>
+                      <DropdownMenuItem>Magia</DropdownMenuItem>
+                      <DropdownMenuItem>Bruxaria</DropdownMenuItem>
+                      <DropdownMenuItem>Aventura</DropdownMenuItem>
+                      <DropdownMenuItem>Ação</DropdownMenuItem>
                     </div>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
               <TableCell>
                 <div>
-                  <Select>
-                    <SelectTrigger className="w-[170px] border-none outline-none">
-                      <SelectValue placeholder="Selecione o status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Status da compra</SelectLabel>
-                        <SelectItem value="a">Em processamento</SelectItem>
-                        <SelectItem value="b">Em transporte</SelectItem>
-                        <SelectItem value="c">Em transito</SelectItem>
-                        <SelectItem value="d">Entregue</SelectItem>
-                        <SelectItem value="h">Aprovado</SelectItem>
-                        <SelectItem value="i">Reprovado</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <Popover>
+                    <PopoverTrigger>
+                      <span className="hover:underline">Ativo </span>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <div className="space-y-2">
+                        <h2>Desativar produto</h2>
+                        <Textarea placeholder="Digite o motivo da desativação" />
+                        <Button>Desativar</Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className="flex gap-2">
+                  <Link href={`/admin/auth/produtos/${1}`}>
+                    <PencilLine />
+                  </Link>
+                  <Dialog>
+                    <DialogTrigger>
+                      <ArrowUpLeftFromSquare />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Harry Potter</DialogTitle>
+                        <DialogDescription>
+                          Entre com a quantidade que deseja adicionar ou remover
+                          do estoque
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div>
+                        <Input />
+                        <div className="mt-2 flex gap-2">
+                          <Button>Adicionar</Button>
+                          <Button>Remover</Button>
+                          <DialogClose asChild>
+                            <Button variant={'ghost'}>Cancelar</Button>
+                          </DialogClose>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  <ModalWarning
+                    title="Tem certeza que deseja excluir esse produto?"
+                    description="Essa ação não poderá ser desfeita."
+                    acceptButton="Excluir"
+                  />
+                </div>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>421534536</TableCell>
+              <TableCell>Livro do Harry Potter 2</TableCell>
+              <TableCell>{formaters.money(24)}</TableCell>
+              <TableCell>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>{formaters.money(28)}</TooltipTrigger>
+                    <TooltipContent>{20}%</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </TableCell>
+              <TableCell>Editora Violet</TableCell>
+              <TableCell>4</TableCell>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="hover:underline">
+                    Ver categorias
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Categorias</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <div className="max-h-48 overflow-auto">
+                      <DropdownMenuItem>Magia</DropdownMenuItem>
+                      <DropdownMenuItem>Bruxaria</DropdownMenuItem>
+                      <DropdownMenuItem>Aventura</DropdownMenuItem>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+              <TableCell>
+                <div>
+                  <Popover>
+                    <PopoverTrigger>
+                      <span className="hover:underline">Inativo</span>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <div className="space-y-2">
+                        <h2>Ativar produto</h2>
+                        <Textarea placeholder="Digite o motivo da Ativação" />
+                        <Button>Ativar</Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </TableCell>
               <TableCell>
