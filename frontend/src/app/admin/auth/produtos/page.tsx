@@ -62,6 +62,7 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
+import { ActivatePopOver } from './components/activate-pop-over';
 
 const ProductList = () => {
   return (
@@ -124,18 +125,7 @@ const ProductList = () => {
               </TableCell>
               <TableCell>
                 <div>
-                  <Popover>
-                    <PopoverTrigger>
-                      <span className="hover:underline">Ativo </span>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <div className="space-y-2">
-                        <h2>Desativar produto</h2>
-                        <Textarea placeholder="Digite o motivo da desativação" />
-                        <Button>Desativar</Button>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                  <ActivatePopOver active />
                 </div>
               </TableCell>
               <TableCell>
@@ -207,18 +197,7 @@ const ProductList = () => {
               </TableCell>
               <TableCell>
                 <div>
-                  <Popover>
-                    <PopoverTrigger>
-                      <span className="hover:underline">Inativo</span>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <div className="space-y-2">
-                        <h2>Ativar produto</h2>
-                        <Textarea placeholder="Digite o motivo da Ativação" />
-                        <Button>Ativar</Button>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                  <ActivatePopOver active={false} />
                 </div>
               </TableCell>
               <TableCell>
