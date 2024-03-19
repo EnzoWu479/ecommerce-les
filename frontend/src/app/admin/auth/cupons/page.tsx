@@ -48,6 +48,7 @@ const CategoriesPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Código</TableHead>
+              <TableHead>Tipo</TableHead>
               <TableHead>Valor</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Validade</TableHead>
@@ -56,6 +57,73 @@ const CategoriesPage = () => {
           <TableBody>
             <TableRow>
               <TableCell>QUERO20</TableCell>
+              <TableCell>Promocional</TableCell>
+              <TableCell>{formaters.money(54)}</TableCell>
+              <TableCell className="w-fit">
+                <div className='w-20'>
+                  <Select defaultValue="a">
+                    <SelectTrigger className="w-[170px] border-none outline-none">
+                      <SelectValue placeholder="Selecione o status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Status do cupom</SelectLabel>
+                        <SelectItem value="a">Ativo</SelectItem>
+                        <SelectItem value="i">Inativo</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>{' '}
+                </div>
+              </TableCell>
+              <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>QUERO10</TableCell>
+              <TableCell>Promocional</TableCell>
+              <TableCell>{formaters.money(10)}</TableCell>
+              <TableCell className="w-fit">
+                <div className='w-20'>
+                  <Select defaultValue="a">
+                    <SelectTrigger className="w-[170px] border-none outline-none">
+                      <SelectValue placeholder="Selecione o status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Status do cupom</SelectLabel>
+                        <SelectItem value="a">Ativo</SelectItem>
+                        <SelectItem value="i">Inativo</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>{' '}
+                </div>
+              </TableCell>
+              <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>GKSAJFKLD</TableCell>
+              <TableCell>Troca</TableCell>
+              <TableCell>{formaters.money(54)}</TableCell>
+              <TableCell className="w-fit">
+                <div className='w-20'>
+                  <Select defaultValue="a">
+                    <SelectTrigger className="w-[170px] border-none outline-none">
+                      <SelectValue placeholder="Selecione o status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Status do cupom</SelectLabel>
+                        <SelectItem value="a">Ativo</SelectItem>
+                        <SelectItem value="i">Inativo</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>{' '}
+                </div>
+              </TableCell>
+              <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>VCKXZKNM</TableCell>
+              <TableCell>Troca</TableCell>
               <TableCell>{formaters.money(54)}</TableCell>
               <TableCell className="w-fit">
                 <div className='w-20'>
