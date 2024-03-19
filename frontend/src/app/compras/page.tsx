@@ -48,7 +48,9 @@ export default function Bought() {
   return (
     <ClientLayout>
       <div className="mx-auto mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h1 className="text-lg">Compras</h1>
+        <div className="flex items-center justify-between space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight">Compras</h2>
+        </div>
         <Table>
           <TableHeader>
             <TableRow>

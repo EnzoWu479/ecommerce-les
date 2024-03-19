@@ -19,6 +19,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useToast } from '../ui/use-toast';
 import { Button } from '../ui/button';
+import { Textarea } from '../ui/textarea';
 
 const people = [
   { value: '1', label: 'Durward Reynolds' },
@@ -43,19 +44,15 @@ export const ProductForm = () => {
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
       <div className="flex flex-wrap gap-x-8 gap-y-4">
-        <div className="min-w-72 max-w-96">
+        <div className="w-72">
           <Label>Nome da produto</Label>
           <Input />
         </div>
-        <div className="min-w-72 max-w-96">
-          <Label>Código SKU</Label>
+        <div className="w-72">
+          <Label>ISBN</Label>
           <Input />
         </div>
-        <div className="min-w-72 max-w-96">
-          <Label>Preço</Label>
-          <Input />
-        </div>
-        <div className="min-w-72 max-w-96">
+        <div className="w-72">
           <Label>Fabricante</Label>
           <Select>
             <SelectTrigger>
@@ -68,13 +65,87 @@ export const ProductForm = () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="min-w-72 max-w-96">
+        <div className="w-72">
           <Label>Categorias</Label>
           <SelectMultiple
             value={selectedPeople}
             onChange={setSelectedPeople}
             options={people}
           />
+        </div>
+        <div className="w-72">
+          <Label>Autor</Label>
+          <Input />
+        </div>
+        <div className="w-72">
+          <Label>Ano</Label>
+          <Input />
+        </div>
+        <div className="w-72">
+          <Label>Editora</Label>
+          <Input />
+        </div>
+        <div className="w-72">
+          <Label>Edição</Label>
+          <Input />
+        </div>
+        <div className="w-72">
+          <Label>Nº de páginas</Label>
+          <Input />
+        </div>
+
+        <div className="w-72">
+          <Label>Código de barras</Label>
+          <Input />
+        </div>
+        <div className="w-full">
+          <Label>Sinopse</Label>
+          <Textarea />
+        </div>
+      </div>
+      <h3 className="text-2xl font-bold tracking-tight">Dimensões</h3>
+      <div className="flex flex-wrap gap-x-8 gap-y-4">
+        <div className="w-72">
+          <Label>Altura</Label>
+          <Input />
+        </div>
+        <div className="w-72">
+          <Label>Largura</Label>
+          <Input />
+        </div>
+        <div className="w-72">
+          <Label>Peso</Label>
+          <Input />
+        </div>
+        <div className="w-72">
+          <Label>Profundidade</Label>
+          <Input />
+        </div>
+      </div>
+      <h3 className="text-2xl font-bold tracking-tight">
+        Detalhes de precificação
+      </h3>
+      <div className="flex flex-wrap gap-x-8 gap-y-4">
+        <div className="w-72">
+          <Label>Custo</Label>
+          <Input />
+        </div>
+        <div className="w-72">
+          <Label>Grupo de precificação</Label>
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione" />
+            </SelectTrigger>
+            <SelectContent>
+              {/* {field.options.map((option, index) => ( */}
+              <SelectItem value={'a'}>{'Lucrando muito (50%)'}</SelectItem>
+              {/* ))} */}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="w-72">
+          <Label>Preço de venda</Label>
+          <Input />
         </div>
       </div>
       <div>

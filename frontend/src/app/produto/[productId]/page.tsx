@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { InputValueControl } from '@/components/input-value-control';
 import { getProduct } from '@/data/get-product';
 import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   productId: string;
@@ -21,6 +22,7 @@ export default function ProductPage({
   params: Props;
 }) {
   const product = getProduct(productId);
+  const router = useRouter();
   const { addProduct } = useBagStore();
   const [quantity, setQuantity] = useState(1);
   const { toast } = useToast();
@@ -31,6 +33,7 @@ export default function ProductPage({
       description: 'O produto foi adicionado ao carrinho com sucesso',
       duration: 3000
     });
+    router.back();
   };
 
   return (

@@ -27,10 +27,27 @@ import {
 import { formaters } from '@/helpers/formaters';
 import { Input } from '@/components/ui/input';
 import { addressMock } from '@/mock/addressMock';
+import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 const addresses = addressMock;
 
 export const CheckoutForm = () => {
+  const { toast } = useToast();
+  const router = useRouter();
+  const handleAddCoupom = () => {
+    toast({
+      title: 'Cupom adicionado com sucesso',
+      description: 'O seu cupom foi adicionado'
+    });
+  };
+  const handleBuy = () => {
+    toast({
+      title: 'Compra realizada com sucesso',
+      description: 'A sua compra foi realizada'
+    });
+    router.push('/compras');
+  };
   return (
     <div className="flex h-full flex-col justify-between space-y-4">
       <Card className="h-full">
@@ -77,7 +94,7 @@ export const CheckoutForm = () => {
           <div className="max-h-24 space-y-2 overflow-auto">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <Checkbox />
+                <Checkbox checked />
                 <HoverCard>
                   <HoverCardTrigger className="cursor-pointer hover:underline">
                     Cartão 1
@@ -91,7 +108,7 @@ export const CheckoutForm = () => {
             </div>
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <Checkbox />
+                <Checkbox checked />
                 <HoverCard>
                   <HoverCardTrigger className="cursor-pointer hover:underline">
                     Cartão 1
@@ -101,7 +118,21 @@ export const CheckoutForm = () => {
                   </HoverCardContent>
                 </HoverCard>
               </div>
-              <InputValueControl value={50} tooltip={'R$ 50,00'} />
+              <InputValueControl value={25} tooltip={'R$ 25,00'} />
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Checkbox checked />
+                <HoverCard>
+                  <HoverCardTrigger className="cursor-pointer hover:underline">
+                    Cartão 1
+                  </HoverCardTrigger>
+                  <HoverCardContent className="text-sm">
+                    **** **** **** 1121 <br /> 12/24 <br /> John Doe
+                  </HoverCardContent>
+                </HoverCard>
+              </div>
+              <InputValueControl value={25} tooltip={'R$ 25,00'} />
             </div>
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -115,7 +146,7 @@ export const CheckoutForm = () => {
                   </HoverCardContent>
                 </HoverCard>
               </div>
-              <InputValueControl value={50} tooltip={'R$ 50,00'} />
+              <InputValueControl value={0} tooltip={'R$ 0,00'} />
             </div>
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -129,7 +160,7 @@ export const CheckoutForm = () => {
                   </HoverCardContent>
                 </HoverCard>
               </div>
-              <InputValueControl value={50} tooltip={'R$ 50,00'} />
+              <InputValueControl value={0} tooltip={'R$ 0,00'} />
             </div>
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -143,21 +174,7 @@ export const CheckoutForm = () => {
                   </HoverCardContent>
                 </HoverCard>
               </div>
-              <InputValueControl value={50} tooltip={'R$ 50,00'} />
-            </div>
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <Checkbox />
-                <HoverCard>
-                  <HoverCardTrigger className="cursor-pointer hover:underline">
-                    Cartão 1
-                  </HoverCardTrigger>
-                  <HoverCardContent className="text-sm">
-                    **** **** **** 1121 <br /> 12/24 <br /> John Doe
-                  </HoverCardContent>
-                </HoverCard>
-              </div>
-              <InputValueControl value={50} tooltip={'R$ 50,00'} />
+              <InputValueControl value={0} tooltip={'R$ 0,00'} />
             </div>
           </div>
           <Link
@@ -261,7 +278,7 @@ export const CheckoutForm = () => {
           </div>
           <div className="flex gap-2">
             <Input placeholder="Digite o código do cupom" />
-            <Button>Adicionar</Button>
+            <Button onClick={handleAddCoupom}>Adicionar</Button>
           </div>
         </CardContent>
       </Card>
@@ -271,7 +288,7 @@ export const CheckoutForm = () => {
             Voltar
           </Link>
         </Button>
-        <Button>Comprar</Button>
+        <Button onClick={handleBuy}>Comprar</Button>
       </div>
     </div>
   );

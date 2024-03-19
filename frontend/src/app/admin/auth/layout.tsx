@@ -53,7 +53,9 @@ export default function AdminLayout({ children }: PropsWithChildren) {
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={100}>
-          <div className="w-full p-8 pt-6">{children}</div>
+          <div className="max-h-[100dvh] w-full overflow-auto p-8 pt-6">
+            {children}
+          </div>
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>

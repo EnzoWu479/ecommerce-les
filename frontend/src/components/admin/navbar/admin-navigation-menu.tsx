@@ -43,7 +43,7 @@ export const AdminNavigationMenu = ({ isCollapsed }: Props) => {
     router.push('/admin');
   };
   return (
-    <div className="h-full">
+    <div className="h-[100dvh]">
       <div
         className={cn(
           'flex h-[52px] items-center gap-2',
@@ -87,9 +87,9 @@ export const AdminNavigationMenu = ({ isCollapsed }: Props) => {
             icon: ShoppingBasket
           },
           {
-            title: 'Estoque',
+            title: 'Grupo de precificação',
             label: '',
-            href: '/admin/auth/estoque',
+            href: '/admin/auth/grupo-de-precificacao',
             icon: Layers
           },
           {

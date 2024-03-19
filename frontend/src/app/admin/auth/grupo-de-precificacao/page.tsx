@@ -32,57 +32,47 @@ import { masks } from '@/helpers/masks';
 import { ArrowUpLeftFromSquare, PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { stockSearchFields } from './utils';
+import { ModalWarning } from '@/components/modal-warning';
 
 const SellsPage = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
         <div className="flex gap-4">
-          <h2 className="text-3xl font-bold tracking-tight">Estoque</h2>
+          <h2 className="text-3xl font-bold tracking-tight">
+            Grupo de precificação
+          </h2>
           <ModalSearch fields={stockSearchFields} />
         </div>
+        <Button asChild>
+          <Link href="/admin/auth/grupo-de-precificacao/cadastrar">
+            Novo grupo de precificação
+          </Link>
+        </Button>
       </div>
       <div className="mt-5 rounded border">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Código</TableHead>
-              <TableHead>Produto</TableHead>
-              <TableHead>Quantidade</TableHead>
+              <TableHead>Nome</TableHead>
+              <TableHead>Margem de lucro</TableHead>
               <TableHead>Opções</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell>1</TableCell>
-              <TableCell>Harry Potter</TableCell>
-              <TableCell>1</TableCell>
+              <TableCell>50% de lucro</TableCell>
+              <TableCell>50%</TableCell>
               <TableCell>
                 <div className="flex gap-2">
-                  <Dialog>
-                    <DialogTrigger>
-                      <ArrowUpLeftFromSquare />
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Harry Potter</DialogTitle>
-                        <DialogDescription>
-                          Entre com a quantidade que deseja adicionar ou remover
-                          do estoque
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div>
-                        <Input />
-                        <div className="mt-2 flex gap-2">
-                          <Button>Adicionar</Button>
-                          <Button>Remover</Button>
-                          <DialogClose asChild>
-                            <Button variant={'ghost'}>Cancelar</Button>
-                          </DialogClose>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                  <Link href={`/admin/auth/clientes/${1}`}>
+                    <PencilLine />
+                  </Link>
+                  <ModalWarning
+                    title="Excluir grupo de precificação"
+                    description="Deseja realmente excluir o grupo de precificação?"
+                    acceptButton="Excluir"
+                  />
                 </div>
               </TableCell>
             </TableRow>

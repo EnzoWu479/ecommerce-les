@@ -16,6 +16,8 @@ import {
 import { ProfileNavigation } from './profile-navigation';
 import { Input } from '../ui/input';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/features/authentication/auth-store';
+import { TradePopup } from '../trade-popup';
 
 const navigation = {
   categories: [
@@ -65,6 +67,7 @@ export function ClientNavigationMenu() {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
+  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
   const [search, setSearch] = useState();
   const { products, setIsOpen } = useBagStore();
 
@@ -303,8 +306,13 @@ export function ClientNavigationMenu() {
                     name="search"
                   />
                 </form>
-                {true ? (
-                  <ProfileNavigation />
+                {isAuthenticated ? (
+                  <div className="flex space-x-4">
+                    <ProfileNavigation
+                      onLogout={() => setIsAuthenticated(false)}
+                    />
+                    <TradePopup />
+                  </div>
                 ) : (
                   <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                     <Link

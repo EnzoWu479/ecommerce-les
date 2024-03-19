@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { formaters } from '@/helpers/formaters';
 import { Button } from '../ui/button';
 import { productsMock } from '@/mock/productsMock';
+import { useToast } from '../ui/use-toast';
 
 const products = [
   {
@@ -41,6 +42,15 @@ const productsChoosen = productsMock.filter((_, index) => index < 3);
 export const ShoppingCart = () => {
   const { isOpen, setIsOpen } = useBagStore();
   const router = useRouter();
+  const { toast } = useToast();
+
+  const handleRemove = () => {
+    toast({
+      title: 'Produto removido',
+      description: 'O produto foi removido do carrinho',
+      duration: 3000
+    });
+  };
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -127,6 +137,7 @@ export const ShoppingCart = () => {
                                     <div className="flex">
                                       <button
                                         type="button"
+                                        onClick={handleRemove}
                                         className="text-bold font-medium  text-slate-900"
                                       >
                                         Remover
@@ -148,7 +159,12 @@ export const ShoppingCart = () => {
                       </div>
                       <div className="mt-6">
                         <Button asChild className="w-full">
-                          <Link href="/checkout">Checkout</Link>
+                          <Link
+                            href="/checkout"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            Checkout
+                          </Link>
                         </Button>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">

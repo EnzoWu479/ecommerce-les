@@ -21,6 +21,15 @@ import { masks } from '@/helpers/masks';
 import { PencilLine, Trash2 } from 'lucide-react';
 import { ModalSearch } from '@/components/admin/modal-search';
 import { coupomSearchFields } from './utils';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 
 const CategoriesPage = () => {
   return (
@@ -30,7 +39,7 @@ const CategoriesPage = () => {
           <h2 className="text-3xl font-bold tracking-tight">Cupons</h2>
           <ModalSearch fields={coupomSearchFields} />
         </div>
-        <Link href="/admin/auth/clientes/cadastrar">
+        <Link href="/admin/auth/cupons/cadastrar">
           <Button>Novo cupom</Button>
         </Link>
       </div>
@@ -48,7 +57,22 @@ const CategoriesPage = () => {
             <TableRow>
               <TableCell>QUERO20</TableCell>
               <TableCell>{formaters.money(54)}</TableCell>
-              <TableCell>Ativo</TableCell>
+              <TableCell className="w-fit">
+                <div className='w-20'>
+                  <Select defaultValue="a">
+                    <SelectTrigger className="w-[170px] border-none outline-none">
+                      <SelectValue placeholder="Selecione o status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Status do cupom</SelectLabel>
+                        <SelectItem value="a">Ativo</SelectItem>
+                        <SelectItem value="i">Inativo</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>{' '}
+                </div>
+              </TableCell>
               <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
             </TableRow>
           </TableBody>

@@ -8,7 +8,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { placeholderImage } from '@/lib/placeholderImage';
 
-export const ProfileNavigation = () => {
+interface Props {
+  onLogout: () => void;
+}
+
+export const ProfileNavigation = ({ onLogout }: Props) => {
   const profileInfos = {
     name: 'John Doe'
   };
@@ -58,11 +62,19 @@ export const ProfileNavigation = () => {
         <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100">
           <Link
             href={{
-              pathname: '/livros'
+              pathname: '/alterar-senha'
             }}
           >
-            Logout
+            Alterar senha
           </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          asChild
+          className="w-full cursor-pointer hover:bg-slate-100"
+        >
+          <button type="button" onClick={onLogout}>
+            Logout
+          </button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

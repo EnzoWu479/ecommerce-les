@@ -56,7 +56,7 @@ const AdminDashboard = ({
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
             <div className="flex items-center space-x-2">
               <CalendarDateRangePicker />
-              <Button>Download</Button>
+              {/* <Button>Download</Button> */}
             </div>
           </div>
           <Tabs defaultValue="overview" className="space-y-4">

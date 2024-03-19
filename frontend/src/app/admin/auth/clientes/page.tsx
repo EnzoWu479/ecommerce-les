@@ -25,11 +25,21 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
 import { PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { clientSearchFields } from './utils';
+import { ModalWarning } from '@/components/modal-warning';
 
 const ClientsPage = () => {
   return (
@@ -63,13 +73,33 @@ const ClientsPage = () => {
               <TableCell>joao@email.com</TableCell>
               <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
               <TableCell>{masks.cpf('99999999999')}</TableCell>
-              <TableCell>Ativo</TableCell>
+              <TableCell>
+                <div>
+                  <Select defaultValue="a">
+                    <SelectTrigger className="w-[170px] border-none outline-none">
+                      <SelectValue placeholder="Selecione o status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Status do cupom</SelectLabel>
+                        <SelectItem value="a">Ativo</SelectItem>
+                        <SelectItem value="i">Inativo</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </TableCell>
               <TableCell>
                 <div className="flex gap-2">
                   <Link href={`/admin/auth/clientes/${1}`}>
                     <PencilLine />
                   </Link>
-                  <Dialog>
+                  <ModalWarning
+                    title="Tem certeza que deseja excluir esse usuário?"
+                    description="Essa ação não poderá ser desfeita."
+                    acceptButton="Excluir"
+                  />
+                  {/* <Dialog>
                     <DialogTrigger>
                       <Trash2 />
                     </DialogTrigger>
@@ -83,7 +113,7 @@ const ClientsPage = () => {
                         </DialogDescription>
                       </DialogHeader>
                     </DialogContent>
-                  </Dialog>
+                  </Dialog> */}
                 </div>
               </TableCell>
             </TableRow>
