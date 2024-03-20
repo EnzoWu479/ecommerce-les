@@ -9,7 +9,6 @@ import { CreditCardRepository } from '@/server/repositories/CreditCardRepository
 import { StateRepository } from '@/server/repositories/StateRepository';
 import { PrismaClient } from '@prisma/client';
 import { Container } from 'inversify';
-import "reflect-metadata";
 
 
 const container = new Container();

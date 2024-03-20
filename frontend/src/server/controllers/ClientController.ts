@@ -3,15 +3,16 @@ import { NextApiRequest, NextApiResponse } from 'next';
 // import { inject, injectable } from 'inversify';
 // import { AccountRepository } from '../repositories/AccountRepository';
 import { ClientDTO } from '../validations/client.schema';
+import { injectable } from 'inversify';
 
+@injectable()
 export class ClientController {
   // private accountRepository: AccountRepository;
   // private clientRepository: ClientRepository;
 
-  constructor(
-    // @inject(ClientRepository) clientRepository: ClientRepository,
-    // @inject(AccountRepository) accountRepository: AccountRepository
-  ) {
+  constructor() // @inject(ClientRepository) clientRepository: ClientRepository,
+  // @inject(AccountRepository) accountRepository: AccountRepository
+  {
     // this.clientRepository = clientRepository;
     // this.accountRepository = accountRepository;
   }
