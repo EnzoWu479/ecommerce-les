@@ -91,9 +91,9 @@ const ClientsPage = () => {
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">
-                  {/* <Link href={`/admin/auth/clientes/${1}`}>
+                  <Link href={`/admin/auth/clientes/${1}`}>
                     <PencilLine />
-                  </Link> */}
+                  </Link>
                   <ModalWarning
                     title="Tem certeza que deseja excluir esse usuário?"
                     description="Essa ação não poderá ser desfeita."
