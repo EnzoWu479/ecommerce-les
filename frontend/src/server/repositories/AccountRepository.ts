@@ -1,6 +1,7 @@
 import { Account, PrismaClient } from '@prisma/client';
 import { prisma } from '@/server/lib/prisma';
 import { injectable } from 'inversify';
+import container from '../lib/inversify/container';
 @injectable()
 export class AccountRepository {
   prisma: PrismaClient;
