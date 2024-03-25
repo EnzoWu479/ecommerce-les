@@ -18,8 +18,9 @@ model Account {
   email     String         @unique
   password  String
   roles     AccountRoles[]
-  clientId  String
+  clientId  String?
   client    Client?
+  status    AccountStatus  @default(ACTIVE)
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
 }
@@ -29,27 +30,39 @@ enum AccountRoles {
   USER
 }
 
+enum AccountStatus {
+  ACTIVE
+  INACTIVE
+}
+
 model Client {
   id         String          @id @default(uuid())
   name       String
   cpf        String          @unique
-  birth      DateTime
+  birthDate  DateTime
   accountId  String          @unique
+  gender     Gender
   account    Account         @relation(fields: [accountId], references: [id])
   addresses  ClientAddress[]
   cards      CreditCard[]
-  mainCardId String          @unique
+  mainCardId String?         @unique
   mainCard   MainCard?
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
 model ClientAddress {
   id        String              @id @default(uuid())
-  clientId  String
-  client    Client              @relation(fields: [clientId], references: [id])
-  addressId String              @unique
-  address   Address             @relation(fields: [addressId], references: [id])
+  clientId  String?
+  client    Client?             @relation(fields: [clientId], references: [id])
+  addressId String?             @unique
+  address   Address?            @relation(fields: [addressId], references: [id])
+  name      String
   types     ClientAddressType[]
   createdAt DateTime            @default(now())
   updatedAt DateTime            @updatedAt
@@ -63,11 +76,15 @@ enum ClientAddressType {
 
 model Address {
   id              String         @id @default(uuid())
+  zipCode         String
   street          String
+  streetType      String
   number          String
+  residenceType   String
+  observation     String
   cityId          String
   city            City           @relation(fields: [cityId], references: [id])
-  clientAddressId String         @unique
+  clientAddressId String?        @unique
   clientAddress   ClientAddress?
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
@@ -93,17 +110,19 @@ model State {
 
 model CreditCard {
   id         String          @id @default(uuid())
+  name       String
   number     String
   cvv        String
-  expDate    DateTime
+  expDate    String
   holderName String
   brandId    String
   brand      CreditCardBrand @relation(fields: [brandId], references: [id])
-  clientId   String
-  client     Client          @relation(fields: [clientId], references: [id])
+  clientId   String?
+  client     Client?         @relation(fields: [clientId], references: [id])
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
-  MainCard   MainCard[]
+  mainCardId String?         @unique
+  mainCard   MainCard?
 }
 
 model CreditCardBrand {
@@ -116,7 +135,7 @@ model CreditCardBrand {
 
 model MainCard {
   id           String     @id @default(uuid())
-  creditCardId String
+  creditCardId String     @unique
   creditCard   CreditCard @relation(fields: [creditCardId], references: [id])
   clientId     String     @unique
   client       Client     @relation(fields: [clientId], references: [id])

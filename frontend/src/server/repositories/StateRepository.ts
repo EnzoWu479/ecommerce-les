@@ -8,13 +8,6 @@ export class StateRepository {
   constructor() {
     this.prisma = prisma;
   }
-  async findOne(id: string) {
-    return this.prisma.state.findUnique({
-      where: {
-        id
-      }
-    });
-  }
   async findByUf(uf: string) {
     return this.prisma.state.findFirst({
       where: {
@@ -22,9 +15,15 @@ export class StateRepository {
       }
     });
   }
-  async create(data: State) {
+  async findOrCreateByUf(uf: string) {
+    const state = await this.findByUf(uf);
+    if (state) {
+      return state;
+    }
     return this.prisma.state.create({
-      data
+      data: {
+        uf
+      }
     });
   }
 }

@@ -1,32 +1,31 @@
 export interface IAddress {
   id: string;
-  name: string;
-  street: string;
-  number: string;
-  complement: string;
-  neighborhood: string;
-  city: ICity;
+
   zipCode: string;
+  street: string;
+  streetType: string;
+  number: string;
+  residenceType: string;
+  observation: string;
+  cityId: string;
+  clientAddressId: null;
   createdAt: string;
   updatedAt: string;
+  city: ICity;
 }
+
 export interface ICity {
   id: string;
   name: string;
-  state: IState;
+  stateId: string;
   createdAt: string;
   updatedAt: string;
+  state: IState;
 }
+
 export interface IState {
   id: string;
-  name: string;
-  country: ICountry;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface ICountry {
-  id: string;
-  name: string;
+  uf: string;
   createdAt: string;
   updatedAt: string;
 }

@@ -1,24 +1,36 @@
-import { City, PrismaClient } from "@prisma/client";
+import { City, PrismaClient } from '@prisma/client';
 import { prisma } from '@/server/lib/prisma';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
+import { ICityCreate } from './dto/RepositoriesDTO';
+import { StateRepository } from './StateRepository';
 @injectable()
 export class CityRepository {
   prisma: PrismaClient;
+  private stateRepository: StateRepository;
 
-  constructor() {
+  constructor(@inject(StateRepository) stateRepository: StateRepository) {
     this.prisma = prisma;
+    this.stateRepository = stateRepository;
   }
 
-  async create(data: City) {
-    return this.prisma.city.create({
-      data
-    });
-  }
-
-  async findByName(name: string) {
-    return this.prisma.city.findFirst({
+  async findOrCreateByName({ name, uf }: ICityCreate) {
+    const city = await this.prisma.city.findFirst({
       where: {
-        name
+        name: name
+      }
+    });
+    if (city) {
+      return city;
+    }
+    const state = await this.stateRepository.findOrCreateByUf(uf);
+    return this.prisma.city.create({
+      data: {
+        name: name,
+        state: {
+          connect: {
+            id: state.id
+          }
+        }
       }
     });
   }

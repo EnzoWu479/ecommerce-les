@@ -1,4 +1,4 @@
-import { ClientForm } from '@/components/admin/client/client-form';
+import { ClientForm } from '@/components/client-form';
 import { ProductForm } from '@/components/admin/product-form';
 import { GoBackButton } from '@/components/go-back-button';
 import { Input } from '@/components/ui/input';

@@ -7,10 +7,15 @@ import {
   ResizablePanelGroup
 } from '@/components/ui/resizable';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { api } from '@/lib/axios';
 import { cn } from '@/lib/utils';
 import { PropsWithChildren, useState } from 'react';
 
-export default function AdminLayout({ children }: PropsWithChildren) {
+
+export default async function AdminLayout({ children }: PropsWithChildren) {
+  const isAuthenticated = async () => {
+    const {data} = await api.get("http")
+  }
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navCollapsedSize = 4;
   return (

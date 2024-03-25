@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { ClientLayout } from '@/layouts/client-layout';
+import { ClientLayout } from '@/components/layouts/client-layout';
 import { PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 

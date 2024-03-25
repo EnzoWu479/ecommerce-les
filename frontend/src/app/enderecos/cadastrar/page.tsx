@@ -1,5 +1,5 @@
 import { GoBackButton } from '@/components/go-back-button';
-import { ClientLayout } from '@/layouts/client-layout';
+import { ClientLayout } from '@/components/layouts/client-layout';
 import { AddressForm } from '../components/address-form';
 
 const AddressRegister = () => {

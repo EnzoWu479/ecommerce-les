@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { StarIcon } from 'lucide-react';
 import { ClientNavigationMenu } from '@/components/client/client-navigation-menu';
 import { useBagStore } from '@/features/bag/store';
-import { ClientLayout } from '@/layouts/client-layout';
+import { ClientLayout } from '@/components/layouts/client-layout';
 import { formaters } from '@/helpers/formaters';
 import { Button } from '@/components/ui/button';
 import { InputValueControl } from '@/components/input-value-control';

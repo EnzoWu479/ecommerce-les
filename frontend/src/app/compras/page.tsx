@@ -39,7 +39,7 @@ import {
 } from '@/components/ui/tooltip';
 import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
-import { ClientLayout } from '@/layouts/client-layout';
+import { ClientLayout } from '@/components/layouts/client-layout';
 import { ArrowLeftRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';

@@ -1,17 +1,62 @@
-import { Address, PrismaClient } from '@prisma/client';
+import { Address, ClientAddressType, PrismaClient } from '@prisma/client';
 import { prisma } from '@/server/lib/prisma';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
+import { AddressFormDTO } from '@/validations/address.schema';
+import { CityRepository } from './CityRepository';
 @injectable()
 export class AddressRepository {
   prisma: PrismaClient;
+  private cityRepository: CityRepository;
 
-  constructor() {
+  constructor(@inject(CityRepository) cityRepository: CityRepository) {
+    this.cityRepository = cityRepository;
     this.prisma = prisma;
   }
 
-  async create(data: Address) {
-    return this.prisma.address.create({
-      data
+  async create(data: AddressFormDTO) {
+    const city = await this.cityRepository.findOrCreateByName({
+      name: data.city,
+      uf: data.state
+    });
+    const address = this.prisma.address.create({
+      data: {
+        zipCode: data.zipcode,
+        street: data.street,
+        number: data.number,
+        streetType: data.streetType,
+        observation: '',
+        residenceType: data.residenceType,
+        city: {
+          connect: {
+            id: city.id
+          }
+        }
+      }
+    });
+    return address;
+  }
+  async update(id: string, data: AddressFormDTO) {
+    const city = await this.cityRepository.findOrCreateByName({
+      name: data.city,
+      uf: data.state
+    });
+    return this.prisma.address.update({
+      where: {
+        id
+      },
+      data: {
+        zipCode: data.zipcode,
+        street: data.street,
+        number: data.number,
+        streetType: data.streetType,
+        observation: '',
+        residenceType: data.residenceType,
+        city: {
+          connect: {
+            id: city.id
+          }
+        }
+      }
     });
   }
   async findById(id: string) {

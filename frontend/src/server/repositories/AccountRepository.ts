@@ -2,6 +2,7 @@ import { Account, PrismaClient } from '@prisma/client';
 import { prisma } from '@/server/lib/prisma';
 import { injectable } from 'inversify';
 import container from '../lib/inversify/container';
+import { IAccountCreate } from './dto/RepositoriesDTO';
 @injectable()
 export class AccountRepository {
   prisma: PrismaClient;
@@ -10,9 +11,13 @@ export class AccountRepository {
     this.prisma = prisma;
   }
 
-  async create(data: Account) {
+  async create(data: Omit<IAccountCreate, 'id'>) {
     return this.prisma.account.create({
-      data
+      data: {
+        email: data.email,
+        password: data.password,
+        roles: data.roles
+      }
     });
   }
 
@@ -28,6 +33,28 @@ export class AccountRepository {
     return this.prisma.account.findFirst({
       where: {
         email
+      },
+      include: {
+        client: true
+      }
+    });
+  }
+  async findByClientId(clientId: string) {
+    return this.prisma.account.findFirst({
+      where: {
+        client: {
+          id: clientId
+        }
+      }
+    });
+  }
+  async update(id: string, data: Partial<Account>) {
+    return this.prisma.account.update({
+      where: {
+        id
+      },
+      data: {
+        email: data.email
       }
     });
   }

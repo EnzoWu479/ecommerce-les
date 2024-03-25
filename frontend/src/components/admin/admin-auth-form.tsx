@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -6,26 +7,46 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { auth } from '@/features/authentication';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { useToast } from '../ui/use-toast';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { LoginDTO, loginSchema } from '@/validations/login.schema';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function AdminAuthForm({ className, ...props }: UserAuthFormProps) {
-  async function onSubmit(formData: FormData) {
-    'use server';
+  const { toast } = useToast();
+  const router = useRouter();
+  const {
+    formState: { errors },
+    handleSubmit,
+    register
+  } = useForm({
+    resolver: yupResolver(loginSchema)
+  });
+
+  async function onSubmit(values: LoginDTO) {
     const isAuthenticated = await auth.authenticateAdmin(
-      formData.get('email') as string,
-      formData.get('password') as string
+      values.email,
+      values.password
     );
 
     if (isAuthenticated) {
-      redirect('/admin/auth/dashboard');
+      router.push('/admin/auth/dashboard');
+      // redirect('/admin/auth/dashboard');
+    } else {
+      toast({
+        title: 'Erro',
+        description: 'Credenciais inválidas',
+        variant: 'destructive'
+      });
     }
   }
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
-      <form action={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -38,6 +59,7 @@ export function AdminAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
+              {...register('email')}
             />
           </div>
           <div className="grid gap-1">
@@ -50,6 +72,7 @@ export function AdminAuthForm({ className, ...props }: UserAuthFormProps) {
               type="password"
               autoCapitalize="none"
               autoCorrect="off"
+              {...register('password')}
             />
           </div>
           <Button>Fazer login</Button>

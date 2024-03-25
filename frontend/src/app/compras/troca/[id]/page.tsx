@@ -1,4 +1,4 @@
-import { ClientLayout } from '@/layouts/client-layout';
+import { ClientLayout } from '@/components/layouts/client-layout';
 import { TradeTable } from './trade-table';
 
 export default function Switches() {

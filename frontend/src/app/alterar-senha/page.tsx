@@ -1,6 +1,6 @@
 import { ChangePasswordForm } from '@/components/client/change-password-form';
 import { GoBackButton } from '@/components/go-back-button';
-import { ClientLayout } from '@/layouts/client-layout';
+import { ClientLayout } from '@/components/layouts/client-layout';
 
 const AddressRegister = () => {
   return (

@@ -3,7 +3,8 @@ import { AdminAuthForm } from '@/components/admin/admin-auth-form';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ClientForm } from '@/components/admin/client/client-form';
+import { ClientForm } from '@/components/client-form';
+import { GoBackButton } from '@/components/go-back-button';
 
 const ClientRegister = () => {
   return (
@@ -12,9 +13,12 @@ const ClientRegister = () => {
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[700px]">
             <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">
-                Cadastro
-              </h1>
+              <div className="flex items-center justify-center gap-2">
+                <GoBackButton />
+                <h1 className="text-2xl font-semibold tracking-tight">
+                  Cadastro
+                </h1>
+              </div>
               <p className="text-sm text-muted-foreground">
                 Cadastre sua conta
               </p>

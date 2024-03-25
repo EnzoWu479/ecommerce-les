@@ -40,7 +40,9 @@ export const ModalSearch = ({ fields }: Props) => {
           </SelectTrigger>
           <SelectContent>
             {field.options.map((option, index) => (
-              <SelectItem value={option.value}>{option.label}</SelectItem>
+              <SelectItem value={option.value} key={option.value}>
+                {option.label}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>

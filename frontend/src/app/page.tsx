@@ -3,7 +3,7 @@ import { ProductCard } from '@/components/client/product-card';
 import { ProductSection } from '@/components/product-section';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ClientLayout } from '@/layouts/client-layout';
+import { ClientLayout } from '@/components/layouts/client-layout';
 import Image from 'next/image';
 import { Suspense } from 'react';
 

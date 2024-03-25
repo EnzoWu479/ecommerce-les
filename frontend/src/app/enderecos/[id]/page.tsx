@@ -1,4 +1,4 @@
-import { ClientLayout } from '@/layouts/client-layout';
+import { ClientLayout } from '@/components/layouts/client-layout';
 import { AddressForm } from '../components/address-form';
 import { GoBackButton } from '@/components/go-back-button';
 
