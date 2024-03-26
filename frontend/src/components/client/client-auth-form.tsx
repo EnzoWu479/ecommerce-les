@@ -9,27 +9,59 @@ import { Button } from '../ui/button';
 import { auth } from '@/features/authentication';
 import { redirect } from 'next/navigation';
 import { useAuthStore } from '@/features/authentication/auth-store';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { LoginDTO, loginSchema } from '@/validations/login.schema';
+import { useRouter } from 'next/navigation';
+import { useToast } from '../ui/use-toast';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function ClientAuthForm({ className, ...props }: UserAuthFormProps) {
+  const router = useRouter();
+  const { toast } = useToast();
+  const {
+    formState: { errors },
+    handleSubmit,
+    register
+  } = useForm({
+    resolver: yupResolver(loginSchema)
+  });
+
   const { isAuthenticated, setIsAuthenticated } = useAuthStore();
-  async function onSubmit(formData: FormData) {
-    setIsAuthenticated(true);
-    ('use server');
-    const isAuthenticated = await auth.authenticateAdmin(
-      formData.get('email') as string,
-      formData.get('password') as string
+  // async function onSubmit(formData: FormData) {
+  //   setIsAuthenticated(true);
+  //   ('use server');
+  //   const isAuthenticated = await auth.authenticateAdmin(
+  //     formData.get('email') as string,
+  //     formData.get('password') as string
+  //   );
+
+  //   if (isAuthenticated) {
+  //     redirect('/');
+  //   }
+  // }
+  async function onSubmit(values: LoginDTO) {
+    const isAuthenticated = await auth.authenticateClient(
+      values.email,
+      values.password
     );
 
     if (isAuthenticated) {
-      redirect('/');
+      router.push('/admin/auth/dashboard');
+      // redirect('/admin/auth/dashboard');
+    } else {
+      toast({
+        title: 'Erro',
+        description: 'Credenciais inválidas',
+        variant: 'destructive'
+      });
     }
   }
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
-      <form action={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">

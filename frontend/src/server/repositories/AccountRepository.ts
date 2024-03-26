@@ -54,7 +54,8 @@ export class AccountRepository {
         id
       },
       data: {
-        email: data.email
+        email: data.email || undefined,
+        status: data.status || undefined
       }
     });
   }

@@ -37,7 +37,7 @@ import { clientData } from '@/data/client';
 import { IClient } from '@/types/client';
 import { formaters } from '@/helpers/formaters';
 
-const jsonExemplo = {
+const jsonExemplo: ClientFormSchema = {
   name: 'Enzo',
   email: 'enwu2014@hotmail.com',
   password: '12345678Aa@',
@@ -47,6 +47,7 @@ const jsonExemplo = {
   gender: 'MALE',
   creditCards: [
     {
+      id: null,
       number: '1111 1111 1111 1111',
       name: 'Cartão da mamãe',
       holderName: 'Enzo Yuji Wu',
@@ -58,6 +59,8 @@ const jsonExemplo = {
   ],
   addresses: [
     {
+      id: null,
+      addressId: null,
       name: 'Minha casa',
       street: 'Alameda Meyer Joseph Nigri',
       streetType: 'Alameda',

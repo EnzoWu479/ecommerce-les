@@ -22,23 +22,56 @@ import {
   SelectValue
 } from '../ui/select';
 import { DatePicker } from '../date-picker';
+import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
   fields: SearchField[];
+  currentSearch?: Record<string, any>;
 }
+export const EMPTY_VALUE = 'Nenhum';
+export const ModalSearch = ({ fields, currentSearch }: Props) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [search, setSearch] = useState(currentSearch as Record<string, any>);
 
-export const ModalSearch = ({ fields }: Props) => {
+  const handleSearch = () => {
+    const newSearchParams = new URLSearchParams();
+    Object.entries(search).forEach(([key, value]) => {
+      newSearchParams.append(key, value === EMPTY_VALUE ? '' : value);
+    });
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+  };
+
   const renderField = (field: SearchField) => {
     if (field.type === SearchType.STRING) {
-      return <Input id={field.name} />;
+      return (
+        <Input
+          id={field.name}
+          value={search?.[field.name] || ''}
+          onChange={e => setSearch({ ...search, [field.name]: e.target.value })}
+        />
+      );
     }
     if (field.type === SearchType.OPTION) {
       return (
-        <Select name={field.name}>
+        <Select
+          name={field.name}
+          value={search?.[field.name]}
+          onValueChange={value =>
+            setSearch({
+              ...search,
+              [field.name]: value
+            })
+          }
+        >
           <SelectTrigger>
             <SelectValue placeholder="Selecione" />
           </SelectTrigger>
           <SelectContent>
+            {/* empty option */}
+            <SelectItem value={EMPTY_VALUE}>Selecione</SelectItem>
+
             {field.options.map((option, index) => (
               <SelectItem value={option.value} key={option.value}>
                 {option.label}
@@ -49,7 +82,13 @@ export const ModalSearch = ({ fields }: Props) => {
       );
     }
     if (field.type === SearchType.DATE) {
-      return <DatePicker />;
+      return (
+        <Input
+          type="date"
+          value={search?.[field.name]}
+          onChange={e => setSearch({ ...search, [field.name]: e.target.value })}
+        />
+      );
     }
     return <></>;
   };
@@ -75,7 +114,7 @@ export const ModalSearch = ({ fields }: Props) => {
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
           </DrawerClose>
-          <Button>Pesquisar</Button>
+          <Button onClick={handleSearch}>Pesquisar</Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

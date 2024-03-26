@@ -9,6 +9,9 @@ const router = createRouter<NextApiRequest, NextApiResponse>();
 const clientController = container.resolve(ClientController);
 
 // Publica
-router.get(clientController.get).put(clientController.update);
+router
+  .get(clientController.get)
+  .put(clientController.update)
+  .delete(clientController.delete);
 
 export default router.handler();

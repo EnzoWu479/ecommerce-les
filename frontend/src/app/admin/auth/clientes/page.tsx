@@ -38,24 +38,37 @@ import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
 import { PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
-import { clientSearchFields } from './utils';
+import { ClientSearchFields } from './utils';
 import { ModalWarning } from '@/components/modal-warning';
 import { ClientTable } from './client-table';
 import { Suspense } from 'react';
+import { clientData } from '@/data/client';
+import { ClientSearchParams } from '@/types/client';
 
-const ClientsPage = ({
-  params: { page }
-}: {
-  params: {
-    page?: number;
-  };
-}) => {
+type Props = {
+  page?: number;
+} & ClientSearchParams;
+
+const ClientTableFetch = async ({ page, ...clientSearchParams }: Props) => {
+  const clients = await clientData.getList({
+    page: page || 1,
+    limit: 10,
+    search: clientSearchParams
+  });
+  return <ClientTable clients={clients} />;
+};
+
+const ClientsPage = ({ searchParams }: { searchParams: Props }) => {
+  const { page, ...clientSearchParams } = searchParams;
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
         <div className="flex gap-4">
           <h2 className="text-3xl font-bold tracking-tight">Clientes</h2>
-          <ModalSearch fields={clientSearchFields} />
+          <ModalSearch
+            fields={ClientSearchFields}
+            currentSearch={clientSearchParams}
+          />
         </div>
         {/* <Link href="/admin/auth/clientes/cadastrar">
           <Button>Novo cliente</Button>
@@ -63,7 +76,7 @@ const ClientsPage = ({
       </div>
       <div className="mt-5 rounded border">
         <Suspense fallback="Loading">
-          <ClientTable page={page} />
+          <ClientTableFetch {...searchParams} />
         </Suspense>
       </div>
       <div className="flex justify-end">

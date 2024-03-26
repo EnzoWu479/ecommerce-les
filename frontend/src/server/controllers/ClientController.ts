@@ -9,6 +9,7 @@ import { hashService } from '../lib/bcrypt';
 import container from '../lib/inversify/container';
 import { z } from 'zod';
 import { api } from '@/lib/axios';
+import { ClientSearchParams } from '@/types/client';
 
 @injectable()
 export class ClientController {
@@ -27,7 +28,9 @@ export class ClientController {
     this.create = this.create.bind(this);
     this.list = this.list.bind(this);
     this.get = this.get.bind(this);
+    this.delete = this.delete.bind(this);
     this.update = this.update.bind(this);
+    this.updateStatus = this.updateStatus.bind(this);
   }
   public async create(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -52,7 +55,7 @@ export class ClientController {
 
       const client = await this.clientRepository.create(body);
 
-      res.revalidate('/admin/auth/clientes');
+      await res.revalidate('/admin/auth/clientes');
 
       res.status(201).json(client);
     } catch (error: any) {
@@ -79,8 +82,9 @@ export class ClientController {
 
       const client = await this.clientRepository.update(id, body);
 
-      // res.revalidate('/admin/auth/clientes');
-      api.get('/admin/auth/clientes/revalidate', {
+      // await res.revalidate('/admin/auth/clientes');
+      // await res.revalidate(`/admin/auth/clientes/${id}`);
+      await api.get('/admin/auth/clientes/revalidate', {
         params: {
           id
         }
@@ -93,6 +97,13 @@ export class ClientController {
   }
   public async delete(req: NextApiRequest, res: NextApiResponse) {
     const id = req.query.id as string;
+    await this.clientRepository.delete(id);
+    await api.get('/admin/auth/clientes/revalidate', {
+      params: {
+        id
+      }
+    });
+    res.status(204).end();
   }
   public async get(req: NextApiRequest, res: NextApiResponse) {
     const id = req.query.id as string;
@@ -103,11 +114,19 @@ export class ClientController {
     res.status(200).json(client);
   }
   public async list(req: NextApiRequest, res: NextApiResponse) {
+    // console.log('oi');
+
     try {
       const page = Number(req.query.page || 1);
       const limit = Number(req.query.limit || 10);
+      const search = req.query.search
+        ? (JSON.parse(String(req.query.search)) as
+            | ClientSearchParams
+            | undefined)
+        : undefined;
+      // console.log(search);
 
-      const clients = await this.clientRepository.list({ page, limit });
+      const clients = await this.clientRepository.list({ page, limit, search });
 
       res.status(200).json(clients);
     } catch (error: any) {
@@ -137,8 +156,12 @@ export class ClientController {
       res.status(404).json({ error: 'Client not found' });
       return;
     }
+    if (!client.account?.id) {
+      res.status(404).json({ error: 'Account not found' });
+      return;
+    }
 
-    await this.accountRepository.update(client.accountId, { status });
+    await this.accountRepository.update(client.account?.id, { status });
     res.status(204).end();
   }
 }

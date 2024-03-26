@@ -1,12 +1,8 @@
 import { masks } from '@/helpers/masks';
 import { SearchField, SearchType } from '@/types/search';
+import { AccountStatus } from '@prisma/client';
 
-export const clientSearchFields: SearchField[] = [
-  {
-    name: 'id',
-    label: 'Código',
-    type: SearchType.STRING
-  },
+export const ClientSearchFields: SearchField[] = [
   {
     name: 'name',
     label: 'Nome',
@@ -33,8 +29,8 @@ export const clientSearchFields: SearchField[] = [
     label: 'Status',
     type: SearchType.OPTION,
     options: [
-      { label: 'Ativo', value: 'Ativo' },
-      { label: 'Inativo', value: 'Inativo' }
+      { label: 'Ativo', value: AccountStatus.ACTIVE },
+      { label: 'Inativo', value: AccountStatus.INACTIVE }
     ]
   }
 ];

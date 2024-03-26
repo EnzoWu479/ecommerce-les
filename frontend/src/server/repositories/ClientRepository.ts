@@ -1,4 +1,10 @@
-import { AccountRoles, Client, Gender, PrismaClient } from '@prisma/client';
+import {
+  AccountRoles,
+  AccountStatus,
+  Client,
+  Gender,
+  PrismaClient
+} from '@prisma/client';
 import { prisma } from '@/server/lib/prisma';
 import { inject, injectable } from 'inversify';
 import { IClientCreate } from './dto/RepositoriesDTO';
@@ -9,6 +15,7 @@ import { CreditCardRepository } from './CreditCardRepository';
 import { PageRequest } from '../shared/PageRequest';
 import { PageResponse } from '../shared/PageResponse';
 import { ResponseData } from '../shared/ResponseDataImp';
+import { ClientSearchParams } from '@/types/client';
 @injectable()
 export class ClientRepository {
   prisma: PrismaClient;
@@ -180,12 +187,49 @@ export class ClientRepository {
     page,
     limit,
     search
-  }: PageRequest<Client>): Promise<PageResponse<Client>> {
+  }: PageRequest<ClientSearchParams>): Promise<PageResponse<Client>> {
+    const where = {
+      ...(search?.name && {
+        name: {
+          contains: search.name
+        }
+      }),
+      ...(search?.cpf && {
+        cpf: {
+          contains: search.cpf
+        }
+      }),
+      ...((search?.email || search?.status) && {
+        account: {
+          ...(search?.email && {
+            email: {
+              contains: search.email
+            }
+          }),
+          ...(search?.status && {
+            status: search.status as AccountStatus
+          })
+        }
+      }),
+      ...(search?.birth_date && {
+        birthDate: {
+          equals: new Date(search.birth_date)
+        }
+      })
+      // ...(search?.status && {
+      //   account: {
+      //     status: search.status
+      //   }
+      // })
+    };
     const [total, content] = await Promise.all([
-      this.prisma.client.count(),
+      this.prisma.client.count({
+        where: where
+      }),
       this.prisma.client.findMany({
         skip: (page - 1) * limit,
         take: limit,
+        where: where,
         include: {
           account: true
         }

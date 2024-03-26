@@ -3,18 +3,19 @@ import { ClientFormSchema } from '@/validations/clientForm.schema';
 import { AccountStatus, Client } from '@prisma/client';
 import { PageRequest } from '@/server/shared/PageRequest';
 import { PageResponse } from '@/server/shared/PageResponse';
-import { IClient } from '@/types/client';
+import { IClient, ClientSearchParams } from '@/types/client';
 
 export const clientData = {
   async create(values: Omit<ClientFormSchema, 'id'>) {
     const { data } = await api.post<Client>('/api/clients', values);
     return data;
   },
-  async getList(pageRequest: PageRequest<Client>) {
+  async getList(pageRequest: PageRequest<ClientSearchParams>) {
     const { data } = await api.get<PageResponse<IClient>>('/api/clients', {
       params: {
         page: pageRequest.page,
-        limit: pageRequest.limit
+        limit: pageRequest.limit,
+        search: JSON.stringify(pageRequest.search)
       }
     });
     return data;
@@ -29,5 +30,8 @@ export const clientData = {
   },
   async updateStatus(id: string, status: AccountStatus) {
     await api.put(`/api/clients/${id}/status`, { status });
+  },
+  async delete(id: string) {
+    await api.delete(`/api/clients/${id}`);
   }
 };

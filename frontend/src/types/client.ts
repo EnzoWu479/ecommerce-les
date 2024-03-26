@@ -42,3 +42,10 @@ export interface IClientAddress {
   updatedAt: string;
   address: IAddress;
 }
+export type ClientSearchParams = {
+  name?: string;
+  email?: string;
+  birth_date?: string;
+  cpf?: string;
+  status?: string;
+};

@@ -18,8 +18,8 @@ model Account {
   email     String         @unique
   password  String
   roles     AccountRoles[]
-  clientId  String?
-  client    Client?
+  clientId  String?        @unique
+  client    Client?        @relation(fields: [clientId], references: [id], onDelete: Cascade)
   status    AccountStatus  @default(ACTIVE)
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
@@ -40,9 +40,9 @@ model Client {
   name       String
   cpf        String          @unique
   birthDate  DateTime
-  accountId  String          @unique
   gender     Gender
-  account    Account         @relation(fields: [accountId], references: [id])
+  accountId  String?          @unique
+  account    Account?
   addresses  ClientAddress[]
   cards      CreditCard[]
   mainCardId String?         @unique
@@ -59,9 +59,9 @@ enum Gender {
 model ClientAddress {
   id        String              @id @default(uuid())
   clientId  String?
-  client    Client?             @relation(fields: [clientId], references: [id])
+  client    Client?             @relation(fields: [clientId], references: [id], onDelete: Cascade)
   addressId String?             @unique
-  address   Address?            @relation(fields: [addressId], references: [id])
+  address   Address?
   name      String
   types     ClientAddressType[]
   createdAt DateTime            @default(now())
@@ -85,7 +85,7 @@ model Address {
   cityId          String
   city            City           @relation(fields: [cityId], references: [id])
   clientAddressId String?        @unique
-  clientAddress   ClientAddress?
+  clientAddress   ClientAddress? @relation(fields: [clientAddressId], references: [id], onDelete: Cascade)
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 }
@@ -118,7 +118,7 @@ model CreditCard {
   brandId    String
   brand      CreditCardBrand @relation(fields: [brandId], references: [id])
   clientId   String?
-  client     Client?         @relation(fields: [clientId], references: [id])
+  client     Client?         @relation(fields: [clientId], references: [id], onDelete: Cascade)
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
   mainCardId String?         @unique

@@ -7,6 +7,7 @@ import { createRouter, expressWrapper } from 'next-connect';
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
 const clientController = container.resolve(ClientController);
+console.log('oi');
 
 // Publica
 router

@@ -1,3 +1,4 @@
+'use client';
 import {
   Table,
   TableBody,
@@ -23,9 +24,16 @@ import { ModalWarning } from '@/components/modal-warning';
 import { AccountStatus } from '@prisma/client';
 import { clientData } from '@/data/client';
 import { revalidatePath } from 'next/cache';
+import { IClient } from '@/types/client';
+import { PageResponse } from '@/server/shared/PageResponse';
+import { useRouter } from 'next/navigation';
 
-export const ClientTable = async ({ page }: { page?: number }) => {
-  const clients = await clientData.getList({ page: page || 1, limit: 10 });
+interface Props {
+  clients: PageResponse<IClient>;
+}
+
+export const ClientTable = async ({ clients }: Props) => {
+  const router = useRouter();
   // const handleStatusChange =
   //   (id: string, status: AccountStatus) => async () => {
   //     'use server';
@@ -34,6 +42,25 @@ export const ClientTable = async ({ page }: { page?: number }) => {
   //     await clientData.updateStatus(id, status);
   //     revalidatePath('/admin/auth/clientes');
   //   };
+
+  const handleDelete = async (client: IClient) => {
+    try {
+      await clientData.delete(client.id);
+      router.refresh();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+  const handleStatusChange = async (id: string, status: AccountStatus) => {
+    try {
+      await clientData.updateStatus(id, status);
+      router.refresh();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
 
   return (
     <Table>
@@ -56,7 +83,12 @@ export const ClientTable = async ({ page }: { page?: number }) => {
             <TableCell>{masks.cpf(client.cpf)}</TableCell>
             <TableCell>
               <div>
-                <Select defaultValue={client.account?.status}>
+                <Select
+                  value={client.account?.status}
+                  onValueChange={value =>
+                    handleStatusChange(client.id, value as AccountStatus)
+                  }
+                >
                   <SelectTrigger className="w-[170px] border-none outline-none">
                     <SelectValue placeholder="Selecione o status" />
                   </SelectTrigger>
@@ -79,11 +111,17 @@ export const ClientTable = async ({ page }: { page?: number }) => {
                 <Link href={`/admin/auth/clientes/${client.id}`}>
                   <PencilLine />
                 </Link>
-                <ModalWarning
-                  title="Tem certeza que deseja excluir esse usuário?"
-                  description="Essa ação não poderá ser desfeita."
-                  acceptButton="Excluir"
-                />
+                {(() => {
+                  'use client';
+                  return (
+                    <ModalWarning
+                      title="Tem certeza que deseja excluir esse usuário?"
+                      description="Essa ação não poderá ser desfeita."
+                      acceptButton="Excluir"
+                      onAccept={async () => await handleDelete(client)}
+                    />
+                  );
+                })()}
                 {/* <Dialog>
                     <DialogTrigger>
                       <Trash2 />

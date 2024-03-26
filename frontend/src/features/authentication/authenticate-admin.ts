@@ -6,7 +6,7 @@ export const authenticateAdmin = async (
   password: string
 ): Promise<boolean> => {
   try {
-    await api.post('http://localhost:3000/api/login/admin', {
+    await api.post('/api/login/admin', {
       email,
       password
     });
