@@ -20,23 +20,20 @@ export class CreditCardRepository {
     const brand = await this.creditCardBrandRepository.findOrCreateByName(
       data.brand
     );
-    return {
-      isMain: data.isMain,
-      ...(await this.prisma.creditCard.create({
-        data: {
-          cvv: data.cvv,
-          name: data.name,
-          expDate: data.expiration,
-          holderName: data.holderName,
-          number: data.number,
-          brand: {
-            connect: {
-              id: brand.id
-            }
+    return this.prisma.creditCard.create({
+      data: {
+        cvv: data.cvv,
+        name: data.name,
+        expDate: data.expiration,
+        holderName: data.holderName,
+        number: data.number,
+        brand: {
+          connect: {
+            id: brand.id
           }
         }
-      }))
-    };
+      }
+    });
   }
   async findById(id: string) {
     return this.prisma.creditCard.findUnique({
@@ -59,26 +56,23 @@ export class CreditCardRepository {
     const brand = await this.creditCardBrandRepository.findOrCreateByName(
       data.brand
     );
-    return {
-      isMain: data.isMain,
-      ...(await this.prisma.creditCard.update({
-        where: {
-          id
-        },
-        data: {
-          cvv: data.cvv,
-          name: data.name,
-          expDate: data.expiration,
-          holderName: data.holderName,
-          number: data.number,
-          brand: {
-            connect: {
-              id: brand.id
-            }
+    return await this.prisma.creditCard.update({
+      where: {
+        id
+      },
+      data: {
+        cvv: data.cvv,
+        name: data.name,
+        expDate: data.expiration,
+        holderName: data.holderName,
+        number: data.number,
+        brand: {
+          connect: {
+            id: brand.id
           }
         }
-      }))
-    };
+      }
+    });
   }
   async delete(id: string) {
     return this.prisma.creditCard.delete({
