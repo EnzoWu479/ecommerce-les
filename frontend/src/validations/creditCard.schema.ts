@@ -7,8 +7,7 @@ export const creditCardSchema = z.object({
   holderName: z.string().min(1, 'Nome do titular é obrigatório'),
   expiration: z.string().min(1, 'Data de expiração é obrigatória'),
   cvv: z.string().min(1, 'CVV é obrigatório'),
-  brand: z.string().min(1, 'Bandeira é obrigatória'),
-  isMain: z.boolean()
+  brand: z.string().min(1, 'Bandeira é obrigatória')
 });
 export type CreditCardFormDTO = z.infer<typeof creditCardSchema>;
 export const creditCardEmpty: CreditCardFormDTO = {
@@ -18,6 +17,5 @@ export const creditCardEmpty: CreditCardFormDTO = {
   holderName: '',
   expiration: '',
   cvv: '',
-  brand: '',
-  isMain: false
+  brand: ''
 };

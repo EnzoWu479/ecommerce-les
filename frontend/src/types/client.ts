@@ -15,6 +15,7 @@ export interface IClient {
   accountId: string;
   gender: string;
   mainCardId: null;
+  mainCard?: MainCard;
   createdAt: string;
   updatedAt: string;
   account?: IAccount;
@@ -49,3 +50,8 @@ export type ClientSearchParams = {
   cpf?: string;
   status?: string;
 };
+export interface MainCard {
+  id: string;
+  creditCardId: string;
+  clientId: string;
+}

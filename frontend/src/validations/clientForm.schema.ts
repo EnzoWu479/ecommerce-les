@@ -27,6 +27,7 @@ export const clientFormSchema = z
     creditCards: z
       .array(creditCardSchema)
       .min(1, 'Cartão de crédito é obrigatório'),
+    mainCard: z.string(),
     addresses: z
       .array(addressSchema)
       .refine(data => data.length > 0, {

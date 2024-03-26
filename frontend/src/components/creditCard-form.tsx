@@ -6,22 +6,31 @@ import { Trash2 } from 'lucide-react';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 import { ErrorMessage } from './ui/error-message';
 import { masks } from '@/helpers/masks';
+import { RadioGroupItem } from './ui/radio-group';
 
 interface Props {
   value: CreditCardFormDTO;
   onChange: (value: CreditCardFormDTO) => void;
   errors?: Merge<FieldError, FieldErrorsImpl<CreditCardFormDTO>>;
   onDelete?: () => void;
+  index?: number;
 }
 
 export const CreditCardForm = ({
   value,
   onChange,
   errors,
-  onDelete
+  onDelete,
+  index
 }: Props) => {
   return (
     <Card className="grid grid-cols-3 gap-4 p-4">
+      {index !== undefined && (
+        <div className="col-span-3 flex items-center gap-2">
+          <RadioGroupItem value={String(index)} />
+          <Label>Cartão principal</Label>
+        </div>
+      )}
       <div>
         <Label>Nome do cartão</Label>
         <Input

@@ -56,7 +56,7 @@ export class ClientRepository {
       addressesPromise,
       creditCardPromise
     ]);
-    const mainCard = creditCards.find(card => card.isMain);
+    const mainCard = creditCards[Number(data.mainCard || 0)];
     return this.prisma.client.create({
       data: {
         name: data.name,
@@ -89,12 +89,22 @@ export class ClientRepository {
     });
   }
   async update(id: string, data: Omit<ClientFormSchema, 'id'>) {
-    const accountFound = await this.accountRepository.findByClientId(id);
-    if (!accountFound) {
+    const clientFound = await this.prisma.client.findUnique({
+      where: {
+        id
+      },
+      include: {
+        account: true,
+        addresses: true,
+        cards: true,
+        mainCard: true
+      }
+    });
+    if (!clientFound || !clientFound.account) {
       throw new ResponseData(null, 'Cliente não encontrado', 404);
     }
     const accountPromise = await this.accountRepository.update(
-      accountFound?.id,
+      clientFound.account?.id,
       {
         email: data.email
       }
@@ -113,12 +123,41 @@ export class ClientRepository {
           : this.creditCardRepository.create(creditCard)
       )
     );
+    const deletedAddressesPromises = clientFound.addresses.map(
+      async address => {
+        if (!data.addresses.find(a => a.id === address.id)) {
+          return this.clientAddressRepository.delete(address.id);
+        }
+      }
+    );
+    const deletedCreditCardsPromises = clientFound.cards.map(async card => {
+      if (!data.creditCards.find(c => c.id === card.id)) {
+        return this.creditCardRepository.delete(card.id);
+      }
+    });
+
     const [account, addresses, creditCards] = await Promise.all([
       accountPromise,
       addressesPromise,
-      creditCardPromise
+      creditCardPromise,
+      deletedAddressesPromises,
+      deletedCreditCardsPromises
     ]);
-    const mainCard = creditCards.find(card => card.isMain);
+    // update main card
+    const mainCard = creditCards[Number(data.mainCard || 0)];
+    console.log(mainCard);
+    console.log(data.creditCards);
+    console.log(creditCards);
+    console.log(data.mainCard);
+
+    await this.prisma.mainCard.update({
+      where: {
+        id: clientFound.mainCard?.id
+      },
+      data: {
+        creditCardId: mainCard.id
+      }
+    });
     return this.prisma.client.update({
       where: {
         id
@@ -142,14 +181,7 @@ export class ClientRepository {
           connect: creditCards.map(card => ({
             id: card.id
           }))
-        },
-        ...(mainCard && {
-          mainCard: {
-            create: {
-              creditCardId: mainCard.id
-            }
-          }
-        })
+        }
       }
     });
   }
@@ -163,6 +195,7 @@ export class ClientRepository {
       },
       include: {
         account: true,
+        mainCard: true,
         addresses: {
           include: {
             address: {

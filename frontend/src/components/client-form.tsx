@@ -36,6 +36,7 @@ import { cn } from '@/lib/utils';
 import { clientData } from '@/data/client';
 import { IClient } from '@/types/client';
 import { formaters } from '@/helpers/formaters';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 
 const jsonExemplo: ClientFormSchema = {
   name: 'Enzo',
@@ -45,6 +46,7 @@ const jsonExemplo: ClientFormSchema = {
   birthDate: '2004-05-22',
   cpf: '111.111.111-11',
   gender: 'MALE',
+  mainCard: '',
   creditCards: [
     {
       id: null,
@@ -53,8 +55,7 @@ const jsonExemplo: ClientFormSchema = {
       holderName: 'Enzo Yuji Wu',
       expiration: '12/26',
       cvv: '111',
-      brand: 'Visa',
-      isMain: false
+      brand: 'Visa'
     }
   ],
   addresses: [
@@ -87,7 +88,9 @@ export const ClientForm = ({ client }: Props) => {
     control,
     formState: { errors },
     handleSubmit,
-    register
+    register,
+    setValue,
+    watch
   } = useForm<ClientFormSchema>({
     resolver: zodResolver(clientFormSchema),
     defaultValues: {
@@ -95,6 +98,11 @@ export const ClientForm = ({ client }: Props) => {
       email: client?.account?.email,
       cpf: masks.cpf(client?.cpf || ''),
       birthDate: formaters.date(client?.birthDate || '', 'yyyy-MM-dd'),
+      mainCard: String(
+        client?.cards?.findIndex(
+          card => card.id === client.mainCard?.creditCardId
+        ) ?? ''
+      ),
       gender: client?.gender,
       ...(client && {
         password: '12345678Aa@',
@@ -355,23 +363,29 @@ export const ClientForm = ({ client }: Props) => {
               }
             />
             <div>
-              {creditcardFields.fields.map((field, index) => (
-                <Controller
-                  key={field.id}
-                  control={control}
-                  name={`creditCards.${index}`}
-                  render={({ field: { value, onChange } }) => {
-                    return (
-                      <CreditCardForm
-                        value={value}
-                        onChange={onChange}
-                        errors={errors.creditCards?.[index]}
-                        onDelete={() => handleDeleteCreditCard(index)}
-                      />
-                    );
-                  }}
-                />
-              ))}
+              <RadioGroup
+                value={watch('mainCard')}
+                onValueChange={value => setValue('mainCard', value)}
+              >
+                {creditcardFields.fields.map((field, index) => (
+                  <Controller
+                    key={field.id}
+                    control={control}
+                    name={`creditCards.${index}`}
+                    render={({ field: { value, onChange } }) => {
+                      return (
+                        <CreditCardForm
+                          value={value}
+                          onChange={onChange}
+                          errors={errors.creditCards?.[index]}
+                          onDelete={() => handleDeleteCreditCard(index)}
+                          index={index}
+                        />
+                      );
+                    }}
+                  />
+                ))}
+              </RadioGroup>
             </div>
           </div>
         </TabsContent>
