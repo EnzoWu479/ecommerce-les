@@ -13,6 +13,7 @@ import { ENV } from '@/config/env';
 import { hashService } from '@/server/lib/bcrypt';
 import { jwtService } from '../lib/jwt';
 import { SingletonClass } from '../singleton/SingletonClass';
+import { changePasswordSchema } from '../validations/changePassword.schema';
 
 // @injectable()
 export class AccountController {
@@ -20,6 +21,7 @@ export class AccountController {
 
   constructor() {
     this.accountRepository = SingletonClass.getInstance(AccountRepository);
+    this.changeClientPassword = this.changeClientPassword.bind(this);
   }
 
   public async login(
@@ -99,6 +101,59 @@ export class AccountController {
     );
 
     res.status(200).json({ message: 'Logged out' });
+  }
+  public async changePassword(req: NextApiRequest, res: NextApiResponse) {
+    const body = changePasswordSchema.parse(req.body);
+
+    const account = await this.accountRepository.findById(body.accountId);
+
+    if (!account) {
+      return res.status(404).json({ message: 'Account not found' });
+    }
+
+    const isPasswordValid = await hashService.compareHash(
+      body.password,
+      account.password
+    );
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid password' });
+    }
+
+    const newPassword = await hashService.generateHash(body.newPassword);
+
+    await this.accountRepository.update(account.id, {
+      password: newPassword
+    });
+
+    return res.status(200).json({ message: 'Password changed' });
+  }
+  public async changeClientPassword(req: NextApiRequest, res: NextApiResponse) {
+    const clientId = req.query.id as string;
+    const body = changePasswordSchema.parse(req.body);
+
+    const account = await this.accountRepository.findByClientId(clientId);
+
+    if (!account) {
+      return res.status(404).json({ message: 'Account not found' });
+    }
+
+    const isPasswordValid = await hashService.compareHash(
+      body.password,
+      account.password
+    );
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid password' });
+    }
+
+    const newPassword = await hashService.generateHash(body.newPassword);
+
+    await this.accountRepository.update(account.id, {
+      password: newPassword
+    });
+
+    return res.status(200).json({ message: 'Password changed' });
   }
 
   public async me(

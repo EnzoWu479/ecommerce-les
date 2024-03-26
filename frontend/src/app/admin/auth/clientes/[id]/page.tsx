@@ -1,3 +1,4 @@
+import { ChangePasswordForm } from '@/components/change-password-form';
 import { ClientForm } from '@/components/client-form';
 import { GoBackButton } from '@/components/go-back-button';
 import { Input } from '@/components/ui/input';
@@ -26,6 +27,7 @@ const RegisterClientPage = ({ params: { id } }: { params: Props }) => {
         <Suspense fallback="Loading">
           <ClientFormData id={id} />
         </Suspense>
+        <ChangePasswordForm id={id} />
       </div>
     </>
   );
