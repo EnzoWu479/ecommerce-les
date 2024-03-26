@@ -3,23 +3,23 @@ import { IAddress } from '@/types/address';
 export const addressMock: IAddress[] = [
   {
     id: '1',
-    name: 'Casa',
+    // name: 'Casa',
     street: 'Rua A',
     number: '123',
-    complement: 'Apto 1',
-    neighborhood: 'Centro',
+    cityId: '1',
+    clientAddressId: null,
+    observation: 'Casa com portão azul',
+    residenceType: 'Casa',
+    streetType: 'Rua',
+    // complement: 'Apto 1',
+    // neighborhood: 'Centro',
     city: {
       id: '1',
+      stateId: '1',
       name: 'São Paulo',
       state: {
         id: '1',
-        name: 'SP',
-        country: {
-          id: '1',
-          name: 'Brazil',
-          createdAt: '2021-01-01',
-          updatedAt: '2021-01-01'
-        },
+        uf: 'SP',
         createdAt: '2021-01-01',
         updatedAt: '2021-01-01'
       },
@@ -32,23 +32,24 @@ export const addressMock: IAddress[] = [
   },
   {
     id: '2',
-    name: 'Trabalho',
+    // name: 'Trabalho',
     street: 'Rua B',
     number: '456',
-    complement: 'Apto 2',
-    neighborhood: 'Centro',
+    cityId: '2',
+    clientAddressId: null,
+    observation: 'Prédio com portaria',
+    residenceType: 'Apartamento',
+    streetType: 'Rua',
+    // complement: 'Apto 2',
+    // neighborhood: 'Centro',
     city: {
       id: '2',
+      stateId: '2',
       name: 'Rio de Janeiro',
       state: {
         id: '2',
-        name: 'RJ',
-        country: {
-          id: '1',
-          name: 'Brazil',
-          createdAt: '2021-01-01',
-          updatedAt: '2021-01-01'
-        },
+        uf: 'RJ',
+
         createdAt: '2021-01-01',
         updatedAt: '2021-01-01'
       },
