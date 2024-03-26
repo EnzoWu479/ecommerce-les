@@ -1,7 +1,7 @@
 import { PrismaClient, State } from '@prisma/client';
 import { prisma } from '@/server/lib/prisma';
 import { injectable } from 'inversify';
-@injectable()
+// @injectable()
 export class StateRepository {
   prisma: PrismaClient;
 

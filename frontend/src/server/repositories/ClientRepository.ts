@@ -16,20 +16,22 @@ import { PageRequest } from '../shared/PageRequest';
 import { PageResponse } from '../shared/PageResponse';
 import { ResponseData } from '../shared/ResponseDataImp';
 import { ClientSearchParams } from '@/types/client';
-@injectable()
+import { SingletonClass } from '../singleton/SingletonClass';
+// @injectable()
 export class ClientRepository {
   prisma: PrismaClient;
+  private accountRepository: AccountRepository;
+  private clientAddressRepository: ClientAddressRepository;
+  private creditCardRepository: CreditCardRepository;
 
-  constructor(
-    @inject(AccountRepository) private accountRepository: AccountRepository,
-
-    @inject(ClientAddressRepository)
-    private clientAddressRepository: ClientAddressRepository,
-
-    @inject(CreditCardRepository)
-    private creditCardRepository: CreditCardRepository
-  ) {
+  constructor() {
     this.prisma = prisma;
+    this.accountRepository = SingletonClass.getInstance(AccountRepository);
+    this.clientAddressRepository = SingletonClass.getInstance(
+      ClientAddressRepository
+    );
+    this.creditCardRepository =
+      SingletonClass.getInstance(CreditCardRepository);
   }
 
   async create(data: Omit<ClientFormSchema, 'id'>) {

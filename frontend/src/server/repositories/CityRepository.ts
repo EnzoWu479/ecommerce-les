@@ -3,14 +3,15 @@ import { prisma } from '@/server/lib/prisma';
 import { inject, injectable } from 'inversify';
 import { ICityCreate } from './dto/RepositoriesDTO';
 import { StateRepository } from './StateRepository';
-@injectable()
+import { SingletonClass } from '../singleton/SingletonClass';
+// @injectable()
 export class CityRepository {
   prisma: PrismaClient;
   private stateRepository: StateRepository;
 
-  constructor(@inject(StateRepository) stateRepository: StateRepository) {
+  constructor() {
     this.prisma = prisma;
-    this.stateRepository = stateRepository;
+    this.stateRepository = SingletonClass.getInstance(StateRepository);
   }
 
   async findOrCreateByName({ name, uf }: ICityCreate) {

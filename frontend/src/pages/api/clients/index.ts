@@ -1,12 +1,13 @@
 import { ClientController } from '@/server/controllers/ClientController';
 import container from '@/server/lib/inversify/container';
 import { ClientRepository } from '@/server/repositories/ClientRepository';
+import { SingletonClass } from '@/server/singleton/SingletonClass';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createRouter, expressWrapper } from 'next-connect';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
-const clientController = container.resolve(ClientController);
+const clientController = SingletonClass.getInstance(ClientController);
 console.log('oi');
 
 // Publica

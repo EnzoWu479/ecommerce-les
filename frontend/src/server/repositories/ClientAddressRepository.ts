@@ -4,13 +4,14 @@ import { inject, injectable } from 'inversify';
 import { AddressFormDTO } from '@/validations/address.schema';
 import { AddressRepository } from './AddressRepository';
 import { ResponseData } from '../shared/ResponseDataImp';
-@injectable()
+import { SingletonClass } from '../singleton/SingletonClass';
+// @injectable()
 export class ClientAddressRepository {
   prisma: PrismaClient;
+  private addressRepository: AddressRepository;
 
-  constructor(
-    @inject(AddressRepository) private addressRepository: AddressRepository
-  ) {
+  constructor() {
+    this.addressRepository = SingletonClass.getInstance(AddressRepository);
     this.prisma = prisma;
   }
   async create(data: AddressFormDTO) {

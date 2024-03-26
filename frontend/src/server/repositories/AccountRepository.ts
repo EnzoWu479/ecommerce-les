@@ -3,7 +3,7 @@ import { prisma } from '@/server/lib/prisma';
 import { injectable } from 'inversify';
 import container from '../lib/inversify/container';
 import { IAccountCreate } from './dto/RepositoriesDTO';
-@injectable()
+// @injectable()
 export class AccountRepository {
   prisma: PrismaClient;
 

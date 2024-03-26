@@ -3,14 +3,16 @@ import { prisma } from '@/server/lib/prisma';
 import { inject, injectable } from 'inversify';
 import { CreditCardFormDTO } from '@/validations/creditCard.schema';
 import { CreditCardBrandRepository } from './CreditCardBrandRepository';
-@injectable()
+import { SingletonClass } from '../singleton/SingletonClass';
+// @injectable()
 export class CreditCardRepository {
   prisma: PrismaClient;
+  private creditCardBrandRepository: CreditCardBrandRepository;
 
-  constructor(
-    @inject(CreditCardBrandRepository)
-    private creditCardBrandRepository: CreditCardBrandRepository
-  ) {
+  constructor() {
+    this.creditCardBrandRepository = SingletonClass.getInstance(
+      CreditCardBrandRepository
+    );
     this.prisma = prisma;
   }
 

@@ -12,13 +12,14 @@ import { NextHandler } from 'next-connect';
 import { ENV } from '@/config/env';
 import { hashService } from '@/server/lib/bcrypt';
 import { jwtService } from '../lib/jwt';
+import { SingletonClass } from '../singleton/SingletonClass';
 
-@injectable()
+// @injectable()
 export class AccountController {
   private accountRepository: AccountRepository;
 
-  constructor(@inject(AccountRepository) accountRepository: AccountRepository) {
-    this.accountRepository = accountRepository;
+  constructor() {
+    this.accountRepository = SingletonClass.getInstance(AccountRepository);
   }
 
   public async login(

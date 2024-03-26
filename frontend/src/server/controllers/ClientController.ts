@@ -10,21 +10,16 @@ import container from '../lib/inversify/container';
 import { z } from 'zod';
 import { api } from '@/lib/axios';
 import { ClientSearchParams } from '@/types/client';
+import { SingletonClass } from '../singleton/SingletonClass';
 
-@injectable()
+// @injectable()
 export class ClientController {
   private accountRepository: AccountRepository;
   private clientRepository: ClientRepository;
 
-  constructor(
-    @inject(ClientRepository) clientRepository: ClientRepository,
-    @inject(AccountRepository) accountRepository: AccountRepository
-  ) {
-    console.log(clientRepository !== undefined);
-    console.log(accountRepository !== undefined);
-
-    this.clientRepository = clientRepository;
-    this.accountRepository = accountRepository;
+  constructor() {
+    this.accountRepository = SingletonClass.getInstance(AccountRepository);
+    this.clientRepository = SingletonClass.getInstance(ClientRepository);
     this.create = this.create.bind(this);
     this.list = this.list.bind(this);
     this.get = this.get.bind(this);
