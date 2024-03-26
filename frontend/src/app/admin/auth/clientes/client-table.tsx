@@ -94,7 +94,7 @@ export const ClientTable = async ({ clients }: Props) => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Status do cupom</SelectLabel>
+                      <SelectLabel>Status do cliente</SelectLabel>
                       <SelectItem value={AccountStatus.ACTIVE}>
                         Ativo
                       </SelectItem>
