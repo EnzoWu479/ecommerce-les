@@ -62,12 +62,11 @@ export const CheckoutForm = () => {
                   <RadioGroupItem value={address.id} />
                   <HoverCard>
                     <HoverCardTrigger className="cursor-pointer hover:underline">
-                      {address.name}
+                      {'Endereço 1'}
                     </HoverCardTrigger>
                     <HoverCardContent className="text-sm">
-                      {address.complement} <br /> {address.street},{' '}
-                      {address.number} - {address.neighborhood} <br />{' '}
-                      {address.city.name} - {address.city.state.name},{' '}
+                      {'Complemento'} <br /> {address.street}, {address.number}{' '}
+                      - {'Bairro'} <br /> {address.city.name} - {'Estado'},{' '}
                       {address.zipCode}
                     </HoverCardContent>
                   </HoverCard>
