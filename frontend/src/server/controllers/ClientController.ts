@@ -55,7 +55,8 @@ export class ClientController {
 
       const client = await this.clientRepository.create(body);
 
-      await res.revalidate('/admin/auth/clientes');
+      // res.revalidate('/admin/auth/clientes');
+      api.get('/admin/auth/clientes/revalidate');
 
       res.status(201).json(client);
     } catch (error: any) {
