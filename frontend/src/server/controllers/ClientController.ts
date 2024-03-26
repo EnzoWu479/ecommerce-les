@@ -80,7 +80,7 @@ export class ClientController {
 
       // await res.revalidate('/admin/auth/clientes');
       // await res.revalidate(`/admin/auth/clientes/${id}`);
-      await api.get('/admin/auth/clientes/revalidate', {
+      api.get('/admin/auth/clientes/revalidate', {
         params: {
           id
         }
