@@ -208,188 +208,168 @@ export const ClientForm = ({ client }: Props) => {
 
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
-      <Tabs defaultValue="personal">
-        <TabsList className="mx-auto flex w-fit">
-          <TabsTrigger value="personal">Dados pessoais</TabsTrigger>
-          <TabsTrigger
-            value="address"
-            className={cn(hasAddressErrors && 'bg-red-400 text-white')}
-          >
-            Endereço
-          </TabsTrigger>
-          <TabsTrigger
-            value="credit-card"
-            className={cn(hasCreditCardErrors && 'bg-red-400 text-white')}
-          >
-            Cartão
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="personal">
-          <div className="space-y-2">
-            <div>
-              <Label>Nome</Label>
-              <Input
-                className="w-80"
-                {...register('name')}
-                error={errors.name?.message}
-              />
-              <ErrorMessage error={errors.name?.message} />
-            </div>
-            <div className="flex flex-col space-y-1">
-              <Label>Data de nascimento</Label>
-              {/* <Controller
-                control={control}
-                name="birthDate"
-                render={({ field: { value, onChange } }) => (
-                  <DatePicker value={value} onChange={onChange} />
-                )}
-              /> */}
-              <Input
-                type="date"
-                className="w-80"
-                {...register('birthDate')}
-                error={errors.birthDate?.message}
-                // onInput={e => console.log(e.target.value)}
-              />
-              <ErrorMessage error={errors.birthDate?.message} />
-            </div>
-            <div>
-              <Label>Email</Label>
-              <Input
-                className="w-80"
-                {...register('email')}
-                error={errors.email?.message}
-              />
-              <ErrorMessage error={errors.email?.message} />
-            </div>
-            <div>
-              <Label>CPF</Label>
-              <Input
-                className="w-80"
-                mask={masks.cpf}
-                {...register('cpf')}
-                error={errors.cpf?.message}
-              />
-              <ErrorMessage error={errors.cpf?.message} />
-            </div>
-            <div className="w-96">
-              <Label>Gênero</Label>
-              <Controller
-                control={control}
-                name="gender"
-                render={({ field: { value, onChange } }) => (
-                  <Select value={value} onValueChange={onChange}>
-                    <SelectTrigger className="w-80">
-                      <SelectValue placeholder="Selecione o gênero" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value={Gender.MALE}>Masculino</SelectItem>
-                        <SelectItem value={Gender.FEMALE}>Feminino</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              <ErrorMessage error={errors.gender?.message} />
-            </div>
-            {!client && (
-              <div className="grid max-w-[41rem] grid-cols-2 gap-4">
-                <div>
-                  <Label>Senha</Label>
-                  <Input
-                    type="password"
-                    {...register('password')}
-                    error={errors.password?.message}
-                  />
-                  <ErrorMessage error={errors.password?.message} />
-                </div>
-                <div>
-                  <Label>Confirmar senha</Label>
-                  <Input
-                    type="password"
-                    {...register('passwordConfirmation')}
-                    error={errors.passwordConfirmation?.message}
-                  />
-                  <ErrorMessage error={errors.passwordConfirmation?.message} />
-                </div>
-              </div>
+      <h2 className='text-xl font-bold'>Informações pessoais</h2>
+      <div className="space-y-2">
+        <div>
+          <Label>Nome</Label>
+          <Input
+            className="w-80"
+            {...register('name')}
+            error={errors.name?.message}
+          />
+          <ErrorMessage error={errors.name?.message} />
+        </div>
+        <div className="flex flex-col space-y-1">
+          <Label>Data de nascimento</Label>
+          {/* <Controller
+            control={control}
+            name="birthDate"
+            render={({ field: { value, onChange } }) => (
+              <DatePicker value={value} onChange={onChange} />
             )}
-          </div>
-        </TabsContent>
-        <TabsContent value="address">
-          <div className="flex flex-col space-y-2">
-            <Button type="button" className="w-fit" onClick={handleAddAddress}>
-              Adicionar endereço
-            </Button>
-            <ErrorMessage
-              error={
-                errors.addresses?.message || errors.addresses?.root?.message
-              }
-            />
-            <div className="space-y-4">
-              {addressFields.fields.map((field, index) => (
-                <Controller
-                  key={field.id}
-                  control={control}
-                  name={`addresses.${index}`}
-                  render={({ field: { value, onChange } }) => {
-                    return (
-                      <AddressForm
-                        value={value}
-                        onChange={onChange}
-                        errors={errors.addresses?.[index]}
-                        onDelete={() => handleDeleteAddress(index)}
-                      />
-                    );
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        </TabsContent>
-        <TabsContent value="credit-card">
-          <div className="flex flex-col space-y-2">
-            <Button
-              type="button"
-              className="w-fit"
-              onClick={handleAddCreditCard}
-            >
-              Adicionar cartão
-            </Button>
-            <ErrorMessage
-              error={
-                errors.creditCards?.message || errors.creditCards?.root?.message
-              }
-            />
+          /> */}
+          <Input
+            type="date"
+            className="w-80"
+            {...register('birthDate')}
+            error={errors.birthDate?.message}
+            // onInput={e => console.log(e.target.value)}
+          />
+          <ErrorMessage error={errors.birthDate?.message} />
+        </div>
+        <div>
+          <Label>Email</Label>
+          <Input
+            className="w-80"
+            {...register('email')}
+            error={errors.email?.message}
+          />
+          <ErrorMessage error={errors.email?.message} />
+        </div>
+        <div>
+          <Label>CPF</Label>
+          <Input
+            className="w-80"
+            mask={masks.cpf}
+            {...register('cpf')}
+            error={errors.cpf?.message}
+          />
+          <ErrorMessage error={errors.cpf?.message} />
+        </div>
+        <div className="w-96">
+          <Label>Gênero</Label>
+          <Controller
+            control={control}
+            name="gender"
+            render={({ field: { value, onChange } }) => (
+              <Select value={value} onValueChange={onChange}>
+                <SelectTrigger className="w-80">
+                  <SelectValue placeholder="Selecione o gênero" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value={Gender.MALE}>Masculino</SelectItem>
+                    <SelectItem value={Gender.FEMALE}>Feminino</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          <ErrorMessage error={errors.gender?.message} />
+        </div>
+        {!client && (
+          <div className="grid max-w-[41rem] grid-cols-2 gap-4">
             <div>
-              <RadioGroup
-                value={watch('mainCard')}
-                onValueChange={value => setValue('mainCard', value)}
-              >
-                {creditcardFields.fields.map((field, index) => (
-                  <Controller
-                    key={field.id}
-                    control={control}
-                    name={`creditCards.${index}`}
-                    render={({ field: { value, onChange } }) => {
-                      return (
-                        <CreditCardForm
-                          value={value}
-                          onChange={onChange}
-                          errors={errors.creditCards?.[index]}
-                          onDelete={() => handleDeleteCreditCard(index)}
-                          index={index}
-                        />
-                      );
-                    }}
-                  />
-                ))}
-              </RadioGroup>
+              <Label>Senha</Label>
+              <Input
+                type="password"
+                {...register('password')}
+                error={errors.password?.message}
+              />
+              <ErrorMessage error={errors.password?.message} />
+            </div>
+            <div>
+              <Label>Confirmar senha</Label>
+              <Input
+                type="password"
+                {...register('passwordConfirmation')}
+                error={errors.passwordConfirmation?.message}
+              />
+              <ErrorMessage error={errors.passwordConfirmation?.message} />
             </div>
           </div>
-        </TabsContent>
-      </Tabs>
+        )}
+      </div>
+      <div className="flex flex-col space-y-2">
+        <h2 className='text-xl font-bold mt-4'>Endereços</h2>
+        <Button type="button" className="w-fit" onClick={handleAddAddress}>
+          Adicionar endereço
+        </Button>
+        <ErrorMessage
+          error={
+            errors.addresses?.message || errors.addresses?.root?.message
+          }
+        />
+        <div className="space-y-4">
+          {addressFields.fields.map((field, index) => (
+            <Controller
+              key={field.id}
+              control={control}
+              name={`addresses.${index}`}
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <AddressForm
+                    value={value}
+                    onChange={onChange}
+                    errors={errors.addresses?.[index]}
+                    onDelete={() => handleDeleteAddress(index)}
+                  />
+                );
+              }}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col space-y-2">
+        <h2 className='text-xl font-bold mt-8'>Cartões de crédito</h2>
+        <Button
+          type="button"
+          className="w-fit"
+          onClick={handleAddCreditCard}
+        >
+          Adicionar cartão
+        </Button>
+        <ErrorMessage
+          error={
+            errors.creditCards?.message || errors.creditCards?.root?.message
+          }
+        />
+        <div>
+          <RadioGroup
+            value={watch('mainCard')}
+            onValueChange={value => setValue('mainCard', value)}
+          >
+            {creditcardFields.fields.map((field, index) => (
+              <Controller
+                key={field.id}
+                control={control}
+                name={`creditCards.${index}`}
+                render={({ field: { value, onChange } }) => {
+                  return (
+                    <CreditCardForm
+                      value={value}
+                      onChange={onChange}
+                      errors={errors.creditCards?.[index]}
+                      onDelete={() => handleDeleteCreditCard(index)}
+                      index={index}
+                    />
+                  );
+                }}
+              />
+            ))}
+          </RadioGroup>
+        </div>
+      </div> 
       <div>
         <Button>Salvar</Button>
       </div>
