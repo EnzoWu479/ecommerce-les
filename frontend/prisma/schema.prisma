@@ -136,7 +136,7 @@ model CreditCardBrand {
 model MainCard {
   id           String     @id @default(uuid())
   creditCardId String     @unique
-  creditCard   CreditCard @relation(fields: [creditCardId], references: [id])
+  creditCard   CreditCard @relation(fields: [creditCardId], references: [id], onDelete: Cascade)
   clientId     String     @unique
-  client       Client     @relation(fields: [clientId], references: [id])
+  client       Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
 }
