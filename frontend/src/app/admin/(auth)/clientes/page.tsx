@@ -62,7 +62,11 @@ const ClientTableFetch = async ({ page, ...clientSearchParams }: Props) => {
         <ClientTable clients={clients} />
       </div>
       <div className="flex justify-end">
-        <Paginate page={page} pageCount={clients.totalPages || 1} />
+        <Paginate
+          page={page}
+          pageCount={clients.totalPages || 1}
+          searchParams={clientSearchParams}
+        />
       </div>
     </>
   );

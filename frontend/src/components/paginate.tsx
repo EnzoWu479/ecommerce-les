@@ -15,12 +15,22 @@ import { usePathname, useRouter } from 'next/navigation';
 interface Props extends ReactPaginateProps {
   containerStyle?: React.CSSProperties;
   page?: number;
+  searchParams?: Record<string, string>;
   setPage?: (page: number) => void;
 }
-export const Paginate = ({ page: currentPage, ...rest }: Props) => {
+export const Paginate = ({
+  page: currentPage,
+  searchParams,
+  ...rest
+}: Props) => {
   const page = currentPage || 1;
   const router = useRouter();
   const pathname = usePathname() as string;
+
+  const pageStyle =
+    'w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-800 cursor-pointer hover:bg-slate-800 hover:text-slate-200 transition-colors duration-200';
+  const linkStyle =
+    'w-full h-full flex items-center justify-center rounded-full';
 
   return (
     <ReactPaginate
@@ -30,22 +40,26 @@ export const Paginate = ({ page: currentPage, ...rest }: Props) => {
       pageRangeDisplayed={2}
       onPageChange={e => {
         if (e.selected + 1 === page) return;
-        const search = new URLSearchParams(pathname);
+        const search = new URLSearchParams();
         search.set('page', (e.selected + 1).toString());
+        for (const key in searchParams) {
+          search.set(key, searchParams[key]);
+        }
         router.replace('?' + search.toString());
       }}
       forcePage={page - 1}
       {...rest}
       renderOnZeroPageCount={null}
-      className="pagination"
-      pageClassName="page-item"
-      pageLinkClassName="page-link"
-      activeClassName="active"
-      previousClassName="nav-prev"
-      nextClassName="nav-next"
-      previousLinkClassName="page-link"
-      nextLinkClassName="page-link"
-      breakClassName="break"
+      className="my-4 flex items-center space-x-2"
+      activeClassName="bg-slate-800 text-slate-200"
+      disabledClassName="cursor-not-allowed opacity-50 hover:bg-slate-200 hover:text-slate-800"
+      disabledLinkClassName="cursor-not-allowed opacity-50 hover:bg-slate-200 hover:text-slate-800"
+      pageClassName={pageStyle}
+      previousClassName={pageStyle}
+      nextClassName={pageStyle}
+      pageLinkClassName={linkStyle}
+      nextLinkClassName={linkStyle}
+      previousLinkClassName={linkStyle}
     />
   );
 };
