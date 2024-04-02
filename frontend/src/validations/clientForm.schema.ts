@@ -22,7 +22,10 @@ export const clientFormSchema = z
       .string()
       .min(1, 'Confirmação de senha é obrigatório'),
     birthDate: z.string().min(1, 'Data de nascimento é obrigatório'),
-    cpf: z.string().min(1, 'CPF é obrigatório'),
+    cpf: z
+      .string()
+      .min(1, 'CPF é obrigatório')
+      .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/g, 'CPF inválido'),
     gender: z.string().min(1, 'Gênero é obrigatório'),
     creditCards: z
       .array(creditCardSchema)

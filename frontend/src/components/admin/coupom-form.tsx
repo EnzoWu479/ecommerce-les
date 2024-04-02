@@ -4,19 +4,23 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { useRouter } from 'next/navigation';
-import { useToast } from '../ui/use-toast';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '../ui/select';
+import { toast } from 'react-toastify';
 
 export const CoupomForm = () => {
   const { handleSubmit } = useForm();
   const router = useRouter();
-  const { toast } = useToast();
 
   const onSubmit = handleSubmit(async () => {
-    toast({
-      title: 'Cupom salvo com sucesso',
-      description: 'O cupom foi salvo com sucesso'
-    });
+    toast.success('Cupom salvo com sucesso');
     router.back();
   });
   return (

@@ -73,7 +73,7 @@ const ProductList = () => {
           <ModalSearch fields={productSearchFields} />
         </div>
         <Button asChild>
-          <Link href="/admin/auth/produtos/cadastrar">Novo produto</Link>
+          <Link href="/admin/produtos/cadastrar">Novo produto</Link>
         </Button>
       </div>
       <div className="mt-5 rounded border">
@@ -130,7 +130,7 @@ const ProductList = () => {
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">
-                  <Link href={`/admin/auth/produtos/${1}`}>
+                  <Link href={`/admin/produtos/${1}`}>
                     <PencilLine />
                   </Link>
                   <Dialog>
@@ -202,7 +202,7 @@ const ProductList = () => {
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">
-                  <Link href={`/admin/auth/produtos/${1}`}>
+                  <Link href={`/admin/produtos/${1}`}>
                     <PencilLine />
                   </Link>
                   <Dialog>

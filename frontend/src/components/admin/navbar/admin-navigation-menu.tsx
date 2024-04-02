@@ -62,46 +62,46 @@ export const AdminNavigationMenu = ({ isCollapsed }: Props) => {
           {
             title: 'Dashboard',
             icon: LayoutDashboard,
-            href: '/admin/auth/dashboard'
+            href: '/admin/dashboard'
           },
           {
             title: 'Clientes',
             icon: UsersRound,
-            href: '/admin/auth/clientes'
+            href: '/admin/clientes'
           },
           {
             title: 'Produtos',
             label: '',
             icon: Target,
-            href: '/admin/auth/produtos'
+            href: '/admin/produtos'
           },
           {
             title: 'Categorias',
             label: '',
             icon: Shapes,
-            href: '/admin/auth/categorias'
+            href: '/admin/categorias'
           },
           {
             title: 'Vendas',
-            href: '/admin/auth/vendas',
+            href: '/admin/vendas',
             icon: ShoppingBasket
           },
           {
             title: 'Grupo de precificação',
             label: '',
-            href: '/admin/auth/grupo-de-precificacao',
+            href: '/admin/grupo-de-precificacao',
             icon: Layers
           },
           {
             title: 'Cupons',
             label: '',
-            href: '/admin/auth/cupons',
+            href: '/admin/cupons',
             icon: TicketPercent
           },
           {
             title: 'Trocas',
             label: '',
-            href: '/admin/auth/trocas',
+            href: '/admin/trocas',
             icon: ArrowLeftRight
           }
         ]}

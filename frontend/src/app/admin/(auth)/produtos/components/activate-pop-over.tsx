@@ -6,25 +6,18 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'react-toastify';
 
 interface Props {
   active: boolean;
 }
 
 export const ActivatePopOver = ({ active }: Props) => {
-  const { toast } = useToast();
   const handleSubmit = () => {
     if (active) {
-      toast({
-        title: 'Produto desativado',
-        description: 'Produto desativado com sucesso'
-      });
+      toast.success('Produto desativado');
     } else {
-      toast({
-        title: 'Produto ativado',
-        description: 'Produto ativado com sucesso'
-      });
+      toast.success('Produto ativado');
     }
   };
   return (

@@ -17,9 +17,9 @@ import { cn } from '@/lib/utils';
 import { SelectMultiple } from '../ui/select-multiple';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useToast } from '../ui/use-toast';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
+import { toast } from 'react-toastify';
 
 const people = [
   { value: '1', label: 'Durward Reynolds' },
@@ -31,13 +31,9 @@ const people = [
 export const ProductForm = () => {
   const { handleSubmit } = useForm();
   const router = useRouter();
-  const { toast } = useToast();
 
   const onSubmit = handleSubmit(async () => {
-    toast({
-      title: 'Produto salvo com sucesso',
-      description: 'O produto foi salvo com sucesso'
-    });
+    toast.success('Produto salvo com sucesso');
     router.back();
   });
   const [selectedPeople, setSelectedPeople] = useState<string[]>([]);

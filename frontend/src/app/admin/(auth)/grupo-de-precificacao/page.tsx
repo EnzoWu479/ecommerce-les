@@ -2,12 +2,14 @@ import { ModalSearch } from '@/components/admin/modal-search';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import {
   Pagination,
   PaginationContent,
@@ -25,59 +27,57 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
 import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
-import { PencilLine, Trash2 } from 'lucide-react';
+import { ArrowUpLeftFromSquare, PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
-import { ClientSearchFields } from './utils';
+import { stockSearchFields } from './utils';
 import { ModalWarning } from '@/components/modal-warning';
-import { ClientTable } from './client-table';
-import { Suspense } from 'react';
-import { clientData } from '@/data/client';
-import { ClientSearchParams } from '@/types/client';
 
-type Props = {
-  page?: number;
-} & ClientSearchParams;
-
-const ClientTableFetch = async ({ page, ...clientSearchParams }: Props) => {
-  const clients = await clientData.getList({
-    page: page || 1,
-    limit: 10,
-    search: clientSearchParams
-  });
-  return <ClientTable clients={clients} />;
-};
-
-const ClientsPage = ({ searchParams }: { searchParams: Props }) => {
-  const { page, ...clientSearchParams } = searchParams;
+const SellsPage = () => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
         <div className="flex gap-4">
-          <h2 className="text-3xl font-bold tracking-tight">Clientes</h2>
-          <ModalSearch
-            fields={ClientSearchFields}
-            currentSearch={clientSearchParams}
-          />
+          <h2 className="text-3xl font-bold tracking-tight">
+            Grupo de precificação
+          </h2>
+          <ModalSearch fields={stockSearchFields} />
         </div>
-        {/* <Link href="/admin/auth/clientes/cadastrar">
-          <Button>Novo cliente</Button>
-        </Link> */}
+        <Button asChild>
+          <Link href="/admin/grupo-de-precificacao/cadastrar">
+            Novo grupo de precificação
+          </Link>
+        </Button>
       </div>
       <div className="mt-5 rounded border">
-        <Suspense fallback="Loading">
-          <ClientTableFetch {...searchParams} />
-        </Suspense>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nome</TableHead>
+              <TableHead>Margem de lucro</TableHead>
+              <TableHead>Opções</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>50% de lucro</TableCell>
+              <TableCell>50%</TableCell>
+              <TableCell>
+                <div className="flex gap-2">
+                  <Link href={`/admin/clientes/${1}`}>
+                    <PencilLine />
+                  </Link>
+                  <ModalWarning
+                    title="Excluir grupo de precificação"
+                    description="Deseja realmente excluir o grupo de precificação?"
+                    acceptButton="Excluir"
+                  />
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </div>
       <div className="flex justify-end">
         <Pagination>
@@ -100,4 +100,4 @@ const ClientsPage = ({ searchParams }: { searchParams: Props }) => {
     </>
   );
 };
-export default ClientsPage;
+export default SellsPage;

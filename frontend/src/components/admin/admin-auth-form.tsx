@@ -8,15 +8,14 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { auth } from '@/features/authentication';
 import { redirect, useRouter } from 'next/navigation';
-import { useToast } from '../ui/use-toast';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginDTO, loginSchema } from '@/validations/login.schema';
+import { toast } from 'react-toastify';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function AdminAuthForm({ className, ...props }: UserAuthFormProps) {
-  const { toast } = useToast();
   const router = useRouter();
   const {
     formState: { errors },
@@ -33,14 +32,10 @@ export function AdminAuthForm({ className, ...props }: UserAuthFormProps) {
     );
 
     if (isAuthenticated) {
-      router.push('/admin/auth/dashboard');
-      // redirect('/admin/auth/dashboard');
+      router.push('/admin/dashboard');
+      // redirect('/admin/dashboard');
     } else {
-      toast({
-        title: 'Erro',
-        description: 'Credenciais inválidas',
-        variant: 'destructive'
-      });
+      toast.error('Credenciais inválidas');
     }
   }
 

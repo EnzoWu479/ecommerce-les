@@ -126,7 +126,7 @@ const SellsPage = () => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Link href="/admin/auth/vendas/1">
+                        <Link href="/admin/vendas/1">
                           <Eye />
                         </Link>
                       </TooltipTrigger>

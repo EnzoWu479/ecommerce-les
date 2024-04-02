@@ -4,18 +4,14 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { useRouter } from 'next/navigation';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'react-toastify';
 
 export const PriceGroupForm = () => {
   const { handleSubmit } = useForm();
   const router = useRouter();
-  const { toast } = useToast();
 
   const onSubmit = handleSubmit(async () => {
-    toast({
-      title: 'Categoria salva com sucesso',
-      description: 'A categoria foi salva com sucesso'
-    });
+    toast.success('Categoria salva com sucesso');
     router.back();
   });
   return (

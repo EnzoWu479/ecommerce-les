@@ -8,7 +8,7 @@ interface Props {
 }
 export const ProductCard = ({ product }: Props) => {
   return (
-    <Card key={product.id} className="group relative">
+    <Card key={product.id} data-test="card-product" className="group relative">
       <div className="aspect-h-1 aspect-w-1 lg:aspect-none w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:h-80">
         <img
           src={product.imageSrc}

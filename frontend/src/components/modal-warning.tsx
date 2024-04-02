@@ -35,7 +35,7 @@ export const ModalWarning = ({
   };
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger data-test="delete-button">
         <Trash2 />
       </DialogTrigger>
       <DialogContent>
@@ -47,7 +47,9 @@ export const ModalWarning = ({
           <DialogClose asChild>
             <Button variant="ghost">Voltar</Button>
           </DialogClose>
-          <Button onClick={handleAccept}>{acceptButton}</Button>
+          <Button onClick={handleAccept} data-test="confirm-delete-button">
+            {acceptButton}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

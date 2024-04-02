@@ -14,8 +14,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/components/ui/use-toast';
 import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -37,6 +35,7 @@ import { clientData } from '@/data/client';
 import { IClient } from '@/types/client';
 import { formaters } from '@/helpers/formaters';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { toast } from 'react-toastify';
 
 const jsonExemplo: ClientFormSchema = {
   name: 'Enzo',
@@ -82,7 +81,6 @@ interface Props {
 
 export const ClientForm = ({ client }: Props) => {
   const router = useRouter();
-  const { toast } = useToast();
 
   const {
     control,
@@ -169,6 +167,9 @@ export const ClientForm = ({ client }: Props) => {
   const handleDeleteCreditCard = (index: number) => {
     creditcardFields.remove(index);
   };
+  // toast.success('Cadastro realizado com sucesso', {
+  //   autoClose: 600000
+  // });
 
   const hasCreditCardErrors = (JSON.stringify(errors.creditCards) || '') !== '';
 
@@ -178,37 +179,25 @@ export const ClientForm = ({ client }: Props) => {
     try {
       if (client) {
         await clientData.update(client.id, value);
-        toast({
-          title: 'Cadastro atualizado com sucesso',
-          description: 'O seu cadastro foi salvo'
-        });
-        router.push('/admin/auth/clientes');
+        toast.success('Cadastro atualizado com sucesso');
+        router.push('/admin/clientes');
       } else {
         await clientData.create(value);
-        toast({
-          title: 'Cadastro realizado com sucesso',
-          description: 'O seu cadastro foi salvo'
-        });
+        toast.success('Cadastro realizado com sucesso');
         router.push('/login');
       }
     } catch (error) {
       if (client) {
-        toast({
-          title: 'Erro ao atualizar',
-          variant: 'destructive'
-        });
+        toast.error('Erro ao atualizar');
       } else {
-        toast({
-          title: 'Erro ao salvar',
-          variant: 'destructive'
-        });
+        toast.error('Erro ao salvar');
       }
     }
   });
 
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
-      <h2 className='text-xl font-bold'>Informações pessoais</h2>
+      <h2 className="text-xl font-bold">Informações pessoais</h2>
       <div className="space-y-2">
         <div>
           <Label>Nome</Label>
@@ -256,7 +245,7 @@ export const ClientForm = ({ client }: Props) => {
           />
           <ErrorMessage error={errors.cpf?.message} />
         </div>
-        <div className="w-96">
+        <div className="w-96" data-test="gender-select">
           <Label>Gênero</Label>
           <Controller
             control={control}
@@ -301,39 +290,44 @@ export const ClientForm = ({ client }: Props) => {
         )}
       </div>
       <div className="flex flex-col space-y-2">
-        <h2 className='text-xl font-bold mt-4'>Endereços</h2>
-        <Button type="button" className="w-fit" onClick={handleAddAddress}>
+        <h2 className="mt-4 text-xl font-bold">Endereços</h2>
+        <Button
+          type="button"
+          data-test="add-address-button"
+          className="w-fit"
+          onClick={handleAddAddress}
+        >
           Adicionar endereço
         </Button>
         <ErrorMessage
-          error={
-            errors.addresses?.message || errors.addresses?.root?.message
-          }
+          error={errors.addresses?.message || errors.addresses?.root?.message}
         />
         <div className="space-y-4">
           {addressFields.fields.map((field, index) => (
-            <Controller
-              key={field.id}
-              control={control}
-              name={`addresses.${index}`}
-              render={({ field: { value, onChange } }) => {
-                return (
-                  <AddressForm
-                    value={value}
-                    onChange={onChange}
-                    errors={errors.addresses?.[index]}
-                    onDelete={() => handleDeleteAddress(index)}
-                  />
-                );
-              }}
-            />
+            <div key={field.id} data-test={`address-form[${index}]`}>
+              <Controller
+                control={control}
+                name={`addresses.${index}`}
+                render={({ field: { value, onChange } }) => {
+                  return (
+                    <AddressForm
+                      value={value}
+                      onChange={onChange}
+                      errors={errors.addresses?.[index]}
+                      onDelete={() => handleDeleteAddress(index)}
+                    />
+                  );
+                }}
+              />
+            </div>
           ))}
         </div>
       </div>
       <div className="flex flex-col space-y-2">
-        <h2 className='text-xl font-bold mt-8'>Cartões de crédito</h2>
+        <h2 className="mt-8 text-xl font-bold">Cartões de crédito</h2>
         <Button
           type="button"
+          data-test="add-credit-card-button"
           className="w-fit"
           onClick={handleAddCreditCard}
         >
@@ -350,28 +344,29 @@ export const ClientForm = ({ client }: Props) => {
             onValueChange={value => setValue('mainCard', value)}
           >
             {creditcardFields.fields.map((field, index) => (
-              <Controller
-                key={field.id}
-                control={control}
-                name={`creditCards.${index}`}
-                render={({ field: { value, onChange } }) => {
-                  return (
-                    <CreditCardForm
-                      value={value}
-                      onChange={onChange}
-                      errors={errors.creditCards?.[index]}
-                      onDelete={() => handleDeleteCreditCard(index)}
-                      index={index}
-                    />
-                  );
-                }}
-              />
+              <div key={field.id} data-test={`creditcard-form[${index}]`}>
+                <Controller
+                  control={control}
+                  name={`creditCards.${index}`}
+                  render={({ field: { value, onChange } }) => {
+                    return (
+                      <CreditCardForm
+                        value={value}
+                        onChange={onChange}
+                        errors={errors.creditCards?.[index]}
+                        onDelete={() => handleDeleteCreditCard(index)}
+                        index={index}
+                      />
+                    );
+                  }}
+                />
+              </div>
             ))}
           </RadioGroup>
         </div>
-      </div> 
+      </div>
       <div>
-        <Button>Salvar</Button>
+        <Button data-test="save-button">Salvar</Button>
       </div>
     </form>
   );

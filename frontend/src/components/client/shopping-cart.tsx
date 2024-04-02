@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { formaters } from '@/helpers/formaters';
 import { Button } from '../ui/button';
 import { productsMock } from '@/mock/productsMock';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'react-toastify';
 
 const products = [
   {
@@ -42,14 +42,9 @@ const productsChoosen = productsMock.filter((_, index) => index < 3);
 export const ShoppingCart = () => {
   const { isOpen, setIsOpen } = useBagStore();
   const router = useRouter();
-  const { toast } = useToast();
 
   const handleRemove = () => {
-    toast({
-      title: 'Produto removido',
-      description: 'O produto foi removido do carrinho',
-      duration: 3000
-    });
+    toast.success('Produto removido do carrinho');
   };
 
   return (
@@ -161,6 +156,7 @@ export const ShoppingCart = () => {
                         <Button asChild className="w-full">
                           <Link
                             href="/checkout"
+                            data-test="checkout-button"
                             onClick={() => setIsOpen(false)}
                           >
                             Checkout

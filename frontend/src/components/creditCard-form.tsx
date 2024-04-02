@@ -7,6 +7,8 @@ import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 import { ErrorMessage } from './ui/error-message';
 import { masks } from '@/helpers/masks';
 import { RadioGroupItem } from './ui/radio-group';
+import { useEffect } from 'react';
+import { getBrand } from '@/utils/getBrand';
 
 interface Props {
   value: CreditCardFormDTO;
@@ -23,6 +25,14 @@ export const CreditCardForm = ({
   onDelete,
   index
 }: Props) => {
+  useEffect(() => {
+    if (value.number) {
+      onChange({
+        ...value,
+        brand: getBrand(value.number)
+      });
+    }
+  }, [value.number]);
   return (
     <Card className="grid grid-cols-3 gap-4 p-4">
       {index !== undefined && (
@@ -35,6 +45,7 @@ export const CreditCardForm = ({
         <Label>Nome do cartão</Label>
         <Input
           value={value.name}
+          name="creditCardName"
           onChange={e => onChange({ ...value, name: e.target.value })}
           error={errors?.name?.message}
         />
@@ -44,6 +55,7 @@ export const CreditCardForm = ({
         <Label>Número</Label>
         <Input
           value={value.number}
+          name="number"
           mask={masks.creditCardNumber}
           onChange={e => onChange({ ...value, number: e.target.value })}
           error={errors?.number?.message}
@@ -54,6 +66,7 @@ export const CreditCardForm = ({
         <Label>Nome do titular</Label>
         <Input
           value={value.holderName}
+          name="holderName"
           onChange={e => onChange({ ...value, holderName: e.target.value })}
           error={errors?.holderName?.message}
         />
@@ -65,6 +78,7 @@ export const CreditCardForm = ({
           value={value.cvv}
           onChange={e => onChange({ ...value, cvv: e.target.value })}
           error={errors?.cvv?.message}
+          name="cvv"
         />
         <ErrorMessage error={errors?.cvv?.message} />
       </div>
@@ -73,6 +87,8 @@ export const CreditCardForm = ({
         <Input
           value={value.expiration}
           onChange={e => onChange({ ...value, expiration: e.target.value })}
+          name="expiration"
+          mask={masks.expireDateCard}
           error={errors?.expiration?.message}
         />
         <ErrorMessage error={errors?.expiration?.message} />

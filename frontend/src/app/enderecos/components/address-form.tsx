@@ -14,18 +14,14 @@ import {
 import { useForm } from 'react-hook-form';
 import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'react-toastify';
 
 export const AddressForm = () => {
   const { handleSubmit } = useForm();
   const router = useRouter();
-  const { toast } = useToast();
 
   const onSubmit = handleSubmit(async () => {
-    toast({
-      title: 'Endereço salvo com sucesso',
-      description: 'O endereço foi salvo com sucesso'
-    });
+    toast.success('Endereço salvo com sucesso');
     router.back();
   });
 

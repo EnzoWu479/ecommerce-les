@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { api } from '@/lib/axios';
 import { ClientSearchParams } from '@/types/client';
 import { SingletonClass } from '../singleton/SingletonClass';
+import { ResponseData } from '../shared/ResponseDataImp';
 
 // @injectable()
 export class ClientController {
@@ -37,12 +38,12 @@ export class ClientController {
       const hasCpf = await this.clientRepository.findByCpf(body.cpf);
 
       if (hasEmail) {
-        res.status(400).json({ error: 'Email already in use' });
-        return;
+        // res.status(400).json({ error: 'Email already in use' });
+        // return;
+        throw new ResponseData(null, 'Email já está em uso', 400);
       }
       if (hasCpf) {
-        res.status(400).json({ error: 'CPF already in use' });
-        return;
+        throw new ResponseData(null, 'CPF já está em uso', 400);
       }
       const hashPassword = await hashService.generateHash(body.password);
       body.password = hashPassword;
@@ -50,8 +51,8 @@ export class ClientController {
 
       const client = await this.clientRepository.create(body);
 
-      // res.revalidate('/admin/auth/clientes');
-      api.get('/admin/auth/clientes/revalidate');
+      // res.revalidate('/admin/clientes');
+      api.get('/admin/clientes/revalidate');
 
       res.status(201).json(client);
     } catch (error: any) {
@@ -78,9 +79,9 @@ export class ClientController {
 
       const client = await this.clientRepository.update(id, body);
 
-      // await res.revalidate('/admin/auth/clientes');
-      // await res.revalidate(`/admin/auth/clientes/${id}`);
-      api.get('/admin/auth/clientes/revalidate', {
+      // await res.revalidate('/admin/clientes');
+      // await res.revalidate(`/admin/clientes/${id}`);
+      api.get('/admin/clientes/revalidate', {
         params: {
           id
         }
@@ -94,7 +95,7 @@ export class ClientController {
   public async delete(req: NextApiRequest, res: NextApiResponse) {
     const id = req.query.id as string;
     await this.clientRepository.delete(id);
-    await api.get('/admin/auth/clientes/revalidate', {
+    await api.get('/admin/clientes/revalidate', {
       params: {
         id
       }

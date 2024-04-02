@@ -32,7 +32,7 @@ const CategoriesPage = () => {
           </h2>
           <ModalSearch fields={categorySearchFields} />
         </div>
-        <Link href="/admin/auth/categorias/cadastrar">
+        <Link href="/admin/categorias/cadastrar">
           <Button>Nova categoria</Button>
         </Link>
       </div>
@@ -51,7 +51,7 @@ const CategoriesPage = () => {
               <TableCell>Roupas</TableCell>
               <TableCell className="flex items-center justify-end">
                 <div className="flex gap-2">
-                  <Link href={`/admin/auth/categorias/${1}`}>
+                  <Link href={`/admin/categorias/${1}`}>
                     <PencilLine />
                   </Link>
                   <Dialog>

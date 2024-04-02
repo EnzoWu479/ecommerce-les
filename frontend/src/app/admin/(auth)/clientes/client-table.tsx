@@ -40,7 +40,7 @@ export const ClientTable = async ({ clients }: Props) => {
   //     console.log('status', status);
 
   //     await clientData.updateStatus(id, status);
-  //     revalidatePath('/admin/auth/clientes');
+  //     revalidatePath('/admin/clientes');
   //   };
 
   const handleDelete = async (client: IClient) => {
@@ -108,20 +108,22 @@ export const ClientTable = async ({ clients }: Props) => {
             </TableCell>
             <TableCell>
               <div className="flex gap-2">
-                <Link href={`/admin/auth/clientes/${client.id}`}>
+                <Link href={`/admin/clientes/${client.id}`}>
                   <PencilLine />
                 </Link>
-                {(() => {
-                  'use client';
-                  return (
-                    <ModalWarning
-                      title="Tem certeza que deseja excluir esse usuário?"
-                      description="Essa ação não poderá ser desfeita."
-                      acceptButton="Excluir"
-                      onAccept={async () => await handleDelete(client)}
-                    />
-                  );
-                })()}
+                <div data-test="delete-item">
+                  {(() => {
+                    'use client';
+                    return (
+                      <ModalWarning
+                        title="Tem certeza que deseja excluir esse usuário?"
+                        description="Essa ação não poderá ser desfeita."
+                        acceptButton="Excluir"
+                        onAccept={async () => await handleDelete(client)}
+                      />
+                    );
+                  })()}
+                </div>
                 {/* <Dialog>
                     <DialogTrigger>
                       <Trash2 />

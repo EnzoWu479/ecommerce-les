@@ -10,8 +10,8 @@ import { formaters } from '@/helpers/formaters';
 import { Button } from '@/components/ui/button';
 import { InputValueControl } from '@/components/input-value-control';
 import { getProduct } from '@/data/get-product';
-import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 interface Props {
   productId: string;
@@ -25,14 +25,9 @@ export default function ProductPage({
   const router = useRouter();
   const { addProduct } = useBagStore();
   const [quantity, setQuantity] = useState(1);
-  const { toast } = useToast();
   const handleAddToBag = () => {
     addProduct();
-    toast({
-      title: 'Produto adicionado ao carrinho',
-      description: 'O produto foi adicionado ao carrinho com sucesso',
-      duration: 3000
-    });
+    toast.success('Produto adicionado ao carrinho');
     router.back();
   };
 
@@ -86,7 +81,10 @@ export default function ProductPage({
                         setQuantity(prev => Math.max(prev - 1, 1))
                       }
                     />
-                    <Button onClick={handleAddToBag}>
+                    <Button
+                      data-test="add-product-button"
+                      onClick={handleAddToBag}
+                    >
                       Adicionar ao carrinho
                     </Button>
                   </div>

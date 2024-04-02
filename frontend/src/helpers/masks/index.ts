@@ -1,5 +1,6 @@
 import { maskCPF } from './maskCPF';
 import { maskCreditCardNumber } from './maskCreditCardNumber';
+import { maskExpireDateCard } from './maskExpireDateCard';
 import { maskTelephone } from './maskTelephone';
 import { maskZipcode } from './maskZipcode';
 
@@ -9,5 +10,6 @@ export const masks = {
   cpf: maskCPF,
   phone: maskTelephone,
   zipcode: maskZipcode,
-  creditCardNumber: maskCreditCardNumber
+  creditCardNumber: maskCreditCardNumber,
+  expireDateCard: maskExpireDateCard
 };

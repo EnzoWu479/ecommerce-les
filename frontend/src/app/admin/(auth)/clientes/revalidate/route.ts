@@ -7,8 +7,8 @@ export const GET = async (req: Request) => {
   console.log(id);
 
   try {
-    revalidatePath('/admin/auth/clientes', 'page');
-    revalidatePath(`/admin/auth/clientes/${id}`, 'page');
+    revalidatePath('/admin/clientes', 'page');
+    revalidatePath(`/admin/clientes/${id}`, 'page');
   } catch (error) {
     console.log('Error', error);
   }

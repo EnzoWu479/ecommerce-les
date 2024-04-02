@@ -85,6 +85,7 @@ export const AddressForm = ({ value, onChange, errors, onDelete }: Props) => {
         <Label>Nome do endereço</Label>
         <Input
           value={value.name}
+          name="address-name"
           onChange={handleChange('name')}
           error={errors?.name?.message}
         />
@@ -95,6 +96,7 @@ export const AddressForm = ({ value, onChange, errors, onDelete }: Props) => {
         <Input
           value={value.zipcode}
           onChange={handleChange('zipcode')}
+          name="zipcode"
           mask={masks.zipcode}
           error={errors?.zipcode?.message}
         />
@@ -132,6 +134,7 @@ export const AddressForm = ({ value, onChange, errors, onDelete }: Props) => {
         <Label>Número</Label>
         <Input
           value={value.number}
+          name="number"
           onChange={handleChange('number')}
           error={errors?.number?.message}
         />
@@ -181,6 +184,7 @@ export const AddressForm = ({ value, onChange, errors, onDelete }: Props) => {
         <Checkbox
           checked={value.types.includes(ClientAddressType.RESIDENCE)}
           onClick={handleCheckboxChange(ClientAddressType.RESIDENCE)}
+          data-test={ClientAddressType.RESIDENCE}
         />
         <Label>Endereço residencial</Label>
       </div>
@@ -188,6 +192,7 @@ export const AddressForm = ({ value, onChange, errors, onDelete }: Props) => {
         <Checkbox
           checked={value.types.includes(ClientAddressType.BILLING)}
           onClick={handleCheckboxChange(ClientAddressType.BILLING)}
+          data-test={ClientAddressType.BILLING}
         />
         <Label>Endereço de cobrança</Label>
       </div>
@@ -195,6 +200,7 @@ export const AddressForm = ({ value, onChange, errors, onDelete }: Props) => {
         <Checkbox
           checked={value.types.includes(ClientAddressType.SHIPPING)}
           onClick={handleCheckboxChange(ClientAddressType.SHIPPING)}
+          data-test={ClientAddressType.SHIPPING}
         />
         <Label>Endereço de entrega</Label>
       </div>

@@ -13,13 +13,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginDTO, loginSchema } from '@/validations/login.schema';
 import { useRouter } from 'next/navigation';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'react-toastify';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function ClientAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
-  const { toast } = useToast();
   const {
     formState: { errors },
     handleSubmit,
@@ -51,11 +50,7 @@ export function ClientAuthForm({ className, ...props }: UserAuthFormProps) {
       router.push('/admin/auth/dashboard');
       // redirect('/admin/auth/dashboard');
     } else {
-      toast({
-        title: 'Erro',
-        description: 'Credenciais inválidas',
-        variant: 'destructive'
-      });
+      toast.error('Credenciais inválidas');
     }
   }
 

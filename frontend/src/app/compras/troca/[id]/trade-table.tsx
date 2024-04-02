@@ -34,24 +34,19 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { useToast } from '@/components/ui/use-toast';
 import { formaters } from '@/helpers/formaters';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export const TradeTable = () => {
   const router = useRouter();
-  const { toast } = useToast();
   const handleTrade = () => {
-    toast({
-      title: 'Troca realizada com sucesso',
-      description: 'A troca foi realizada com sucesso'
-    });
+    toast.success('Troca realizada com sucesso');
     router.push('/compras');
   };
   return (
     <>
-    
       <Table className="mt-4">
         <TableHeader>
           <TableRow>

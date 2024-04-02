@@ -39,7 +39,7 @@ const CategoriesPage = () => {
           <h2 className="text-3xl font-bold tracking-tight">Cupons</h2>
           <ModalSearch fields={coupomSearchFields} />
         </div>
-        <Link href="/admin/auth/cupons/cadastrar">
+        <Link href="/admin/cupons/cadastrar">
           <Button>Novo cupom</Button>
         </Link>
       </div>

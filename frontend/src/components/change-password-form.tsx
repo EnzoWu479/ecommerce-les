@@ -10,15 +10,14 @@ import {
   changePasswordSchema
 } from '@/server/validations/changePassword.schema';
 import { ErrorMessage } from './ui/error-message';
-import { useToast } from './ui/use-toast';
 import { api } from '@/lib/axios';
+import { toast } from 'react-toastify';
 
 interface Props {
   id: string;
 }
 
 export const ChangePasswordForm = ({ id }: Props) => {
-  const { toast } = useToast();
   const {
     formState: { errors },
     handleSubmit,
@@ -36,10 +35,7 @@ export const ChangePasswordForm = ({ id }: Props) => {
   const onSubmit = handleSubmit(async (data: ChangePasswordSchema) => {
     try {
       await api.put(`/api/clients/${id}/password`, data);
-      toast({
-        title: 'Senha alterada com sucesso',
-        description: 'A senha do cliente foi alterada com sucesso'
-      });
+      toast.success('Senha alterada com sucesso');
       reset({
         accountId: '',
         password: '',
@@ -47,11 +43,7 @@ export const ChangePasswordForm = ({ id }: Props) => {
         confirmPassword: ''
       });
     } catch (error) {
-      toast({
-        title: 'Erro ao alterar senha',
-        description: 'Não foi possível alterar a senha do cliente',
-        variant: 'destructive'
-      });
+      toast.error('Erro ao alterar senha');
     }
   });
 

@@ -4,21 +4,17 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
 import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 export const CreditCardForm = () => {
   const { handleSubmit } = useForm();
   const router = useRouter();
-  const { toast } = useToast();
 
   const onSubmit = handleSubmit(async () => {
-    toast({
-      title: 'Cartão de crédito salvo com sucesso',
-      description: 'O cartão de crédito foi salvo com sucesso'
-    });
+    toast.success('Cartão de crédito salvo com sucesso');
     router.back();
   });
   return (

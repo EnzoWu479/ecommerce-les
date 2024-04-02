@@ -4,20 +4,16 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { useRouter } from 'next/navigation';
-import { useToast } from '../ui/use-toast';
 import { useAuthStore } from '@/features/authentication/auth-store';
+import { toast } from 'react-toastify';
 
 export const ChangePasswordForm = () => {
   const { handleSubmit } = useForm();
   const router = useRouter();
-  const { toast } = useToast();
   const { setIsAuthenticated } = useAuthStore();
 
   const onSubmit = handleSubmit(async () => {
-    toast({
-      title: 'Senha alterada com sucesso',
-      description: 'A sua senha foi alterada com sucesso'
-    });
+    toast.success('Senha alterada com sucesso');
     setIsAuthenticated(false);
     router.push('/login');
   });
