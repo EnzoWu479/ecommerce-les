@@ -14,11 +14,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginDTO, loginSchema } from '@/validations/login.schema';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { ErrorMessage } from '../ui/error-message';
+import { useAuthStoreClient } from '@/features/authentication/auth-store-client';
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  onLogin?: () => void;
+}
 
 export function ClientAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
+  const { login } = useAuthStoreClient();
   const {
     formState: { errors },
     handleSubmit,
@@ -27,7 +32,6 @@ export function ClientAuthForm({ className, ...props }: UserAuthFormProps) {
     resolver: yupResolver(loginSchema)
   });
 
-  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
   // async function onSubmit(formData: FormData) {
   //   setIsAuthenticated(true);
   //   ('use server');
@@ -41,15 +45,20 @@ export function ClientAuthForm({ className, ...props }: UserAuthFormProps) {
   //   }
   // }
   async function onSubmit(values: LoginDTO) {
-    const isAuthenticated = await auth.authenticateClient(
-      values.email,
-      values.password
-    );
+    try {
+      const user = await auth.authenticateClient(values.email, values.password);
 
-    if (isAuthenticated) {
-      router.push('/admin/auth/dashboard');
-      // redirect('/admin/auth/dashboard');
-    } else {
+      if (!!user) {
+        login(user);
+        router.push('/');
+
+        // redirect('/admin/auth/dashboard');
+      } else {
+        throw new Error('Credenciais inválidas');
+      }
+    } catch (error) {
+      console.log(error);
+
       toast.error('Credenciais inválidas');
     }
   }
@@ -69,7 +78,10 @@ export function ClientAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
+              error={errors.email?.message}
+              {...register('email')}
             />
+            <ErrorMessage error={errors.email?.message} />
           </div>
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="password">
@@ -81,7 +93,10 @@ export function ClientAuthForm({ className, ...props }: UserAuthFormProps) {
               type="password"
               autoCapitalize="none"
               autoCorrect="off"
+              {...register('password')}
+              error={errors.password?.message}
             />
+            <ErrorMessage error={errors.password?.message} />
           </div>
           <Button>Fazer login</Button>
         </div>

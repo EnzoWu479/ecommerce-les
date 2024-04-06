@@ -31,6 +31,7 @@ export interface IAccount {
   status: AccountStatus;
   createdAt: string;
   updatedAt: string;
+  client?: IClient;
 }
 
 export interface IClientAddress {

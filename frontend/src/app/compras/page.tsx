@@ -103,7 +103,10 @@ export default function Bought() {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Link href="/compras/troca/1">
+                        <Link
+                          href="/compras/troca/1"
+                          data-test="request-switch"
+                        >
                           <ArrowLeftRight />
                         </Link>
                       </TooltipTrigger>

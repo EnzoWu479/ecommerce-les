@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import {
@@ -7,15 +8,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { placeholderImage } from '@/lib/placeholderImage';
+import { useAuthStoreClient } from '@/features/authentication/auth-store-client';
 
-interface Props {
-  onLogout: () => void;
-}
+export const ProfileNavigation = () => {
+  const { user, logout } = useAuthStoreClient();
 
-export const ProfileNavigation = ({ onLogout }: Props) => {
-  const profileInfos = {
-    name: 'John Doe'
-  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="relative z-10 -mb-px flex h-full items-center border-b-2 border-transparent pt-px text-sm font-medium text-gray-700 outline-none transition-colors duration-200 ease-out hover:text-gray-800">
@@ -23,12 +20,12 @@ export const ProfileNavigation = ({ onLogout }: Props) => {
           <Avatar>
             <AvatarImage
               src={placeholderImage({
-                preview: profileInfos.name[0],
+                preview: user?.client?.name[0] ?? 'U',
                 size: 40
               })}
             />
           </Avatar>
-          <span className="max-sm:sr-only">{profileInfos.name}</span>
+          <span className="max-sm:sr-only">{user?.client?.name}</span>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -72,7 +69,7 @@ export const ProfileNavigation = ({ onLogout }: Props) => {
           asChild
           className="w-full cursor-pointer hover:bg-slate-100"
         >
-          <button type="button" onClick={onLogout}>
+          <button type="button" onClick={logout}>
             Logout
           </button>
         </DropdownMenuItem>

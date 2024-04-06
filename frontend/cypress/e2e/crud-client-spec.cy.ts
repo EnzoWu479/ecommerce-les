@@ -28,9 +28,8 @@ describe('crud client', () => {
     .toISOString()
     .split('T')[0];
   const search = new URLSearchParams();
-  search.set('name', name);
-  search.set('email', email);
   search.set('cpf', cpf);
+
   it('should fill client form correctly', () => {
     cy.visit('/criar-conta');
     cy.get('input[name=name]').type(name);
@@ -45,14 +44,6 @@ describe('crud client', () => {
         }
       );
     });
-    // cy.get('[data-test=gender-select]').get.within(() => {
-    //   cy.get('select').select(
-    //     faker.number.binary() ? Gender.MALE : Gender.FEMALE
-    //   );
-    // });
-    // cy.get(
-    //   `[value=${faker.number.binary() ? Gender.MALE : Gender.FEMALE}]`
-    // ).click();
     const password = faker.internet.password() + '@';
     cy.get('input[name=password]').type(password);
     cy.get('input[name=passwordConfirmation]').type(password);
@@ -109,20 +100,42 @@ describe('crud client', () => {
         .should('have.length', 1)
     );
   });
-  it('should find client', () => {
+  it('should update client', () => {
     cy.visit(`/admin/clientes?${search.toString()}`);
+    cy.wait(1000);
+    expect(cy.get('[data-test=client-name]').should('have.text', name));
+    cy.get('a[data-test=edit-item]').click({});
+    const newname = faker.internet.userName();
+    cy.get('input[name=name]').clear().type(newname);
+    cy.get('button[data-test=save-button').click();
+    expect(
+      cy
+        .get('.Toastify__toast-container')
+        .find('.Toastify__toast--success')
+        .should('have.length', 1)
+    );
+    cy.visit(`/admin/clientes?${search.toString()}`);
+    cy.wait(1000);
+    expect(cy.get('[data-test=client-name]').should('have.text', newname));
     expect(cy.get('tbody tr').should('have.length', 1));
   });
-  // it('should delete client', () => {
-  //   cy.visit(`/admin/clientes?${search.toString()}`);
-  //   // cy.get('button[data-test=delete-button]').first().click();
-  //   // console.log(cy.get('button[data-test=delete-button]'));
-  //   // cy.get('button[data-test=delete-button]').first().click();
-  //   cy.get('[data-test=delete-item]').within(() => {
-  //     cy.get('button[data-test=delete-button]').click();
-  //   });
+  it('should delete client', () => {
+    cy.visit(`/admin/clientes?${search.toString()}`);
+    expect(cy.get('tbody tr').should('have.length', 1));
+    cy.wait(1000);
+    // cy.get('button[data-test=delete-button]').first().click();
+    // console.log(cy.get('button[data-test=delete-button]'));
+    // cy.get('button[data-test=delete-button]').first().click();
+    cy.get('button[data-test=delete-button]').click({
+      force: true
+    });
+    cy.get('button[data-test=confirm-delete-button]').click({
+      force: true
+    });
+    // cy.get('[data-test=delete-item]').within(() => {
+    // });
 
-  //   // cy.get('[data-test=confirm-delete-button]').click();
-  //   // expect(cy.get('tbody tr').should('have.length', 0));
-  // });
+    // cy.get('[data-test=confirm-delete-button]').click();
+    expect(cy.get('tbody tr').should('have.length', 0));
+  });
 });

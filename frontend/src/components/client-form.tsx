@@ -36,6 +36,7 @@ import { IClient } from '@/types/client';
 import { formaters } from '@/helpers/formaters';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { toast } from 'react-toastify';
+import { ResponseData } from '@/server/shared/ResponseDataImp';
 
 const jsonExemplo: ClientFormSchema = {
   name: 'Enzo',
@@ -186,12 +187,14 @@ export const ClientForm = ({ client }: Props) => {
         toast.success('Cadastro realizado com sucesso');
         router.push('/login');
       }
-    } catch (error) {
-      if (client) {
-        toast.error('Erro ao atualizar');
-      } else {
-        toast.error('Erro ao salvar');
-      }
+    } catch (error: any) {
+      const response = error.response.data as ResponseData;
+
+      toast.error(response.error || 'Erro ao salvar');
+      // if (client) {
+      // } else {
+      //   toast.error('Erro ao salvar');
+      // }
     }
   });
 

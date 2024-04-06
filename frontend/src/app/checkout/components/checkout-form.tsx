@@ -30,12 +30,20 @@ import { addressMock } from '@/mock/addressMock';
 import { useRouter } from 'next/navigation';
 import { useCheckoutStore } from '@/features/checkout/store';
 import { toast } from 'react-toastify';
+import { FormEvent, useState } from 'react';
 
 const addresses = addressMock;
 
 export const CheckoutForm = () => {
   const router = useRouter();
   const { infos, setInfos, clearInfos } = useCheckoutStore();
+  const [coupomInput, setCoupomInput] = useState('');
+  const [coupons, setCoupons] = useState<
+    {
+      code: string;
+      id: string;
+    }[]
+  >([]);
   const totalPrice = 499.99;
   const totalMissingPercent =
     100 - infos.payments.reduce((acc, payment) => acc + payment.cut, 0);
@@ -53,8 +61,20 @@ export const CheckoutForm = () => {
         : [...infos.payments, payment]
     });
   };
-  const handleAddCoupom = () => {
+  const handleAddCoupom = (event: FormEvent) => {
+    event.preventDefault();
+    setCoupons(prev => [
+      ...prev,
+      {
+        code: coupomInput,
+        id: crypto.randomUUID()
+      }
+    ]);
+    setCoupomInput('');
     toast.success('Cupom adicionado com sucesso');
+  };
+  const handleDeleteCoupom = (id: string) => {
+    setCoupons(prev => prev.filter(coupom => coupom.id !== id));
   };
   const handleBuy = () => {
     toast.success('Compra realizada com sucesso');
@@ -72,9 +92,12 @@ export const CheckoutForm = () => {
             onValueChange={value => setInfos({ ...infos, address_id: value })}
           >
             <div className="max-h-24 space-y-2 overflow-auto">
-              {addresses.map(address => (
+              {addresses.map((address, index) => (
                 <div className="flex items-center gap-2" key={address.id}>
-                  <RadioGroupItem value={address.id} />
+                  <RadioGroupItem
+                    value={address.id}
+                    data-test={`address-${index + 1}`}
+                  />
                   <HoverCard>
                     <HoverCardTrigger className="cursor-pointer hover:underline">
                       {'Endereço 1'}
@@ -141,7 +164,7 @@ export const CheckoutForm = () => {
                     ...infos,
                     payments: infos.payments.map(payment =>
                       payment.id === String(index)
-                        ? { ...payment, cut: payment.cut - 5 }
+                        ? { ...payment, cut: Math.max(0, payment.cut - 5) }
                         : payment
                     )
                   });
@@ -153,10 +176,12 @@ export const CheckoutForm = () => {
                 <div
                   className="flex items-center justify-between gap-2"
                   key={index}
+                  data-test={`payment-${index + 1}`}
                 >
                   <div className="flex items-center gap-2">
                     <Checkbox
                       checked={!!currentPayment}
+                      data-test="checkbox"
                       onClick={() => handleAddPayment(String(index))}
                     />
                     <HoverCard>
@@ -196,95 +221,51 @@ export const CheckoutForm = () => {
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="max-h-24 space-y-2 overflow-auto">
-            <div className="flex items-center justify-between gap-2">
-              <span>VIOLET50</span>
-              <div className="flex items-center gap-4">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <span className="text-sm">- {formaters.money(10)}</span>
-                    </TooltipTrigger>
-                    <TooltipContent>50%</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Trash size={16} />
-                    </TooltipTrigger>
-                    <TooltipContent>Deletar</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+            {coupons.map((coupom, index) => (
+              <div
+                className="flex items-center justify-between gap-2"
+                key={coupom.id}
+              >
+                <span>{coupom.code}</span>
+                <div className="flex items-center gap-4">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <span className="text-sm">- {formaters.money(10)}</span>
+                      </TooltipTrigger>
+                      <TooltipContent>50%</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteCoupom(coupom.id)}
+                        >
+                          <Trash size={16} />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>Deletar</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center justify-between gap-2">
-              <span>VIOLET50</span>
-              <div className="flex items-center gap-4">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <span className="text-sm">- {formaters.money(10)}</span>
-                    </TooltipTrigger>
-                    <TooltipContent>50%</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Trash size={16} />
-                    </TooltipTrigger>
-                    <TooltipContent>Deletar</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            </div>
-            <div className="flex items-center justify-between gap-2">
-              <span>VIOLET50</span>
-              <div className="flex items-center gap-4">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <span className="text-sm">- {formaters.money(10)}</span>
-                    </TooltipTrigger>
-                    <TooltipContent>50%</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Trash size={16} />
-                    </TooltipTrigger>
-                    <TooltipContent>Deletar</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            </div>
-            <div className="flex items-center justify-between gap-2">
-              <span>VIOLET50</span>
-              <div className="flex items-center gap-4">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <span className="text-sm">- {formaters.money(10)}</span>
-                    </TooltipTrigger>
-                    <TooltipContent>50%</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Trash size={16} />
-                    </TooltipTrigger>
-                    <TooltipContent>Deletar</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            </div>
+            ))}
           </div>
-          <div className="flex gap-2">
-            <Input placeholder="Digite o código do cupom" />
-            <Button onClick={handleAddCoupom}>Adicionar</Button>
-          </div>
+          <form onSubmit={handleAddCoupom}>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Digite o código do cupom"
+                data-test="coupom-input"
+                value={coupomInput}
+                onChange={e => setCoupomInput(e.target.value)}
+              />
+              <Button type="submit" data-test="coupom-submit">
+                Adicionar
+              </Button>
+            </div>
+          </form>
         </CardContent>
       </Card>
       <div className="mt-4 flex justify-end gap-2">
@@ -293,7 +274,7 @@ export const CheckoutForm = () => {
             Voltar
           </Link>
         </Button>
-        <Button onClick={handleBuy}>Comprar</Button>
+        <Button onClick={handleBuy} data-test="buy-button">Comprar</Button>
       </div>
     </div>
   );

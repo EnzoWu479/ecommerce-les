@@ -1,9 +1,10 @@
-import axios from "axios";
+import { IAccount } from '@/types/client';
+import axios from 'axios';
 
-export const authenticateClient = async (
-  email: string,
-  password: string
-): Promise<boolean> => {
-  const {data} = await axios.post("/api/authenticate-client", {});
-  return true;
+export const authenticateClient = async (email: string, password: string) => {
+  const { data } = await axios.post<IAccount>('/api/login', {
+    email,
+    password
+  });
+  return data;
 };

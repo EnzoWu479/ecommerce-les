@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from './ui/button';
 import { Trash2 } from 'lucide-react';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 export interface ModalWarningProps {
   title?: ReactNode;
@@ -27,10 +27,17 @@ export const ModalWarning = ({
   acceptButton,
   onAccept
 }: ModalWarningProps) => {
+  const [loading, setLoading] = useState(false);
   const handleAccept = async () => {
-    if ((await onAccept?.()) || !onAccept) {
-      // close modal
-      dialogClose();
+    setLoading(true);
+    try {
+      if ((await onAccept?.()) || !onAccept) {
+        // close modal
+        dialogClose();
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -47,7 +54,11 @@ export const ModalWarning = ({
           <DialogClose asChild>
             <Button variant="ghost">Voltar</Button>
           </DialogClose>
-          <Button onClick={handleAccept} data-test="confirm-delete-button">
+          <Button
+            onClick={handleAccept}
+            disabled={loading}
+            data-test="confirm-delete-button"
+          >
             {acceptButton}
           </Button>
         </div>

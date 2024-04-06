@@ -31,23 +31,21 @@ export class ClientController {
   public async create(req: NextApiRequest, res: NextApiResponse) {
     try {
       const body = clientFormSchema.parse(req.body);
-      console.log(this.accountRepository !== undefined);
-      console.log(this.clientRepository !== undefined);
+      body.cpf = body.cpf.replace(/\D/g, '');
 
-      const hasEmail = await this.accountRepository.findByEmail(body.email);
-      const hasCpf = await this.clientRepository.findByCpf(body.cpf);
+      const [clientEmail, clientCpf] = await Promise.all([
+        this.accountRepository.findByEmail(body.email),
+        this.clientRepository.findByCpf(body.cpf)
+      ]);
 
-      if (hasEmail) {
-        // res.status(400).json({ error: 'Email already in use' });
-        // return;
-        throw new ResponseData(null, 'Email já está em uso', 400);
+      if (clientEmail) {
+        throw new Error('Email já está em uso');
       }
-      if (hasCpf) {
-        throw new ResponseData(null, 'CPF já está em uso', 400);
+      if (clientCpf) {
+        throw new Error('CPF já está em uso');
       }
       const hashPassword = await hashService.generateHash(body.password);
       body.password = hashPassword;
-      body.cpf = body.cpf.replace(/\D/g, '');
 
       const client = await this.clientRepository.create(body);
 
@@ -56,26 +54,26 @@ export class ClientController {
 
       res.status(201).json(client);
     } catch (error: any) {
-      res.status(400).json({ error: error.message });
+      res.status(400).json(new ResponseData(null, error.message, 400));
     }
   }
   public async update(req: NextApiRequest, res: NextApiResponse) {
     try {
       const body = clientFormSchema.parse(req.body);
       const id = req.query.id as string;
+      body.cpf = body.cpf.replace(/\D/g, '');
 
-      const clientEmail = await this.accountRepository.findByEmail(body.email);
-      const clientCpf = await this.clientRepository.findByCpf(body.cpf);
+      const [clientEmail, clientCpf] = await Promise.all([
+        this.accountRepository.findByEmail(body.email),
+        this.clientRepository.findByCpf(body.cpf)
+      ]);
 
       if (clientEmail && clientEmail.client?.id !== id) {
-        res.status(400).json({ error: 'Email already in use' });
-        return;
+        throw new Error('Email já está em uso');
       }
       if (clientCpf && clientCpf.id !== id) {
-        res.status(400).json({ error: 'CPF already in use' });
-        return;
+        throw new Error('CPF já está em uso');
       }
-      body.cpf = body.cpf.replace(/\D/g, '');
 
       const client = await this.clientRepository.update(id, body);
 
@@ -89,7 +87,7 @@ export class ClientController {
 
       res.status(201).json(client);
     } catch (error: any) {
-      res.status(400).json({ error: error.message });
+      res.status(400).json(new ResponseData(null, error.message, 400));
     }
   }
   public async delete(req: NextApiRequest, res: NextApiResponse) {

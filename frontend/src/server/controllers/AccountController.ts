@@ -73,7 +73,7 @@ export class AccountController {
         })
       );
 
-      res.status(200).json({ message: 'Logged in' });
+      res.status(200).json(account);
     } catch (error) {
       res.status(500).json({ message: 'Server Error' });
     }

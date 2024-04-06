@@ -42,7 +42,7 @@ import { toast } from 'react-toastify';
 export const TradeTable = () => {
   const router = useRouter();
   const handleTrade = () => {
-    toast.success('Troca realizada com sucesso');
+    toast.success('Troca solicitada com sucesso');
     router.push('/compras');
   };
   return (
@@ -58,378 +58,43 @@ export const TradeTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="w-10">
-              <Checkbox />
-            </TableCell>
-            <TableCell className="flex gap-4">Livro do Harry Potter</TableCell>
-            <TableCell>{formaters.money(5)}</TableCell>
-            <TableCell>Editora Violet</TableCell>
-            <TableCell>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:underline">
-                  Ver categorias
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <div className="max-h-48 overflow-auto">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
+          {Array.from({ length: 10 }).map((_, index) => (
+            <TableRow key={index}>
+              <TableCell className="w-10">
+                <Checkbox data-test={`checkbox-${index}`} />
+              </TableCell>
+              <TableCell className="flex gap-4">
+                Livro do Harry Potter {index}
+              </TableCell>
+              <TableCell>
+                {formaters.money(Math.floor(Math.random() * 1000))}
+              </TableCell>
+              <TableCell>Editora Violet</TableCell>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="hover:underline">
+                    Ver categorias
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Categorias</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <div className="max-h-48 overflow-auto">
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Team</DropdownMenuItem>
+                      <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
       <div className="flex justify-end">
@@ -454,7 +119,9 @@ export const TradeTable = () => {
         <Button variant="outline" asChild>
           <Link href="/compras">Voltar</Link>
         </Button>
-        <Button onClick={handleTrade}>Trocar</Button>
+        <Button onClick={handleTrade} data-test="submit-button">
+          Trocar
+        </Button>
       </div>
     </>
   );

@@ -43,7 +43,7 @@ const AdminLogin = () => {
                 Faça login para continuar
               </p>
             </div>
-            <AdminAuthForm />
+            <AdminAuthForm  />
           </div>
         </div>
       </div>

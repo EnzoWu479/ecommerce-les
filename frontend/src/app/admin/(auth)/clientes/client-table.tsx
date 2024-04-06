@@ -77,7 +77,7 @@ export const ClientTable = async ({ clients }: Props) => {
       <TableBody>
         {clients.content.map(client => (
           <TableRow key={client.id}>
-            <TableCell>{client.name}</TableCell>
+            <TableCell data-test="client-name">{client.name}</TableCell>
             <TableCell>{client.account?.email}</TableCell>
             <TableCell>{formaters.date(client.birthDate)}</TableCell>
             <TableCell>{masks.cpf(client.cpf)}</TableCell>
@@ -108,7 +108,7 @@ export const ClientTable = async ({ clients }: Props) => {
             </TableCell>
             <TableCell>
               <div className="flex gap-2">
-                <Link href={`/admin/clientes/${client.id}`}>
+                <Link href={`/admin/clientes/${client.id}`} data-test="edit-item">
                   <PencilLine />
                 </Link>
                 <div data-test="delete-item">
@@ -124,21 +124,6 @@ export const ClientTable = async ({ clients }: Props) => {
                     );
                   })()}
                 </div>
-                {/* <Dialog>
-                    <DialogTrigger>
-                      <Trash2 />
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>
-                          Tem certeza que deseja excluir esse usuário?
-                        </DialogTitle>
-                        <DialogDescription>
-                          Essa ação não poderá ser desfeita.
-                        </DialogDescription>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog> */}
               </div>
             </TableCell>
           </TableRow>

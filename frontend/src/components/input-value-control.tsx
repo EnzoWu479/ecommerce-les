@@ -23,6 +23,7 @@ export const InputValueControl = ({
       <button
         type="button"
         className="aspect-square rounded-sm border p-1"
+        data-test="decrement"
         onClick={onDecrement}
       >
         <Minus size={18} />
@@ -39,6 +40,7 @@ export const InputValueControl = ({
       <button
         type="button"
         className="aspect-square rounded-sm border p-1"
+        data-test="increment"
         onClick={onIncrement}
       >
         <Plus size={18} />

@@ -1,9 +1,9 @@
 import { IResponseData } from './ResponseData.interface';
 
-export class ResponseData<T> implements IResponseData<T> {
-  private data: T | null;
-  private error: string | null;
-  private status: number;
+export class ResponseData<T=any> implements IResponseData<T> {
+  data: T | null;
+  error: string | null;
+  status: number;
 
   constructor(data: T | null, error: string | null, status: number) {
     this.data = data;

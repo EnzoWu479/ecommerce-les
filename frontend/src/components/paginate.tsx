@@ -51,9 +51,9 @@ export const Paginate = ({
       {...rest}
       renderOnZeroPageCount={null}
       className="my-4 flex items-center space-x-2"
-      activeClassName="bg-slate-800 text-slate-200"
-      disabledClassName="cursor-not-allowed opacity-50 hover:bg-slate-200 hover:text-slate-800"
-      disabledLinkClassName="cursor-not-allowed opacity-50 hover:bg-slate-200 hover:text-slate-800"
+      activeClassName="!bg-slate-800 !text-slate-200"
+      disabledClassName="cursor-not-allowed opacity-50"
+      disabledLinkClassName="cursor-not-allowed opacity-50"
       pageClassName={pageStyle}
       previousClassName={pageStyle}
       nextClassName={pageStyle}

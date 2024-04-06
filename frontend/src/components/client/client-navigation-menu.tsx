@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, Fragment, useState } from 'react';
+import { FormEvent, Fragment, useEffect, useState } from 'react';
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
 import { cn } from '@/lib/utils';
 import { Menu, Search, ShoppingBag, X } from 'lucide-react';
@@ -18,6 +18,7 @@ import { Input } from '../ui/input';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/features/authentication/auth-store';
 import { TradePopup } from '../trade-popup';
+import { useAuthStoreClient } from '@/features/authentication/auth-store-client';
 
 const navigation = {
   categories: [
@@ -65,9 +66,11 @@ const navigation = {
 
 export function ClientNavigationMenu() {
   const router = useRouter();
+  const [isAuth, setIsAuth] = useState(true);
+  // const { isAuthenticated } = useAuthStoreClient();
+  // console.log(isAuthenticated);
 
   const [open, setOpen] = useState(false);
-  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
   const [search, setSearch] = useState();
   const { products, setIsOpen } = useBagStore();
 
@@ -75,6 +78,10 @@ export function ClientNavigationMenu() {
     e.preventDefault();
     router.push('/pesquisa?q=' + (e.target as HTMLFormElement).search.value);
   };
+
+  // useEffect(() => {
+  //   setIsAuth(isAuthenticated);
+  // }, [isAuthenticated]);
 
   return (
     <div className="bg-white">
@@ -306,11 +313,9 @@ export function ClientNavigationMenu() {
                     name="search"
                   />
                 </form>
-                {isAuthenticated ? (
+                {isAuth ? (
                   <div className="flex space-x-4">
-                    <ProfileNavigation
-                      onLogout={() => setIsAuthenticated(false)}
-                    />
+                    <ProfileNavigation />
                     <TradePopup />
                   </div>
                 ) : (
