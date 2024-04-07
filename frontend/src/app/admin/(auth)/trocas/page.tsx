@@ -1,3 +1,5 @@
+'use client';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -50,9 +52,10 @@ import { formaters } from '@/helpers/formaters';
 import { masks } from '@/helpers/masks';
 import { Ban, PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 const SellsPage = () => {
-  
+  const [accepted, setAccepted] = useState(false);
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
@@ -62,18 +65,17 @@ const SellsPage = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Código</TableHead>
               <TableHead>Cliente</TableHead>
               <TableHead>Produtos</TableHead>
               <TableHead>Valor trocado</TableHead>
               <TableHead>Data</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Cupom gerado</TableHead>
+              <TableHead>Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell>1</TableCell>
               <TableCell>João</TableCell>
               <TableCell>
                 <DropdownMenu>
@@ -101,7 +103,7 @@ const SellsPage = () => {
               <TableCell>{formaters.money(54)}</TableCell>
               <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
               <TableCell>
-                <Select>
+                {/* <Select>
                   <SelectTrigger className="w-[170px] border-none outline-none">
                     <SelectValue placeholder="Selecione o status" />
                   </SelectTrigger>
@@ -113,9 +115,155 @@ const SellsPage = () => {
                       <SelectItem value="g">Trocado</SelectItem>
                     </SelectGroup>
                   </SelectContent>
-                </Select>{' '}
+                </Select> */}
+                {accepted ? 'Troca autorizada' : 'Em troca'}
+              </TableCell>
+              <TableCell>-</TableCell>
+              <TableCell>
+                {!accepted && (
+                  <Button
+                    data-test="accept-button"
+                    onClick={() => setAccepted(true)}
+                  >
+                    Aceitar troca
+                  </Button>
+                )}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>João</TableCell>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="hover:underline">
+                    Ver produtos
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Produtos</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <div className="max-h-48 overflow-auto">
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Team</DropdownMenuItem>
+                      <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+              <TableCell>{formaters.money(54)}</TableCell>
+              <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
+              <TableCell>
+                {/* <Select>
+                  <SelectTrigger className="w-[170px] border-none outline-none">
+                    <SelectValue placeholder="Selecione o status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Status da troca</SelectLabel>
+                      <SelectItem value="e">Em troca</SelectItem>
+                      <SelectItem value="f">Troca autorizada</SelectItem>
+                      <SelectItem value="g">Trocado</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select> */}
+                Trocado
               </TableCell>
               <TableCell>QUERO54</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>João</TableCell>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="hover:underline">
+                    Ver produtos
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Produtos</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <div className="max-h-48 overflow-auto">
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Team</DropdownMenuItem>
+                      <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+              <TableCell>{formaters.money(54)}</TableCell>
+              <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
+              <TableCell>
+                {/* <Select>
+                  <SelectTrigger className="w-[170px] border-none outline-none">
+                    <SelectValue placeholder="Selecione o status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Status da troca</SelectLabel>
+                      <SelectItem value="e">Em troca</SelectItem>
+                      <SelectItem value="f">Troca autorizada</SelectItem>
+                      <SelectItem value="g">Trocado</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select> */}
+                Troca recusada
+              </TableCell>
+              <TableCell>-</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>João</TableCell>
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="hover:underline">
+                    Ver produtos
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Produtos</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <div className="max-h-48 overflow-auto">
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Team</DropdownMenuItem>
+                      <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+              <TableCell>{formaters.money(54)}</TableCell>
+              <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
+              <TableCell>
+                {/* <Select>
+                  <SelectTrigger className="w-[170px] border-none outline-none">
+                    <SelectValue placeholder="Selecione o status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Status da troca</SelectLabel>
+                      <SelectItem value="e">Em troca</SelectItem>
+                      <SelectItem value="f">Troca autorizada</SelectItem>
+                      <SelectItem value="g">Trocado</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select> */}
+                Troca autorizada
+              </TableCell>
+              <TableCell>-</TableCell>
             </TableRow>
           </TableBody>
         </Table>

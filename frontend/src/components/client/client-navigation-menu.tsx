@@ -66,8 +66,8 @@ const navigation = {
 
 export function ClientNavigationMenu() {
   const router = useRouter();
-  const [isAuth, setIsAuth] = useState(true);
-  // const { isAuthenticated } = useAuthStoreClient();
+  const [isAuth, setIsAuth] = useState(false);
+  const { isAuthenticated } = useAuthStoreClient();
   // console.log(isAuthenticated);
 
   const [open, setOpen] = useState(false);
@@ -79,9 +79,9 @@ export function ClientNavigationMenu() {
     router.push('/pesquisa?q=' + (e.target as HTMLFormElement).search.value);
   };
 
-  // useEffect(() => {
-  //   setIsAuth(isAuthenticated);
-  // }, [isAuthenticated]);
+  useEffect(() => {
+    setIsAuth(isAuthenticated);
+  }, [isAuthenticated]);
 
   return (
     <div className="bg-white">
@@ -316,7 +316,6 @@ export function ClientNavigationMenu() {
                 {isAuth ? (
                   <div className="flex space-x-4">
                     <ProfileNavigation />
-                    <TradePopup />
                   </div>
                 ) : (
                   <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -360,7 +359,8 @@ export function ClientNavigationMenu() {
                 </div> */}
 
                 {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-6">
+                <div className="ml-4 flex gap-4 lg:ml-6">
+                  <TradePopup />
                   <button
                     type="button"
                     onClick={() => setIsOpen(true)}

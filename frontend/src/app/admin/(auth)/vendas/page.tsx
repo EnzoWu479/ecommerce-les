@@ -1,3 +1,4 @@
+'use client';
 import { ModalSearch } from '@/components/admin/modal-search';
 import { Button } from '@/components/ui/button';
 import {
@@ -53,6 +54,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { useState } from 'react';
+import { Label } from '@/components/ui/label';
 
 const SellsPage = () => {
   return (
@@ -103,8 +106,8 @@ const SellsPage = () => {
               </TableCell>
               <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
               <TableCell>{formaters.money(108)}</TableCell>
-              <TableCell>
-                <Select>
+              <TableCell data-test="select-trade">
+                <Select defaultValue="a">
                   <SelectTrigger className="w-[170px] border-none outline-none">
                     <SelectValue placeholder="Selecione o status" />
                   </SelectTrigger>
@@ -115,8 +118,8 @@ const SellsPage = () => {
                       <SelectItem value="b">Em transporte</SelectItem>
                       <SelectItem value="c">Em transito</SelectItem>
                       <SelectItem value="d">Entregue</SelectItem>
-                      <SelectItem value="h">Aprovado</SelectItem>
-                      <SelectItem value="i">Reprovado</SelectItem>
+                      <SelectItem value="e">Aprovado</SelectItem>
+                      <SelectItem value="f">Reprovado</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
