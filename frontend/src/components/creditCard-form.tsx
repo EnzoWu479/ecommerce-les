@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CreditCardFormDTO } from '@/validations/creditCard.schema';
 import { Trash2 } from 'lucide-react';
-import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
+import { FieldError, FieldErrors, FieldErrorsImpl, Merge } from 'react-hook-form';
 import { ErrorMessage } from './ui/error-message';
 import { masks } from '@/helpers/masks';
 import { RadioGroupItem } from './ui/radio-group';
@@ -13,7 +13,9 @@ import { getBrand } from '@/utils/getBrand';
 interface Props {
   value: CreditCardFormDTO;
   onChange: (value: CreditCardFormDTO) => void;
-  errors?: Merge<FieldError, FieldErrorsImpl<CreditCardFormDTO>>;
+  errors?:
+    | Merge<FieldError, FieldErrorsImpl<CreditCardFormDTO>>
+    | FieldErrors<CreditCardFormDTO>;
   onDelete?: () => void;
   index?: number;
 }

@@ -61,6 +61,16 @@ describe('crud client', () => {
         cy.get('input[name="address-name"]').type(faker.location.street());
         cy.get(`[data-test=${TYPES[i]}]`).click();
         cy.get('input[name=zipcode]').type(CEPS[i]);
+        cy.readFile('cypress/fixtures/viacep.json').then(address => {
+          cy.intercept(
+            'GET',
+            `https://viacep.com.br/ws/${CEPS[i].replace(/\D/g, '')}/json/`,
+            {
+              statusCode: 200,
+              body: address[i]
+            }
+          );
+        });
         // cy.wait(1000);
       });
     }

@@ -11,14 +11,33 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { AddressForm as RealAddressForm } from '@/components/address-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AddressFormDTO, addressSchema } from '@/validations/address.schema';
 
 export const AddressForm = () => {
-  const { handleSubmit } = useForm();
+  const {
+    formState: { errors },
+    handleSubmit,
+    reset,
+    setValue,
+    watch
+  } = useForm<AddressFormDTO>({
+    resolver: zodResolver(addressSchema),
+    defaultValues: {
+      id: '',
+      addressId: '',
+      types: [],
+      zipcode: ''
+    }
+  });
   const router = useRouter();
+
+  console.log(errors);
 
   const onSubmit = handleSubmit(async () => {
     toast.success('Endereço salvo com sucesso');
@@ -28,74 +47,12 @@ export const AddressForm = () => {
   return (
     <div className="flex flex-col space-y-2">
       <form onSubmit={onSubmit}>
-        <Card className="grid grid-cols-3 gap-4 p-4">
-          <div>
-            <Label>Nome do endereço</Label>
-            <Input />
-          </div>
-          <div>
-            <Label>CEP</Label>
-            <Input />
-          </div>
-          <div>
-            <Label>Logradouro</Label>
-            <Input />
-          </div>
-          <div>
-            <Label>Tipo de logradouro</Label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="street">Rua</SelectItem>
-                <SelectItem value="Av">Avenida</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label>Número</Label>
-            <Input />
-          </div>
-          <div>
-            <Label>Bairro</Label>
-            <Input />
-          </div>
-          <div>
-            <Label>Tipo de residência</Label>
-            <Input />
-          </div>
-          <div>
-            <Label>Cidade</Label>
-            <Input />
-          </div>
-          <div>
-            <Label>Estado</Label>
-            <Input />
-          </div>
-          <div>
-            <Label>País</Label>
-            <Input />
-          </div>
-          <div className="col-span-3">
-            <h3>Tipo de endereço</h3>
-          </div>
-          <div className="flex items-center gap-2">
-            <Checkbox />
-            <Label>Endereço residencial</Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <Checkbox />
-            <Label>Endereço comercial</Label>
-          </div>
-          <div className="flex items-center gap-2">
-            <Checkbox />
-            <Label>Endereço de entrega</Label>
-          </div>
-          <div className="col-span-3 flex justify-end">
-            <Button type="submit">Salvar</Button>
-          </div>
-        </Card>
+        <RealAddressForm value={watch()} onChange={reset} errors={errors} />
+        <div className="col-span-3 flex justify-end mt-4">
+          <Button type="submit" data-test="submit-button">
+            Salvar
+          </Button>
+        </div>
       </form>
     </div>
   );

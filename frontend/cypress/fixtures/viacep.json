@@ -1,0 +1,38 @@
+[
+  {
+    "cep": "05797-380",
+    "logradouro": "Rua Lérici",
+    "complemento": "",
+    "bairro": "Jardim Ipê",
+    "localidade": "São Paulo",
+    "uf": "SP",
+    "ibge": "3550308",
+    "gia": "1004",
+    "ddd": "11",
+    "siafi": "7107"
+  }, 
+  {
+    "cep": "14405-206",
+    "logradouro": "Travessa José de Alencar",
+    "complemento": "",
+    "bairro": "Estação",
+    "localidade": "Franca",
+    "uf": "SP",
+    "ibge": "3516200",
+    "gia": "3104",
+    "ddd": "16",
+    "siafi": "6425"
+  },
+  {
+    "cep": "11662-010",
+    "logradouro": "Rua Fernão Dias Paes Leme",
+    "complemento": "",
+    "bairro": "Vila Atlântica",
+    "localidade": "Caraguatatuba",
+    "uf": "SP",
+    "ibge": "3510500",
+    "gia": "2549",
+    "ddd": "12",
+    "siafi": "6311"
+  }
+]

@@ -27,7 +27,9 @@ import { streetTypes } from '@/utils/streetTypes';
 interface Props {
   value: AddressFormDTO;
   onChange: (value: AddressFormDTO) => void;
-  errors?: Merge<FieldError, FieldErrorsImpl<AddressFormDTO>>;
+  errors?:
+    | Merge<FieldError, FieldErrorsImpl<AddressFormDTO>>
+    | FieldErrors<AddressFormDTO>;
   onDelete?: () => void;
 }
 

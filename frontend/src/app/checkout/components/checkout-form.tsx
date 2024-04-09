@@ -114,6 +114,7 @@ export const CheckoutForm = () => {
             <Link
               href="/enderecos/cadastrar"
               className="text-sm hover:underline"
+              data-test="add-address"
             >
               Adicionar Endereço
             </Link>
@@ -210,6 +211,7 @@ export const CheckoutForm = () => {
           <Link
             href="/cartoes-de-credito/cadastrar"
             className="text-sm hover:underline"
+            data-test="add-payment"
           >
             Adicionar cartão
           </Link>
@@ -274,7 +276,9 @@ export const CheckoutForm = () => {
             Voltar
           </Link>
         </Button>
-        <Button onClick={handleBuy} data-test="buy-button">Comprar</Button>
+        <Button onClick={handleBuy} data-test="buy-button">
+          Comprar
+        </Button>
       </div>
     </div>
   );
