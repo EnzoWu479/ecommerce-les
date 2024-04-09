@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { ClientRepository } from '../repositories/ClientRepository';
 import { inject, injectable } from 'inversify';
 import { AccountRepository } from '../repositories/AccountRepository';
-import { ClientDTO } from '../validations/client.schema';
 import { clientFormSchema } from '@/validations/clientForm.schema';
 import { AccountRoles, AccountStatus } from '@prisma/client';
 import { hashService } from '../lib/bcrypt';
@@ -127,7 +126,7 @@ export class ClientController {
     } catch (error: any) {
       console.log(error);
 
-      res.status(400).json({ error: error.message });
+      res.status(400).json(new ResponseData(null, error.message, 400));
     }
   }
   public async updateStatus(req: NextApiRequest, res: NextApiResponse) {
