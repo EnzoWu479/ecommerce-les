@@ -1,17 +1,16 @@
+import { ICart } from '@/types/cart';
 import { create } from 'zustand';
 
 export interface bagStore {
-  products: number;
+  cart: ICart | null;
+  setCart: (cart: ICart) => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  addProduct: () => void;
-  remove: () => void;
 }
 
-export const useBagStore = create<bagStore>((set) => ({
-  products: 0,
+export const useBagStore = create<bagStore>(set => ({
+  cart: null,
+  setCart: cart => set({ cart }),
   isOpen: false,
-  setIsOpen: (isOpen) => set({isOpen}),
-  addProduct: () => set((state) => ({products: state.products + 1})),
-  remove: () => set((state) => ({products: state.products - 1})),
-}))
+  setIsOpen: isOpen => set({ isOpen })
+}));

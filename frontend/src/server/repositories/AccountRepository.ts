@@ -1,4 +1,4 @@
-import { Account, PrismaClient } from '@prisma/client';
+import { $Enums, Account, PrismaClient } from '@prisma/client';
 import { prisma } from '@/server/lib/prisma';
 import { injectable } from 'inversify';
 import container from '../lib/inversify/container';
@@ -61,7 +61,7 @@ export class AccountRepository {
     });
   }
   async delete(id: string) {
-    return this.prisma.account.delete({
+    await this.prisma.account.delete({
       where: {
         id
       }

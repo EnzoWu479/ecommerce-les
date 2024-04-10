@@ -9,6 +9,9 @@ import { formaters } from '@/helpers/formaters';
 import { Button } from '../ui/button';
 import { productsMock } from '@/mock/productsMock';
 import { toast } from 'react-toastify';
+import { useCart } from '@/features/bag/useCart';
+import { placeholderImage } from '@/lib/placeholderImage';
+import { getSellPrice } from '@/utils/getSellPrice';
 
 const products = [
   {
@@ -41,10 +44,16 @@ const productsChoosen = productsMock.filter((_, index) => index < 3);
 
 export const ShoppingCart = () => {
   const { isOpen, setIsOpen } = useBagStore();
+  const { cart, removeProductFromCart } = useCart();
   const router = useRouter();
 
-  const handleRemove = () => {
-    toast.success('Produto removido do carrinho');
+  const handleRemove = async (productId: string) => {
+    try {
+      await removeProductFromCart(productId);
+      toast.success('Produto removido do carrinho');
+    } catch (error) {
+      toast.error('Erro ao remover produto do carrinho');
+    }
   };
 
   return (
@@ -100,12 +109,14 @@ export const ShoppingCart = () => {
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {productsChoosen.map(product => (
+                            {cart?.productCart.map(product => (
                               <li key={product.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={product.imageSrc}
-                                    alt={product.name}
+                                    src={placeholderImage({
+                                      preview: product.book?.name
+                                    })}
+                                    alt={product.book?.name}
                                     className="h-full w-full object-cover object-center"
                                   />
                                 </div>
@@ -115,24 +126,34 @@ export const ShoppingCart = () => {
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                       <h3>
                                         <Link href={`/produto/${product.id}`}>
-                                          {product.name}
+                                          {product.book?.name}
                                         </Link>
                                       </h3>
                                       <p className="ml-4">
-                                        {formaters.money(product.price)}
+                                        {formaters.money(
+                                          getSellPrice(
+                                            product.book?.priceCost,
+                                            product.book?.priceGroup
+                                              .profitPercent
+                                          )
+                                        )}
                                       </p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">
-                                      {product.author}
+                                      {product.book?.author}
                                     </p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">x 1</p>
+                                    <p className="text-gray-500">
+                                      x {product.amount}
+                                    </p>
 
                                     <div className="flex">
                                       <button
                                         type="button"
-                                        onClick={handleRemove}
+                                        onClick={() =>
+                                          handleRemove(product.book.id)
+                                        }
                                         className="text-bold font-medium  text-slate-900"
                                       >
                                         Remover

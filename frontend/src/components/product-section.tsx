@@ -1,16 +1,21 @@
 import { productsMock } from '@/mock/productsMock';
 import { ProductCard } from './client/product-card';
+import { productData } from '@/data/product';
 
 const getData = async () => {
-  const data = productsMock;
-  return data;
+  const products = await productData.getHome({
+    page: 1,
+    limit: 10,
+    search: {}
+  });
+  return products;
 };
 
 export const ProductSection = async () => {
   const products = await getData();
   return (
     <>
-      {products.map(product => (
+      {products.content.map(product => (
         <ProductCard key={product.id} product={product} />
       ))}
     </>

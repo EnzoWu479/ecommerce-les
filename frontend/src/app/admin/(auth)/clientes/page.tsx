@@ -45,10 +45,9 @@ import { Suspense } from 'react';
 import { clientData } from '@/data/client';
 import { ClientSearchParams } from '@/types/client';
 import { Paginate } from '@/components/paginate';
+import { IPage } from '@/types/page';
 
-type Props = {
-  page?: number;
-} & ClientSearchParams;
+type Props = IPage & ClientSearchParams;
 
 const ClientTableFetch = async ({ page, ...clientSearchParams }: Props) => {
   const clients = await clientData.getList({

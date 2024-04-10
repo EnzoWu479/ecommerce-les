@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/features/authentication/auth-store';
 import { TradePopup } from '../trade-popup';
 import { useAuthStoreClient } from '@/features/authentication/auth-store-client';
+import { useCart } from '@/features/bag/useCart';
 
 const navigation = {
   categories: [
@@ -72,7 +73,8 @@ export function ClientNavigationMenu() {
 
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState();
-  const { products, setIsOpen } = useBagStore();
+  const { setIsOpen } = useBagStore();
+  const { cart } = useCart();
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -375,7 +377,7 @@ export function ClientNavigationMenu() {
                       data-test="number-of-products"
                       className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800"
                     >
-                      {products}
+                      {cart?.productCart.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </button>

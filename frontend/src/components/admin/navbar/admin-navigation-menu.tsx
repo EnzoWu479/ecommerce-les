@@ -76,21 +76,9 @@ export const AdminNavigationMenu = ({ isCollapsed }: Props) => {
             href: '/admin/produtos'
           },
           {
-            title: 'Categorias',
-            label: '',
-            icon: Shapes,
-            href: '/admin/categorias'
-          },
-          {
             title: 'Vendas',
             href: '/admin/vendas',
             icon: ShoppingBasket
-          },
-          {
-            title: 'Grupo de precificação',
-            label: '',
-            href: '/admin/grupo-de-precificacao',
-            icon: Layers
           },
           {
             title: 'Cupons',

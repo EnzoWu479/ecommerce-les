@@ -41,12 +41,13 @@ model Client {
   cpf        String          @unique
   birthDate  DateTime
   gender     Gender
-  accountId  String?          @unique
+  accountId  String?         @unique
   account    Account?
   addresses  ClientAddress[]
   cards      CreditCard[]
   mainCardId String?         @unique
   mainCard   MainCard?
+  carts      Cart[]
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
 }
@@ -88,6 +89,7 @@ model Address {
   clientAddress   ClientAddress? @relation(fields: [clientAddressId], references: [id], onDelete: Cascade)
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
+  Purchase        Purchase[]
 }
 
 model City {
@@ -139,4 +141,134 @@ model MainCard {
   creditCard   CreditCard @relation(fields: [creditCardId], references: [id], onDelete: Cascade)
   clientId     String     @unique
   client       Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+model Book {
+  id           String          @id @default(uuid())
+  name         String
+  isbn         String          @unique
+  author       String
+  year         Int
+  publisher    String
+  edition      String
+  numberPages  Int
+  synopsis     String
+  height       Float
+  width        Float
+  weight       Float
+  depth        Float
+  priceCost    Float
+  manufacturer String
+  status       BookStatus      @default(ACTIVE)
+  categories   BookCategory[]
+  stock        BookStock?
+  priceGroupId String?
+  priceGroup   BookPriceGroup? @relation(fields: [priceGroupId], references: [id], onDelete: SetNull)
+  productCart  ProductCart[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BookCategory {
+  id        String   @id @default(uuid())
+  name      String
+  books     Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BookStock {
+  id        String   @id @default(uuid())
+  bookId    String   @unique
+  book      Book?    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BookPriceGroup {
+  id            String   @id @default(uuid())
+  name          String
+  profitPercent Float
+  books         Book[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum BookStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model ProductCart {
+  id     String @id @default(uuid())
+  cartId String
+  cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  bookId String
+  book   Book   @relation(fields: [bookId], references: [id])
+  amount Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cart {
+  id          String        @id @default(uuid())
+  clientId    String
+  client      Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  productCart ProductCart[]
+  purchase    Purchase?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Purchase {
+  id            String         @id @default(uuid())
+  cartId        String         @unique
+  cart          Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  coupons       Coupon[]
+  totalValue    Float
+  totalShipping Float
+  totalDiscount Float
+  purchasedAt   DateTime
+  status        PurchaseStatus
+  addressId     String
+  address       Address        @relation(fields: [addressId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum PurchaseStatus {
+  EM_PROCESSAMENTO
+  PAGAMENTO_REALIZADO
+  PEDIDO_CANCELADO
+  PAGAMENTO_RECUSADO
+  EM_TRANSPORTE
+  ENTREGUE
+}
+
+model Coupon {
+  id        String       @id @default(uuid())
+  code      String       @unique
+  type      CouponType
+  expiresAt DateTime
+  status    CouponStatus
+  value     Float
+  purchase  Purchase[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CouponType {
+  PROMOTIONAL
+  TRADE
+}
+
+enum CouponStatus {
+  ACTIVE
+  INACTIVE
 }
