@@ -54,114 +54,31 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Label } from '@/components/ui/label';
+import { purchaseData } from '@/services/data/purchase';
+import { IPage } from '@/types/page';
+import { SellTable } from './sell-table';
 
-const SellsPage = () => {
+const FetchTableSell = async ({ page }: IPage) => {
+  const sells = await purchaseData.listAll({ page: page || 1, limit: 10 });
+  console.log(sells);
+
+  return <SellTable sells={sells} />;
+};
+
+const SellsPage = ({ searchParams }: { searchParams: IPage }) => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
         <div className="flex gap-4">
           <h2 className="text-3xl font-bold tracking-tight">Vendas</h2>
-          <ModalSearch fields={sellSearchFields} />
+          {/* <ModalSearch fields={sellSearchFields} /> */}
         </div>
       </div>
-      <div className="mt-5 rounded border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Usuário</TableHead>
-              <TableHead>Produtos</TableHead>
-              <TableHead>Data da compra</TableHead>
-              <TableHead>Preço total</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Opções</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>João</TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="hover:underline">
-                    Ver produtos
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Produtos</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <div className="max-h-48 overflow-auto">
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Team</DropdownMenuItem>
-                      <DropdownMenuItem>Subscription</DropdownMenuItem>
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-              <TableCell>{formaters.date(new Date().toISOString())}</TableCell>
-              <TableCell>{formaters.money(108)}</TableCell>
-              <TableCell data-test="select-trade">
-                <Select defaultValue="a">
-                  <SelectTrigger className="w-[170px] border-none outline-none">
-                    <SelectValue placeholder="Selecione o status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Status da compra</SelectLabel>
-                      <SelectItem value="a">Em processamento</SelectItem>
-                      <SelectItem value="b">Em transporte</SelectItem>
-                      <SelectItem value="c">Em transito</SelectItem>
-                      <SelectItem value="d">Entregue</SelectItem>
-                      <SelectItem value="e">Aprovado</SelectItem>
-                      <SelectItem value="f">Reprovado</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </TableCell>
-              <TableCell>
-                <div className="flex gap-2">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Link href="/admin/vendas/1">
-                          <Eye />
-                        </Link>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Visualizar compra</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex justify-end">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+      <Suspense fallback="Loading">
+        <FetchTableSell {...searchParams} />
+      </Suspense>
     </>
   );
 };

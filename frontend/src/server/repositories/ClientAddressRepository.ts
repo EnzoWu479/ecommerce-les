@@ -5,6 +5,8 @@ import { AddressFormDTO } from '@/validations/address.schema';
 import { AddressRepository } from './AddressRepository';
 import { ResponseData } from '../shared/ResponseDataImp';
 import { SingletonClass } from '../singleton/SingletonClass';
+import { PageRequest } from '../shared/PageRequest';
+import { PageResponse } from '../shared/PageResponse';
 // @injectable()
 export class ClientAddressRepository {
   prisma: PrismaClient;
@@ -35,10 +37,83 @@ export class ClientAddressRepository {
       }
     });
   }
-  async findAllByClientId(clientId: string) {
+  async listAllByClientId(
+    clientId: string,
+    { page, limit }: PageRequest<unknown>
+  ): Promise<PageResponse<unknown>> {
+    console.log(clientId);
+
+    const [total, content] = await Promise.all([
+      this.prisma.clientAddress.count({
+        where: {
+          client: {
+            account: {
+              id: clientId
+            }
+          }
+        }
+      }),
+      this.prisma.clientAddress.findMany({
+        where: {
+          client: {
+            account: {
+              id: clientId
+            }
+          }
+        },
+        include: {
+          address: true
+        },
+        take: limit,
+        skip: (page - 1) * limit
+      })
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+    return {
+      content,
+      page,
+      limit,
+      total,
+      totalPages
+    };
+  }
+  async getDeliveryAddress(clientId: string) {
     return this.prisma.clientAddress.findMany({
       where: {
-        clientId
+        client: {
+          account: {
+            id: clientId
+          }
+        },
+        types: {
+          has: ClientAddressType.SHIPPING
+        }
+      },
+      include: {
+        address: {
+          include: {
+            city: {
+              include: {
+                state: true
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+  async connectAddressToClient(clientId: string, clientAddressId: string) {
+    return this.prisma.clientAddress.update({
+      where: {
+        id: clientAddressId
+      },
+      data: {
+        client: {
+          connect: {
+            id: clientId
+          }
+        }
       }
     });
   }

@@ -27,6 +27,7 @@ export class AddressRepository {
         streetType: data.streetType,
         observation: '',
         residenceType: data.residenceType,
+        neighborhood: data.neighborhood,
         city: {
           connect: {
             id: city.id

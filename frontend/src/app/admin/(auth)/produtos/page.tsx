@@ -63,7 +63,7 @@ import {
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { ActivatePopOver } from './components/activate-pop-over';
-import { productData } from '@/data/product';
+import { productData } from '@/services/data/product';
 import { ProductTable } from './product-table';
 import { Paginate } from '@/components/paginate';
 import { IPage } from '@/types/page';

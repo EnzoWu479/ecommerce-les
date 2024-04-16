@@ -7,24 +7,33 @@ import {
 } from './ui/tooltip';
 
 interface Props {
-  onIncrement?: () => void;
-  onDecrement?: () => void;
+  onChange?: (value: number) => void;
   value: string | number;
+  max?: number;
+  min?: number;
+  step?: number;
   tooltip?: string;
 }
 export const InputValueControl = ({
-  onDecrement,
-  onIncrement,
+  onChange,
   tooltip,
+  max,
+  min = 0,
+  step = 1,
   value
 }: Props) => {
+  const handleChange = (newValue: number) => {
+    if (onChange) {
+      onChange(Math.max(min, Math.min(max || Infinity, newValue)));
+    }
+  };
   return (
     <div className="flex items-center gap-2">
       <button
         type="button"
         className="aspect-square rounded-sm border p-1"
         data-test="decrement"
-        onClick={onDecrement}
+        onClick={() => handleChange(Number(value) - step)}
       >
         <Minus size={18} />
       </button>
@@ -41,7 +50,7 @@ export const InputValueControl = ({
         type="button"
         className="aspect-square rounded-sm border p-1"
         data-test="increment"
-        onClick={onIncrement}
+        onClick={() => handleChange(Number(value) + step)}
       >
         <Plus size={18} />
       </button>

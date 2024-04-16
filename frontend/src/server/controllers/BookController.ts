@@ -8,6 +8,8 @@ import { ResponseData } from '../shared/ResponseDataImp';
 import { api } from '@/lib/axios';
 import { SingletonClass } from '../singleton/SingletonClass';
 import { BookStockRepository } from '../repositories/BookStockRepository';
+import { BookDTO } from '../repositories/dto/BookDTO';
+import { IBook } from '../types/book';
 
 export class BookController {
   private bookRepository: BookRepository;
@@ -62,7 +64,10 @@ export class BookController {
         search
       });
 
-      res.status(200).json(books);
+      res.status(200).json({
+        ...books,
+        content: books.content.map(b => new BookDTO(b))
+      });
     } catch (error: any) {
       console.log(error);
 
@@ -91,7 +96,9 @@ export class BookController {
 
       const book = await this.bookRepository.findById(id as string);
 
-      res.status(200).json(book);
+      if (!book) throw new Error('Livro não encontrado');
+
+      res.status(200).json(new BookDTO(book));
     } catch (error: any) {
       res.status(400).json(new ResponseData(null, error.message, 400));
     }

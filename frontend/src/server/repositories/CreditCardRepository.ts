@@ -4,6 +4,8 @@ import { inject, injectable } from 'inversify';
 import { CreditCardFormDTO } from '@/validations/creditCard.schema';
 import { CreditCardBrandRepository } from './CreditCardBrandRepository';
 import { SingletonClass } from '../singleton/SingletonClass';
+import { PageRequest } from '../shared/PageRequest';
+import { PageResponse } from '../shared/PageResponse';
 // @injectable()
 export class CreditCardRepository {
   prisma: PrismaClient;
@@ -43,13 +45,54 @@ export class CreditCardRepository {
     });
   }
   async findAllByUserId(userId: string) {
-    return this.prisma.creditCard.findMany({
+    return await this.prisma.creditCard.findMany({
       where: {
         client: {
-          accountId: userId
+          account: {
+            id: userId
+          }
         }
       }
     });
+  }
+  async listAllByClientId(
+    clientId: string,
+    { page, limit }: PageRequest<unknown>
+  ): Promise<PageResponse<unknown>> {
+    console.log(clientId);
+
+    const [total, content] = await Promise.all([
+      this.prisma.clientAddress.count({
+        where: {
+          client: {
+            account: {
+              id: clientId
+            }
+          }
+        }
+      }),
+      this.prisma.clientAddress.findMany({
+        where: {
+          client: {
+            account: {
+              id: clientId
+            }
+          }
+        },
+        take: limit,
+        skip: (page - 1) * limit
+      })
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      total,
+      content,
+      page,
+      limit,
+      totalPages
+    };
   }
 
   async update(id: string, data: CreditCardFormDTO) {

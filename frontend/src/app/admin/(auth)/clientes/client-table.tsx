@@ -22,7 +22,7 @@ import Link from 'next/link';
 import { PencilLine } from 'lucide-react';
 import { ModalWarning } from '@/components/modal-warning';
 import { AccountStatus } from '@prisma/client';
-import { clientData } from '@/data/client';
+import { clientData } from '@/services/data/client';
 import { revalidatePath } from 'next/cache';
 import { IClient } from '@/types/client';
 import { PageResponse } from '@/server/shared/PageResponse';
@@ -34,15 +34,6 @@ interface Props {
 
 export const ClientTable = async ({ clients }: Props) => {
   const router = useRouter();
-  // const handleStatusChange =
-  //   (id: string, status: AccountStatus) => async () => {
-  //     'use server';
-  //     console.log('status', status);
-
-  //     await clientData.updateStatus(id, status);
-  //     revalidatePath('/admin/clientes');
-  //   };
-
   const handleDelete = async (client: IClient) => {
     try {
       await clientData.delete(client.id);
@@ -108,7 +99,10 @@ export const ClientTable = async ({ clients }: Props) => {
             </TableCell>
             <TableCell>
               <div className="flex gap-2">
-                <Link href={`/admin/clientes/${client.id}`} data-test="edit-item">
+                <Link
+                  href={`/admin/clientes/${client.id}`}
+                  data-test="edit-item"
+                >
                   <PencilLine />
                 </Link>
                 <div data-test="delete-item">

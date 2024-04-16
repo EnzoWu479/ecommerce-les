@@ -26,16 +26,22 @@ import {
 } from '@/components/ui/tooltip';
 import { formaters } from '@/helpers/formaters';
 import { Input } from '@/components/ui/input';
-import { addressMock } from '@/mock/addressMock';
 import { useRouter } from 'next/navigation';
 import { useCheckoutStore } from '@/features/checkout/store';
 import { toast } from 'react-toastify';
 import { FormEvent, useState } from 'react';
-
-const addresses = addressMock;
+import { useQueryDeliveryAddress } from '@/services/query/useQueryAddress';
+import { masks } from '@/helpers/masks';
+import { useQueryCreditCardUnlist } from '@/services/query/useQueryCreditCard';
+import { PurchaseCardSchema } from '@/server/validations/purchase.schema';
+import { purchaseData } from '@/services/data/purchase';
 
 export const CheckoutForm = () => {
   const router = useRouter();
+  const { data: addresses } = useQueryDeliveryAddress();
+  const { data: creditCards } = useQueryCreditCardUnlist();
+  console.log(creditCards);
+
   const { infos, setInfos, clearInfos } = useCheckoutStore();
   const [coupomInput, setCoupomInput] = useState('');
   const [coupons, setCoupons] = useState<
@@ -46,19 +52,19 @@ export const CheckoutForm = () => {
   >([]);
   const totalPrice = 499.99;
   const totalMissingPercent =
-    100 - infos.payments.reduce((acc, payment) => acc + payment.cut, 0);
+    100 - infos.cards.reduce((acc, payment) => acc + payment.percent, 0);
 
   const handleAddPayment = (id: string) => {
-    const hasPayment = infos.payments.some(payment => payment.id === id);
-    const payment = {
-      id: id,
-      cut: 0
+    const hasPayment = infos.cards.some(payment => payment.cardId === id);
+    const payment: PurchaseCardSchema = {
+      cardId: id,
+      percent: 0
     };
     setInfos({
       ...infos,
-      payments: hasPayment
-        ? infos.payments.filter(payment => payment.id !== id)
-        : [...infos.payments, payment]
+      cards: hasPayment
+        ? infos.cards.filter(payment => payment.cardId !== id)
+        : [...infos.cards, payment]
     });
   };
   const handleAddCoupom = (event: FormEvent) => {
@@ -76,9 +82,16 @@ export const CheckoutForm = () => {
   const handleDeleteCoupom = (id: string) => {
     setCoupons(prev => prev.filter(coupom => coupom.id !== id));
   };
-  const handleBuy = () => {
-    toast.success('Compra realizada com sucesso');
-    router.push('/compras');
+  const isDisabled =
+    !infos.addressId || infos.cards.length <= 0 || totalMissingPercent > 0;
+  const handleBuy = async () => {
+    try {
+      await purchaseData.purchase(infos);
+      toast.success('Compra realizada com sucesso');
+      router.push('/compras');
+    } catch (error) {
+      toast.error('Erro ao realizar compra');
+    }
   };
   return (
     <div className="flex h-full flex-col justify-between space-y-4">
@@ -88,24 +101,26 @@ export const CheckoutForm = () => {
         </CardHeader>
         <CardContent className="flex max-h-32 flex-col gap-2 overflow-auto">
           <RadioGroup
-            value={infos.address_id}
-            onValueChange={value => setInfos({ ...infos, address_id: value })}
+            value={infos.addressId}
+            onValueChange={value => setInfos({ ...infos, addressId: value })}
           >
             <div className="max-h-24 space-y-2 overflow-auto">
-              {addresses.map((address, index) => (
+              {addresses?.map((address, index) => (
                 <div className="flex items-center gap-2" key={address.id}>
                   <RadioGroupItem
-                    value={address.id}
+                    value={address.address.id}
                     data-test={`address-${index + 1}`}
                   />
                   <HoverCard>
                     <HoverCardTrigger className="cursor-pointer hover:underline">
-                      {'Endereço 1'}
+                      {address.name}
                     </HoverCardTrigger>
                     <HoverCardContent className="text-sm">
-                      {'Complemento'} <br /> {address.street}, {address.number}{' '}
-                      - {'Bairro'} <br /> {address.city.name} - {'Estado'},{' '}
-                      {address.zipCode}
+                      {address.address.street}, {address.address.number} -{' '}
+                      {address.address.neighborhood} <br />{' '}
+                      {address.address.city.name} -{' '}
+                      {address.address.city.state.uf},{' '}
+                      {masks.zipcode(address.address.zipCode)}
                     </HoverCardContent>
                   </HoverCard>
                 </div>
@@ -135,44 +150,26 @@ export const CheckoutForm = () => {
         </CardHeader>
         <CardContent>
           <div className="max-h-24 space-y-2 overflow-auto">
-            {Array.from({ length: 5 }).map((_, index) => {
-              const currentPayment = infos.payments.find(
-                payment => payment.id === String(index)
+            {creditCards?.map((card, index) => {
+              const currentPayment = infos.cards.find(
+                payment => payment.cardId === card.id
               );
-              const handleIncrement = () => {
+              const handleChange = (value: number) => {
                 if (currentPayment) {
+                  const newPayment = [...infos.cards];
+                  newPayment[newPayment.indexOf(currentPayment)] = {
+                    ...currentPayment,
+                    percent: value
+                  };
                   setInfos({
                     ...infos,
-                    payments: infos.payments.map(payment =>
-                      payment.id === String(index)
-                        ? {
-                            ...payment,
-                            cut: Math.min(
-                              payment.cut + 5,
-                              totalMissingPercent > 0
-                                ? payment.cut + totalMissingPercent
-                                : payment.cut
-                            )
-                          }
-                        : payment
-                    )
+                    cards: newPayment
                   });
                 }
               };
-              const handleDecrement = () => {
-                if (currentPayment) {
-                  setInfos({
-                    ...infos,
-                    payments: infos.payments.map(payment =>
-                      payment.id === String(index)
-                        ? { ...payment, cut: Math.max(0, payment.cut - 5) }
-                        : payment
-                    )
-                  });
-                }
-              };
+              const value = currentPayment?.percent || 0;
               const priceInReal =
-                (totalPrice * (currentPayment?.cut || 0)) / 100;
+                (totalPrice * (currentPayment?.percent || 0)) / 100;
               return (
                 <div
                   className="flex items-center justify-between gap-2"
@@ -183,25 +180,29 @@ export const CheckoutForm = () => {
                     <Checkbox
                       checked={!!currentPayment}
                       data-test="checkbox"
-                      onClick={() => handleAddPayment(String(index))}
+                      onClick={() => handleAddPayment(card.id)}
                     />
                     <HoverCard>
                       <HoverCardTrigger className="cursor-pointer hover:underline">
-                        Cartão 1
+                        {card.name}
                       </HoverCardTrigger>
                       <HoverCardContent className="text-sm">
-                        **** **** **** 1121 <br /> 12/24 <br /> John Doe
+                        **** **** ****{' '}
+                        {card.number.slice(card.number.length - 4)} <br />{' '}
+                        {formaters.date(card.expDate, 'MM/YY')} <br />{' '}
+                        {card.holderName}
                       </HoverCardContent>
                     </HoverCard>
                   </div>
                   {currentPayment && (
                     <InputValueControl
-                      value={currentPayment?.cut || 0}
+                      value={value}
                       tooltip={
                         priceInReal ? String(formaters.money(priceInReal)) : ''
                       }
-                      onIncrement={handleIncrement}
-                      onDecrement={handleDecrement}
+                      onChange={handleChange}
+                      step={5}
+                      max={value + totalMissingPercent}
                     />
                   )}
                 </div>
@@ -276,7 +277,11 @@ export const CheckoutForm = () => {
             Voltar
           </Link>
         </Button>
-        <Button onClick={handleBuy} data-test="buy-button">
+        <Button
+          onClick={handleBuy}
+          data-test="buy-button"
+          disabled={isDisabled}
+        >
           Comprar
         </Button>
       </div>

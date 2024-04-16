@@ -5,6 +5,12 @@ import { AccountRoles } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createRouter } from 'next-connect';
 
+export const config = {
+  api: {
+    externalResolver: true
+  }
+};
+
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
 const cartController = SingletonClass.getInstance(CartController);

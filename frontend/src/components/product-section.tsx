@@ -1,6 +1,5 @@
-import { productsMock } from '@/mock/productsMock';
 import { ProductCard } from './client/product-card';
-import { productData } from '@/data/product';
+import { productData } from '@/services/data/product';
 
 const getData = async () => {
   const products = await productData.getHome({

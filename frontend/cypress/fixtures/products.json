@@ -15,7 +15,7 @@
     "depth": 2.2,
     "priceCost": 29.90,
     "manufacturer": "Editora Clássicos",
-    "priceGroupId": "2c3f52d4-7ec3-4f53-8911-16fef2631f07"
+    "priceGroupId": "4c031611-75e5-479c-918f-8fa9e28a6e9f"
   },
   {
     "name": "Dom Casmurro",
@@ -33,7 +33,7 @@
     "depth": 2.5,
     "priceCost": 45.00,
     "manufacturer": "Editora Nacional",
-    "priceGroupId": "82f83b7e-c977-4c4d-856e-e389263c1923"
+    "priceGroupId": "4c031611-75e5-479c-918f-8fa9e28a6e9f"
   },
   {
     "name": "A Moreninha",
@@ -51,7 +51,7 @@
     "depth": 1.8,
     "priceCost": 35.50,
     "manufacturer": "Editora do Brasil",
-    "priceGroupId": "984aa8e0-e0a1-40dc-9ec7-c420cde4be93"
+    "priceGroupId": "691735f8-d892-4ebd-a371-bdc0a9ac4e1d"
   },
   {
     "name": "Memórias Póstumas de Brás Cubas",
@@ -69,7 +69,7 @@
     "depth": 2,
     "priceCost": 39.90,
     "manufacturer": "Editora Memórias",
-    "priceGroupId": "2c3f52d4-7ec3-4f53-8911-16fef2631f07"
+    "priceGroupId": "691735f8-d892-4ebd-a371-bdc0a9ac4e1d"
   },
   {
     "name": "O Alienista",
@@ -87,7 +87,7 @@
     "depth": 1.5,
     "priceCost": 25.00,
     "manufacturer": "Editora Raízes",
-    "priceGroupId": "82f83b7e-c977-4c4d-856e-e389263c1923"
+    "priceGroupId": "98361482-409a-470a-98d9-d9686f2a5d7e"
   },
   {
     "name": "Capitães da Areia",
@@ -105,7 +105,7 @@
     "depth": 2.1,
     "priceCost": 42.90,
     "manufacturer": "Editora Bahia",
-    "priceGroupId": "984aa8e0-e0a1-40dc-9ec7-c420cde4be93"
+    "priceGroupId": "98361482-409a-470a-98d9-d9686f2a5d7e"
   },
   {
     "name": "A Hora da Estrela",
@@ -123,7 +123,7 @@
     "depth": 1.6,
     "priceCost": 32.90,
     "manufacturer": "Editora Luz",
-    "priceGroupId": "2c3f52d4-7ec3-4f53-8911-16fef2631f07"
+    "priceGroupId": "691735f8-d892-4ebd-a371-bdc0a9ac4e1d"
   },
   {
     "name": "O Pequeno Príncipe",
@@ -141,7 +141,7 @@
     "depth": 1.8,
     "priceCost": 50.00,
     "manufacturer": "Editora Estrelas",
-    "priceGroupId": "82f83b7e-c977-4c4d-856e-e389263c1923"
+    "priceGroupId": "691735f8-d892-4ebd-a371-bdc0a9ac4e1d"
   },
   {
     "name": "Vidas Secas",
@@ -159,6 +159,6 @@
     "depth": 2,
     "priceCost": 38.00,
     "manufacturer": "Editora Secas",
-    "priceGroupId": "984aa8e0-e0a1-40dc-9ec7-c420cde4be93"
+    "priceGroupId": "691735f8-d892-4ebd-a371-bdc0a9ac4e1d"
   } 
 ]

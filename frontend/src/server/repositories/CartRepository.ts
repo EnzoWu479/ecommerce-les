@@ -16,7 +16,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true
+                priceGroup: true,
               }
             }
           }
@@ -40,7 +40,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true
+                priceGroup: true,
               }
             }
           }
@@ -113,7 +113,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true
+                priceGroup: true,
               }
             }
           }
@@ -142,7 +142,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true
+                priceGroup: true,
               }
             }
           }
@@ -183,7 +183,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true
+                priceGroup: true,
               }
             }
           }

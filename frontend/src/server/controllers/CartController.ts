@@ -4,6 +4,7 @@ import { SingletonClass } from '../singleton/SingletonClass';
 import { jwtService } from '../lib/jwt';
 import { COOKIES_NAME } from '@/config/constants';
 import { ResponseData } from '../shared/ResponseDataImp';
+import { BookDTO } from '../repositories/dto/BookDTO';
 
 export class CartController {
   private cartRepository: CartRepository;
@@ -23,9 +24,15 @@ export class CartController {
       const { infos } = jwtService.extract(jwt);
 
       const cart = await this.cartRepository.getCurrentCart(infos.id);
-      res.status(200).json(cart);
+      const products = cart.productCart.map(product => {
+        return {
+          ...product,
+          book: new BookDTO(product.book)
+        };
+      });
+      return res.status(200).json({ ...cart, productCart: products });
     } catch (error: any) {
-      res.status(500).json(new ResponseData(null, error.message, 400));
+      return res.status(500).json(new ResponseData(null, error.message, 400));
     }
   }
   public async addProductToCart(req: NextApiRequest, res: NextApiResponse) {
@@ -41,7 +48,13 @@ export class CartController {
         productId,
         quantity
       );
-      res.status(201).json(cart);
+      const products = cart.productCart.map(product => {
+        return {
+          ...product,
+          book: new BookDTO(product.book)
+        };
+      });
+      res.status(201).json({ ...cart, productCart: products });
     } catch (error: any) {
       res.status(500).json(new ResponseData(null, error.message, 400));
     }
@@ -59,7 +72,13 @@ export class CartController {
         productId,
         quantity
       );
-      res.status(200).json(cart);
+      const products = cart.productCart.map(product => {
+        return {
+          ...product,
+          book: new BookDTO(product.book)
+        };
+      });
+      res.status(200).json({ ...cart, productCart: products });
     } catch (error: any) {
       res.status(500).json(new ResponseData(null, error.message, 400));
     }
@@ -81,7 +100,13 @@ export class CartController {
         infos.id,
         productId
       );
-      res.status(200).json(cart);
+      const products = cart.productCart.map(product => {
+        return {
+          ...product,
+          book: new BookDTO(product.book)
+        };
+      });
+      res.status(200).json({ ...cart, productCart: products });
     } catch (error: any) {
       res.status(500).json(new ResponseData(null, error.message, 400));
     }

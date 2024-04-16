@@ -4,9 +4,9 @@ import { GoBackButton } from '@/components/go-back-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { categoryData } from '@/data/category';
-import { priceGroupData } from '@/data/priceGroup';
-import { productData } from '@/data/product';
+import { categoryData } from '@/services/data/category';
+import { priceGroupData } from '@/services/data/priceGroup';
+import { productData } from '@/services/data/product';
 
 interface Params {
   id: string;

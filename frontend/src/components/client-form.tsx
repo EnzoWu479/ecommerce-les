@@ -31,7 +31,7 @@ import { addressEmpty } from '@/validations/address.schema';
 import { creditCardEmpty } from '@/validations/creditCard.schema';
 import { CreditCardForm } from './creditCard-form';
 import { cn } from '@/lib/utils';
-import { clientData } from '@/data/client';
+import { clientData } from '@/services/data/client';
 import { IClient } from '@/types/client';
 import { formaters } from '@/helpers/formaters';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
@@ -115,7 +115,7 @@ export const ClientForm = ({ client }: Props) => {
             street: address.address.street,
             streetType: address.address.streetType,
             number: address.address.number,
-            neighborhood: address.address.city.name,
+            neighborhood: address.address.neighborhood,
             residenceType: address.address.residenceType,
             zipcode: address.address.zipCode,
             city: address.address.city.name,

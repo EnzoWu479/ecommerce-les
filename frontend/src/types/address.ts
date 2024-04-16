@@ -1,16 +1,20 @@
+import { IClientAddress } from './client';
+
 export interface IAddress {
   id: string;
-  
+
   zipCode: string;
   street: string;
   streetType: string;
   number: string;
   residenceType: string;
   observation: string;
+  neighborhood: string;
   cityId: string;
   clientAddressId: null;
   createdAt: string;
   updatedAt: string;
+  clientAddress: IClientAddress;
   city: ICity;
 }
 

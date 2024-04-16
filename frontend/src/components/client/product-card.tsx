@@ -31,9 +31,7 @@ export const ProductCard = ({ product }: Props) => {
           {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
         </div>
         <p className="text-sm font-medium text-gray-900">
-          {formaters.money(
-            getSellPrice(product.priceCost, product.priceGroup.profitPercent)
-          )}
+          {formaters.money(product.priceSell)}
         </p>
       </div>
     </Card>

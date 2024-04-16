@@ -1,7 +1,7 @@
 'use client';
 import { InputValueControl } from '@/components/input-value-control';
 import { Button } from '@/components/ui/button';
-import { productData } from '@/data/product';
+import { productData } from '@/services/data/product';
 import { useCart } from '@/features/bag/useCart';
 import { formaters } from '@/helpers/formaters';
 import { placeholderImage } from '@/lib/placeholderImage';
@@ -77,23 +77,16 @@ export const ProductPage = ({ product }: Props) => {
             </div>
 
             <p className="text-3xl tracking-tight text-gray-900">
-              {formaters.money(
-                getSellPrice(
-                  product.priceCost,
-                  product.priceGroup.profitPercent
-                )
-              )}
+              {formaters.money(product.priceSell)}
             </p>
             <div className="flex gap-4">
               <InputValueControl
                 value={quantity}
                 tooltip={`${quantity}`}
-                onIncrement={() =>
-                  setQuantity(prev =>
-                    Math.min(prev + 1, product.stock.quantity)
-                  )
-                }
-                onDecrement={() => setQuantity(prev => Math.max(prev - 1, 1))}
+                onChange={(value: number) => {
+                  setQuantity(value);
+                }}
+                max={product.stock.quantity}
               />
               <Button
                 data-test="add-product-button"
@@ -140,10 +133,6 @@ export const ProductPage = ({ product }: Props) => {
           <div>
             <span className="font-bold">Peso</span>
             <div>{product.weight}kg</div>
-          </div>
-          <div>
-            <span className="font-bold">Número de páginas</span>
-            <div>{product.numberPages} páginas</div>
           </div>
         </div>
       </div>

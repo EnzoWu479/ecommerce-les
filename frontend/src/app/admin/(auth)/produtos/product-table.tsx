@@ -22,7 +22,7 @@ import Link from 'next/link';
 import { PencilLine } from 'lucide-react';
 import { ModalWarning } from '@/components/modal-warning';
 import { AccountStatus, BookStatus } from '@prisma/client';
-import { clientData } from '@/data/client';
+import { clientData } from '@/services/data/client';
 import { revalidatePath } from 'next/cache';
 import { IClient } from '@/types/client';
 import { PageResponse } from '@/server/shared/PageResponse';
@@ -44,7 +44,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ActivatePopOver } from './components/activate-pop-over';
 import { getSellPrice } from '@/utils/getSellPrice';
-import { productData } from '@/data/product';
+import { productData } from '@/services/data/product';
 import { ModalChangeStock } from './modal-change-stock';
 
 interface Props {
@@ -110,12 +110,12 @@ export const ProductTable = async ({ products }: Props) => {
                     {formaters.money(
                       getSellPrice(
                         product.priceCost,
-                        product.priceGroup.profitPercent
+                        product.priceGroup?.profitPercent || 0
                       )
                     )}
                   </TooltipTrigger>
                   <TooltipContent>
-                    {product.priceGroup.profitPercent}%
+                    {product.priceGroup?.profitPercent || 0}%
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>

@@ -69,12 +69,13 @@ export function ClientNavigationMenu() {
   const router = useRouter();
   const [isAuth, setIsAuth] = useState(false);
   const { isAuthenticated } = useAuthStoreClient();
+  const { cart } = useCart();
+
   // console.log(isAuthenticated);
 
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState();
   const { setIsOpen } = useBagStore();
-  const { cart } = useCart();
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();

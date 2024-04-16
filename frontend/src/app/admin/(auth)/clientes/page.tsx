@@ -1,51 +1,12 @@
 import { ModalSearch } from '@/components/admin/modal-search';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious
-} from '@/components/ui/pagination';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
-import { formaters } from '@/helpers/formaters';
-import { masks } from '@/helpers/masks';
-import { PencilLine, Trash2 } from 'lucide-react';
-import Link from 'next/link';
 import { ClientSearchFields } from './utils';
 import { ModalWarning } from '@/components/modal-warning';
-import { ClientTable } from './client-table';
 import { Suspense } from 'react';
-import { clientData } from '@/data/client';
+import { clientData } from '@/services/data/client';
 import { ClientSearchParams } from '@/types/client';
 import { Paginate } from '@/components/paginate';
 import { IPage } from '@/types/page';
+import { ClientTable } from './client-table';
 
 type Props = IPage & ClientSearchParams;
 

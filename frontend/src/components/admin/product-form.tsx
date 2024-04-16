@@ -26,7 +26,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { BookForm, bookFormSchema } from '@/validations/bookForm.schema';
 import { ErrorMessage } from '../ui/error-message';
 import { IPriceGroup } from '@/types/priceGroup';
-import { productData } from '@/data/product';
+import { productData } from '@/services/data/product';
 import { IProduct } from '@/types/product';
 import { getSellPrice } from '@/utils/getSellPrice';
 import { formaters } from '@/helpers/formaters';
@@ -67,7 +67,7 @@ export const ProductForm = ({
       priceCost: String(product?.priceCost || 0),
       publisher: product?.publisher || '',
       synopsis: product?.synopsis || '',
-      priceGroupId: product?.priceGroup.id || '',
+      priceGroupId: product?.priceGroup?.id || '',
       weight: String(product?.weight || 0),
       width: String(product?.width || 0),
       year: String(product?.year || 0),

@@ -1,5 +1,5 @@
 'use client';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { X } from 'lucide-react';
 import { useBagStore } from '@/features/bag/store';
@@ -7,44 +7,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { formaters } from '@/helpers/formaters';
 import { Button } from '../ui/button';
-import { productsMock } from '@/mock/productsMock';
 import { toast } from 'react-toastify';
 import { useCart } from '@/features/bag/useCart';
 import { placeholderImage } from '@/lib/placeholderImage';
-import { getSellPrice } from '@/utils/getSellPrice';
-
-const products = [
-  {
-    id: 1,
-    name: 'Throwback Hip Bag',
-    href: '#',
-    color: 'Salmon',
-    price: '$90.00',
-    quantity: 1,
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-    imageAlt:
-      'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.'
-  },
-  {
-    id: 2,
-    name: 'Medium Stuff Satchel',
-    href: '#',
-    color: 'Blue',
-    price: '$32.00',
-    quantity: 1,
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.'
-  }
-  // More products...
-];
-const productsChoosen = productsMock.filter((_, index) => index < 3);
+import { InputValueControl } from '../input-value-control';
 
 export const ShoppingCart = () => {
   const { isOpen, setIsOpen } = useBagStore();
-  const { cart, removeProductFromCart } = useCart();
+  const { cart, total, removeProductFromCart } = useCart();
   const router = useRouter();
 
   const handleRemove = async (productId: string) => {
@@ -130,12 +100,11 @@ export const ShoppingCart = () => {
                                         </Link>
                                       </h3>
                                       <p className="ml-4">
+                                        <span className="text-sm text-gray-500">
+                                          {product.amount} x{' '}
+                                        </span>
                                         {formaters.money(
-                                          getSellPrice(
-                                            product.book?.priceCost,
-                                            product.book?.priceGroup
-                                              .profitPercent
-                                          )
+                                          product.book.priceSell
                                         )}
                                       </p>
                                     </div>
@@ -144,9 +113,11 @@ export const ShoppingCart = () => {
                                     </p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">
-                                      x {product.amount}
-                                    </p>
+                                    <InputValueControl
+                                      value={product.amount}
+                                      // onIncrement={handleIncrement}
+                                      // onDecrement={handleDecrement}
+                                    />
 
                                     <div className="flex">
                                       <button
@@ -171,7 +142,7 @@ export const ShoppingCart = () => {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>{formaters.money(52)}</p>
+                        <p>{formaters.money(total)}</p>
                       </div>
                       <div className="mt-6">
                         <Button asChild className="w-full">

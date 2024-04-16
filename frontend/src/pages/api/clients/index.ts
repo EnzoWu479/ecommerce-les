@@ -8,7 +8,6 @@ import { createRouter, expressWrapper } from 'next-connect';
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
 const clientController = SingletonClass.getInstance(ClientController);
-console.log('oi');
 
 // Publica
 router

@@ -1,6 +1,8 @@
+import { COOKIES_NAME } from '@/config/constants';
 import { api } from '@/lib/axios';
 import { ICart } from '@/types/cart';
 import { Cart } from '@prisma/client';
+import { cookies } from 'next/headers';
 
 export const cartData = {
   async getCurrentCart() {

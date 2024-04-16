@@ -44,7 +44,8 @@ describe('crud client', () => {
         }
       );
     });
-    const password = faker.internet.password() + '@';
+    // const password = faker.internet.password() + '@';
+    const password = '12345678Aa@';
     cy.get('input[name=password]').type(password);
     cy.get('input[name=passwordConfirmation]').type(password);
     cy.get('button[data-test=add-address-button]').click().click();

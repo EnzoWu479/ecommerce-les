@@ -10,7 +10,7 @@ import {
   dialogClose
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { productData } from '@/data/product';
+import { productData } from '@/services/data/product';
 import { ResponseData } from '@/server/shared/ResponseDataImp';
 import { IProduct } from '@/types/product';
 import { ArrowUpLeftFromSquare } from 'lucide-react';
