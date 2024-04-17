@@ -7,6 +7,8 @@ import { ClientLayout } from '@/components/layouts/client-layout';
 import Image from 'next/image';
 import { Suspense } from 'react';
 
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   return (
     <ClientLayout>

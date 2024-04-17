@@ -176,4 +176,37 @@ export class PurchaseRepository {
       }
     });
   }
+  public async getById(id: string) {
+    return this.prisma.purchase.findUnique({
+      where: {
+        id
+      },
+      include: {
+        address: {
+          include: {
+            clientAddress: true,
+            city: {
+              include: {
+                state: true
+              }
+            }
+          }
+        },
+        cart: {
+          include: {
+            productCart: {
+              include: {
+                book: {
+                  include: {
+                    categories: true,
+                    priceGroup: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+  }
 }

@@ -36,20 +36,22 @@ enum AccountStatus {
 }
 
 model Client {
-  id         String          @id @default(uuid())
-  name       String
-  cpf        String          @unique
-  birthDate  DateTime
-  gender     Gender
-  accountId  String?         @unique
-  account    Account?
-  addresses  ClientAddress[]
-  cards      CreditCard[]
-  mainCardId String?         @unique
-  mainCard   MainCard?
-  carts      Cart[]
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
+  id           String          @id @default(uuid())
+  name         String
+  cpf          String          @unique
+  birthDate    DateTime
+  gender       Gender
+  accountId    String?         @unique
+  account      Account?
+  addresses    ClientAddress[]
+  cards        CreditCard[]
+  mainCardId   String?         @unique
+  mainCard     MainCard?
+  carts        Cart[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  TradeRequest TradeRequest[]
+  Notification Notification[]
 }
 
 enum Gender {
@@ -216,8 +218,10 @@ model ProductCart {
   book   Book   @relation(fields: [bookId], references: [id])
   amount Int
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  TradeRequest   TradeRequest? @relation(fields: [tradeRequestId], references: [id])
+  tradeRequestId String?
 }
 
 model Cart {
@@ -242,7 +246,7 @@ model Purchase {
   status        PurchaseStatus
   addressId     String
   address       Address        @relation(fields: [addressId], references: [id])
-  cards  PurchaseCard[]
+  cards         PurchaseCard[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -270,16 +274,19 @@ enum PurchaseStatus {
 }
 
 model Coupon {
-  id        String       @id @default(uuid())
-  code      String       @unique
+  id        String        @id @default(uuid())
+  code      String        @unique
   type      CouponType
-  expiresAt DateTime
+  expiresAt DateTime?
   status    CouponStatus
   value     Float
   purchase  Purchase[]
+  tradeId   String?       @unique
+  trade     TradeRequest? @relation(fields: [tradeId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  tradeRequestId String?
 }
 
 enum CouponType {
@@ -290,4 +297,49 @@ enum CouponType {
 enum CouponStatus {
   ACTIVE
   INACTIVE
+}
+
+model TradeRequest {
+  id             String        @id @default(uuid())
+  clientId       String
+  client         Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  notificationId String?       @unique
+  notification   Notification?
+  couponId       String?       @unique
+  coupon         Coupon?
+  status         TradeStatus
+  books          ProductCart[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TradeStatus {
+  EM_TROCA
+  TROCA_AUTORIZADA
+  TROCA_RECUSADA
+  TROCA_REALIZADA
+}
+
+model Notification {
+  id       String           @id @default(uuid())
+  title    String
+  message  String
+  type     NotificationType
+  read     Boolean          @default(false)
+  tradeId  String?          @unique
+  trade    TradeRequest?    @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  clientId String
+  client   Client           @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum NotificationType {
+  TRADE_REQUEST
+  RETRIEVE_REQUEST
+  PURCHASE
+  PURCHASE_CANCEL
+  TRADE_COUPON
 }

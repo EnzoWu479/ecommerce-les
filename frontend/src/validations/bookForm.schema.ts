@@ -1,8 +1,6 @@
+import { refineBiggerThan } from '@/utils/validations';
 import { z } from 'zod';
 
-const refineBiggerThan = (number = 0) => {
-  return (data: string) => Number(data.replace(/\D/g, '') || 0) > number;
-};
 export const bookFormSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
   isbn: z.string().min(1, 'ISBN é obrigatório'),

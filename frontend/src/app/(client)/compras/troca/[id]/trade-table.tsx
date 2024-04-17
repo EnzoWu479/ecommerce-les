@@ -35,15 +35,36 @@ import {
   TableRow
 } from '@/components/ui/table';
 import { formaters } from '@/helpers/formaters';
+import { tradeData } from '@/services/data/trade';
+import { IPurchase } from '@/types/purchase';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-export const TradeTable = () => {
+interface Props {
+  purchase: IPurchase;
+}
+
+export const TradeTable = ({ purchase }: Props) => {
   const router = useRouter();
-  const handleTrade = () => {
-    toast.success('Troca solicitada com sucesso');
-    router.push('/compras');
+  const products = purchase.cart.productCart;
+  const [selected, setSelected] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleTrade = async () => {
+    setLoading(true);
+    try {
+      await tradeData.request({
+        productsId: selected
+      });
+      toast.success('Troca solicitada com sucesso');
+      router.push('/compras');
+    } catch (error) {
+      toast.error('Erro ao solicitar troca');
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -58,18 +79,26 @@ export const TradeTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.from({ length: 10 }).map((_, index) => (
-            <TableRow key={index}>
+          {products.map((product, index) => (
+            <TableRow key={product.id}>
               <TableCell className="w-10">
-                <Checkbox data-test={`checkbox-${index}`} />
+                <Checkbox
+                  data-test={`checkbox-${index}`}
+                  checked={selected.includes(product.id)}
+                  onCheckedChange={() => {
+                    setSelected(prev =>
+                      prev.includes(product.id)
+                        ? prev.filter(i => i !== product.id)
+                        : [...prev, product.id]
+                    );
+                  }}
+                />
               </TableCell>
-              <TableCell className="flex gap-4">
-                Livro do Harry Potter {index}
-              </TableCell>
+              <TableCell className="flex gap-4">{product.book.name}</TableCell>
               <TableCell>
-                {formaters.money(Math.floor(Math.random() * 1000))}
+                {formaters.money(Math.floor(product.book.priceSell))}
               </TableCell>
-              <TableCell>Editora Violet</TableCell>
+              <TableCell>{product.book.publisher}</TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger className="hover:underline">
@@ -79,16 +108,11 @@ export const TradeTable = () => {
                     <DropdownMenuLabel>Categorias</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <div className="max-h-48 overflow-auto">
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Team</DropdownMenuItem>
-                      <DropdownMenuItem>Subscription</DropdownMenuItem>
+                      {product.book.categories.map(category => (
+                        <DropdownMenuItem key={category.id}>
+                          {category.name}
+                        </DropdownMenuItem>
+                      ))}
                     </div>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -97,29 +121,16 @@ export const TradeTable = () => {
           ))}
         </TableBody>
       </Table>
-      <div className="flex justify-end">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+
       <div className="mt-4 flex justify-end gap-2">
         <Button variant="outline" asChild>
           <Link href="/compras">Voltar</Link>
         </Button>
-        <Button onClick={handleTrade} data-test="submit-button">
+        <Button
+          onClick={handleTrade}
+          data-test="submit-button"
+          disabled={selected.length <= 0 || loading}
+        >
           Trocar
         </Button>
       </div>

@@ -1,5 +1,6 @@
 import { CartController } from '@/server/controllers/CartController';
 import { PurchaseController } from '@/server/controllers/PurchaseController';
+import { TradeController } from '@/server/controllers/TradeController';
 import { authorizationMiddleware } from '@/server/middlewares/authorizationMiddleware';
 import { SingletonClass } from '@/server/singleton/SingletonClass';
 import { AccountRoles } from '@prisma/client';
@@ -14,8 +15,8 @@ export const config = {
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
-const purchaseController = SingletonClass.getInstance(PurchaseController);
+const tradeController = SingletonClass.getInstance(TradeController);
 // Publica
-router.patch(purchaseController.updateStatus).get(purchaseController.getById);
+router.get(tradeController.list).post(tradeController.request);
 
 export default router.handler();

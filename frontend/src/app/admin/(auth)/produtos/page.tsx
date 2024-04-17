@@ -69,6 +69,7 @@ import { Paginate } from '@/components/paginate';
 import { IPage } from '@/types/page';
 import { Suspense } from 'react';
 
+export const dynamic = 'force-dynamic';
 type Props = IPage;
 
 const ClientTableFetch = async ({ page }: Props) => {

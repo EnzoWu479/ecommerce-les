@@ -1,4 +1,4 @@
-export interface PageRequest<T> {
+export interface PageRequest<T = unknown> {
   page: number;
   limit: number;
   search?: T;

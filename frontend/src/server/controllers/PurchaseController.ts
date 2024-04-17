@@ -9,6 +9,7 @@ import { PurchaseRepository } from '../repositories/PurchaseRepository';
 import { purchaseSchema } from '../validations/purchase.schema';
 import { BookStockRepository } from '../repositories/BookStockRepository';
 import { AccountRoles } from '@prisma/client';
+import { IBook } from '../types/book';
 
 export class PurchaseController {
   private cartRepository: CartRepository;
@@ -22,6 +23,7 @@ export class PurchaseController {
     this.listByUserId = this.listByUserId.bind(this);
     this.list = this.list.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
+    this.getById = this.getById.bind(this);
   }
   public async purchase(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -108,6 +110,24 @@ export class PurchaseController {
       const { status } = req.body;
       const purchase = await this.purchaseRepository.updateStatus(id, status);
       return res.status(200).json(purchase);
+    } catch (error: any) {
+      return res.status(500).json(new ResponseData(null, error.message, 400));
+    }
+  }
+  public async getById(req: NextApiRequest, res: NextApiResponse) {
+    try {
+      const id = req.query.id as string;
+      const purchase = await this.purchaseRepository.getById(id);
+      const products = purchase?.cart.productCart.map(product => {
+        return {
+          ...product,
+          book: new BookDTO(product.book as IBook)
+        };
+      });
+      return res.status(200).json({
+        ...purchase,
+        cart: { ...purchase?.cart, productCart: products }
+      });
     } catch (error: any) {
       return res.status(500).json(new ResponseData(null, error.message, 400));
     }

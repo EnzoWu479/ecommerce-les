@@ -8,6 +8,8 @@ import { categoryData } from '@/services/data/category';
 import { Suspense } from 'react';
 import { priceGroupData } from '@/services/data/priceGroup';
 
+export const dynamic = 'force-dynamic';
+
 const FormWithCategories = async () => {
   const [categories, priceGroups] = await Promise.all([
     categoryData.getAll(),

@@ -28,5 +28,9 @@ export const purchaseData = {
   async updateStatus(id: string, status: PurchaseStatus) {
     const { data } = await api.patch(`/api/purchase/${id}`, { status });
     return data;
+  },
+  async getById(id: string) {
+    const { data } = await api.get<IPurchase>(`/api/purchase/${id}`);
+    return data;
   }
 };

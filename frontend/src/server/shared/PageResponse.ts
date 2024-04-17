@@ -1,4 +1,4 @@
-export interface PageResponse<T> {
+export interface PageResponse<T = unknown> {
   content: T[];
   page: number;
   limit: number;
