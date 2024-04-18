@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
-export const FetchTable = async ({ id }: IdProps) => {
+const FetchTable = async ({ id }: IdProps) => {
   const purchase = await purchaseData.getById(id);
 
   return <TradeTable purchase={purchase} />;
