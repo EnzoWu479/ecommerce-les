@@ -5,7 +5,7 @@ import { TradeTable } from './trade-table';
 
 export const dynamic = 'force-dynamic';
 
-export const Fetch = async ({ page }: IPage) => {
+const Fetch = async ({ page }: IPage) => {
   const trades = await tradeData.list({ page: page || 1, limit: 10 });
   console.log(trades);
 
