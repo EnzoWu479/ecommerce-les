@@ -2,7 +2,13 @@ import { GoBackButton } from '@/components/go-back-button';
 import { ClientLayout } from '@/components/layouts/client-layout';
 import { CreditCardForm } from '../components/credit-card-form';
 
-const AddressRegister = () => {
+const AddressRegister = ({
+  params: { id }
+}: {
+  params: {
+    id: string;
+  };
+}) => {
   return (
     <ClientLayout>
       <div className="mx-auto mt-8 max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
@@ -12,7 +18,7 @@ const AddressRegister = () => {
             Editar cartão de crédito
           </h1>
         </div>
-        <CreditCardForm />
+        <CreditCardForm id={id} />
       </div>
     </ClientLayout>
   );

@@ -18,6 +18,7 @@ const creditCardController = SingletonClass.getInstance(CreditCardController);
 // Publica
 router
   .use(authorizationMiddleware([AccountRoles.USER]))
-  .get(creditCardController.list);
+  .get(creditCardController.list)
+  .post(creditCardController.create)
 
 export default router.handler();

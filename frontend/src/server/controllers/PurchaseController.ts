@@ -8,17 +8,21 @@ import { ResponseData } from '../shared/ResponseDataImp';
 import { PurchaseRepository } from '../repositories/PurchaseRepository';
 import { purchaseSchema } from '../validations/purchase.schema';
 import { BookStockRepository } from '../repositories/BookStockRepository';
-import { AccountRoles } from '@prisma/client';
+import { AccountRoles, CouponStatus, CouponType } from '@prisma/client';
 import { IBook } from '../types/book';
+import { CouponRepository } from '../repositories/CouponRepository';
+import cuid from 'cuid';
 
 export class PurchaseController {
   private cartRepository: CartRepository;
   private purchaseRepository: PurchaseRepository;
   private bookStockRepository: BookStockRepository;
+  private couponRepository: CouponRepository;
   constructor() {
     this.cartRepository = SingletonClass.getInstance(CartRepository);
     this.purchaseRepository = SingletonClass.getInstance(PurchaseRepository);
     this.bookStockRepository = SingletonClass.getInstance(BookStockRepository);
+    this.couponRepository = SingletonClass.getInstance(CouponRepository);
     this.purchase = this.purchase.bind(this);
     this.listByUserId = this.listByUserId.bind(this);
     this.list = this.list.bind(this);
@@ -36,6 +40,11 @@ export class PurchaseController {
       const purchaseValid = purchaseSchema.parse(req.body);
 
       const cart = await this.cartRepository.getCurrentCart(infos.id);
+      const coupons = await Promise.all(
+        purchaseValid.coupons.map(coupon =>
+          this.couponRepository.getById(coupon)
+        )
+      );
       await Promise.all(
         cart.productCart.map(
           async product =>
@@ -51,6 +60,13 @@ export class PurchaseController {
           book: new BookDTO(product.book)
         };
       });
+      const totalDiscount = coupons.reduce(
+        (acc, coupon) => acc + (coupon?.value || 0),
+        0
+      );
+      const totalProducts = products.reduce((acc, product) => {
+        return acc + product.book.priceSell * product.amount;
+      }, 0);
       const purchase = await this.purchaseRepository.create({
         details: purchaseValid,
         cart: {
@@ -58,8 +74,20 @@ export class PurchaseController {
           productCart: products,
           createdAt: cart.createdAt.toISOString(),
           updatedAt: cart.updatedAt.toISOString()
-        }
+        },
+        totalDiscount,
+        totalProducts
       });
+      if (totalProducts - totalDiscount < 0) {
+        this.couponRepository.create({
+          value: totalProducts - totalDiscount,
+          type: CouponType.TRADE,
+          code: cuid(),
+          expiresAt: null,
+          status: CouponStatus.ACTIVE,
+          purchaseId: purchase.id
+        });
+      }
 
       return res.status(200).json(purchase);
     } catch (error: any) {

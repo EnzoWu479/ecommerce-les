@@ -53,6 +53,7 @@ export class CouponController {
       if (!coupon) {
         throw new Error('Cupom não encontrado');
       }
+      res.status(200).json(coupon);
     } catch (error: any) {
       res.status(400).json(new ResponseData(null, error.message, 400));
     }
@@ -63,8 +64,12 @@ export class CouponController {
       const limit = Number(req.query.limit) || 10;
 
       const coupons = await this.couponRepository.list({ limit, page });
+      console.log(coupons);
+
       res.status(200).json(coupons);
     } catch (error: any) {
+      console.log(error);
+
       res.status(400).json(new ResponseData(null, error.message, 400));
     }
   }

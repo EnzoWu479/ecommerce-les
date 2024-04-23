@@ -17,6 +17,8 @@ export class StateRepository {
   }
   async findOrCreateByUf(uf: string) {
     const state = await this.findByUf(uf);
+    console.log(uf);
+
     if (state) {
       return state;
     }

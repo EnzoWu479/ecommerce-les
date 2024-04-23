@@ -14,8 +14,8 @@ export const ProductSection = async () => {
   const products = await getData();
   return (
     <>
-      {products.content.map(product => (
-        <ProductCard key={product.id} product={product} />
+      {products.content.map((product, i) => (
+        <ProductCard key={product.id} index={i + 1} product={product} />
       ))}
     </>
   );

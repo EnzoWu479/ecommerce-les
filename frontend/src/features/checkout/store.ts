@@ -1,4 +1,4 @@
-import { PurchaseSchema } from '@/server/validations/purchase.schema';
+import { PurchaseFormSchema } from '@/server/validations/purchase.schema';
 import { create } from 'zustand';
 
 export interface PaymentInfos {
@@ -6,11 +6,11 @@ export interface PaymentInfos {
   cut: number;
 }
 export interface CheckoutStore {
-  infos: PurchaseSchema;
-  setInfos: (infos: PurchaseSchema) => void;
+  infos: PurchaseFormSchema;
+  setInfos: (infos: PurchaseFormSchema) => void;
   clearInfos: () => void;
 }
-const initialInfos: PurchaseSchema = {
+const initialInfos: PurchaseFormSchema = {
   addressId: '',
   cards: [],
   coupons: []

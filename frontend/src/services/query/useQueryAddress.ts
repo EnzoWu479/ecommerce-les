@@ -13,7 +13,15 @@ export const useQueryClientAddress = ({ page }: IPage) => {
 export const useQueryDeliveryAddress = () => {
   const query = useQuery({
     queryKey: ['client-address', { name: 'delivery' }],
-    queryFn: addressData.getDeliveryAddress,
+    queryFn: addressData.getDeliveryAddress
+  });
+  return query;
+};
+export const useQueryAddressItem = (id?: string) => {
+  const query = useQuery({
+    queryKey: ['client-address', { id }],
+    enabled: !!id,
+    queryFn: async () => addressData.getById(id!)
   });
   return query;
 };

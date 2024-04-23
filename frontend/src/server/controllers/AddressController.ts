@@ -14,6 +14,9 @@ export class AddressController {
     );
     this.list = this.list.bind(this);
     this.listDelivery = this.listDelivery.bind(this);
+    this.create = this.create.bind(this);
+    this.findById = this.findById.bind(this);
+    this.update = this.update.bind(this);
   }
   public async create(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -81,18 +84,21 @@ export class AddressController {
       if (!jwt) {
         throw new Error('Token not found');
       }
+
       const { infos } = jwtService.extract(jwt);
 
       const address = await this.clientAddressRepository.findById(
         req.query.id as string
       );
 
-      if (address?.clientId !== infos.id) {
+      if (address?.clientId !== infos.clientId) {
         throw new Error('Address not found');
       }
 
       return res.status(200).json(address);
     } catch (error: any) {
+      console.log(error);
+
       return res.status(400).json(new ResponseData(null, error.message, 400));
     }
   }
@@ -110,7 +116,7 @@ export class AddressController {
         req.query.id as string
       );
 
-      if (address?.clientId !== infos.id) {
+      if (address?.clientId !== infos.clientId) {
         throw new Error('Address not found');
       }
 
@@ -118,7 +124,10 @@ export class AddressController {
         req.query.id as string,
         addressParsed
       );
+      return res.status(200).json(address);
     } catch (error: any) {
+      console.log(error);
+
       return res.status(400).json(new ResponseData(null, error.message, 400));
     }
   }

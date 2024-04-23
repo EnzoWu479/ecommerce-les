@@ -11,6 +11,7 @@ export class CouponRepository {
   public async create(
     values: CouponSchema & {
       tradeId?: string;
+      purchaseId?: string;
     }
   ) {
     return this.prisma.coupon.create({
@@ -20,7 +21,8 @@ export class CouponRepository {
         type: values.type,
         expiresAt: values.expiresAt,
         status: values.status,
-        tradeId: values.tradeId
+        tradeId: values.tradeId,
+        purchaseId: values.purchaseId
       }
     });
   }

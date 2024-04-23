@@ -6,18 +6,28 @@ import { BookDTO } from './dto/BookDTO';
 import { IProduct } from '@/types/product';
 import { PageRequest } from '../shared/PageRequest';
 import { PageResponse } from '../shared/PageResponse';
+import { CouponRepository } from './CouponRepository';
+import { SingletonClass } from '../singleton/SingletonClass';
 
 export class PurchaseRepository {
   private prisma: PrismaClient;
+  private couponRepository: CouponRepository;
   constructor() {
     this.prisma = prisma;
+    this.couponRepository = SingletonClass.getInstance(CouponRepository);
   }
 
-  async create({ details, cart }: { details: PurchaseSchema; cart: ICart }) {
-    const total = cart.productCart.reduce((acc, product) => {
-      return acc + product.book.priceSell * product.amount;
-    }, 0);
-
+  async create({
+    details,
+    cart,
+    totalDiscount,
+    totalProducts
+  }: {
+    details: PurchaseSchema;
+    cart: ICart;
+    totalDiscount: number;
+    totalProducts: number;
+  }) {
     return this.prisma.purchase.create({
       data: {
         address: {
@@ -33,8 +43,8 @@ export class PurchaseRepository {
             }))
           }
         },
-        totalValue: total,
-        totalDiscount: 0,
+        totalValue: Math.max(totalProducts - totalDiscount, 0),
+        totalDiscount: totalDiscount,
         cart: {
           connect: {
             id: cart.id

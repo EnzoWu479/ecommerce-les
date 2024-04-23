@@ -14,7 +14,7 @@ import { InputValueControl } from '../input-value-control';
 
 export const ShoppingCart = () => {
   const { isOpen, setIsOpen } = useBagStore();
-  const { cart, total, removeProductFromCart } = useCart();
+  const { cart, total, removeProductFromCart, updateProductAmount } = useCart();
   const router = useRouter();
 
   const handleRemove = async (productId: string) => {
@@ -23,6 +23,13 @@ export const ShoppingCart = () => {
       toast.success('Produto removido do carrinho');
     } catch (error) {
       toast.error('Erro ao remover produto do carrinho');
+    }
+  };
+  const handleChangeQuantity = async (productId: string, amount: number) => {
+    try {
+      await updateProductAmount(productId, amount);
+    } catch (error) {
+      toast.error('Erro ao alterar a quantidade');
     }
   };
 
@@ -115,6 +122,12 @@ export const ShoppingCart = () => {
                                   <div className="flex flex-1 items-end justify-between text-sm">
                                     <InputValueControl
                                       value={product.amount}
+                                      onChange={(value: number) =>
+                                        handleChangeQuantity(
+                                          product.book.id,
+                                          value
+                                        )
+                                      }
                                       // onIncrement={handleIncrement}
                                       // onDecrement={handleDecrement}
                                     />

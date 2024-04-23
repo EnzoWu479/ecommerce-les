@@ -7,10 +7,15 @@ import { getSellPrice } from '@/utils/getSellPrice';
 
 interface Props {
   product: IProduct;
+  index?: number;
 }
-export const ProductCard = ({ product }: Props) => {
+export const ProductCard = ({ product, index }: Props) => {
   return (
-    <Card key={product.id} data-test="card-product" className="group relative">
+    <Card
+      key={product.id}
+      data-test={`card-product-${index}`}
+      className="group relative"
+    >
       <div className="aspect-h-1 aspect-w-1 lg:aspect-none w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:h-80">
         <img
           src={placeholderImage({

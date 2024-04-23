@@ -89,6 +89,7 @@ const RenderAddressTable = ({ addresses }: Props) => {
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead>Nome</TableHead>
           <TableHead>CEP</TableHead>
           <TableHead>Logradouro</TableHead>
           <TableHead>Nº</TableHead>
@@ -103,15 +104,16 @@ const RenderAddressTable = ({ addresses }: Props) => {
       <TableBody>
         {addresses.content.map(address => (
           <TableRow key={address.id}>
+            <TableCell>{address.name}</TableCell>
             <TableCell>{masks.zipcode(address.address.zipCode)}</TableCell>
             <TableCell>{address.address.street}</TableCell>
             <TableCell>{address.address.number}</TableCell>
-            <TableCell>{''}</TableCell>
-            <TableCell>Mogi das Cruzes</TableCell>
-            <TableCell>SP</TableCell>
+            <TableCell>{address.address.neighborhood}</TableCell>
+            <TableCell>{address.address.city.name}</TableCell>
+            <TableCell>{address.address.city.state.uf}</TableCell>
             <TableCell className="flex items-center justify-end">
               <div className="flex gap-2">
-                <Link href={`/enderecos/${1}`}>
+                <Link href={`/enderecos/${address.id}`}>
                   <PencilLine />
                 </Link>
                 <ModalWarning

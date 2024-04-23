@@ -45,7 +45,7 @@ export const AddressForm = ({ value, onChange, errors, onDelete }: Props) => {
           street: data.logradouro,
           neighborhood: data.bairro,
           city: data.localidade,
-          state: data.localidade,
+          state: data.uf,
           residenceType: data.logradouro.split(' ')[0]
         });
         // onChange({

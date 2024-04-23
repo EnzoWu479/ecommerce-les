@@ -9,7 +9,9 @@ export const creditCardSchema = z.object({
   cvv: z.string().min(1, 'CVV é obrigatório'),
   brand: z.string().min(1, 'Bandeira é obrigatória')
 });
-export type CreditCardFormDTO = z.infer<typeof creditCardSchema>;
+export type CreditCardFormDTO = z.infer<typeof creditCardSchema> & {
+  clientId?: string;
+};
 export const creditCardEmpty: CreditCardFormDTO = {
   id: null,
   number: '',

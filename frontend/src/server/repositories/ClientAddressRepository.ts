@@ -34,6 +34,17 @@ export class ClientAddressRepository {
     return this.prisma.clientAddress.findUnique({
       where: {
         id
+      },
+      include: {
+        address: {
+          include: {
+            city: {
+              include: {
+                state: true
+              }
+            }
+          }
+        }
       }
     });
   }
@@ -62,7 +73,15 @@ export class ClientAddressRepository {
           }
         },
         include: {
-          address: true
+          address: {
+            include: {
+              city: {
+                include: {
+                  state: true
+                }
+              }
+            }
+          }
         },
         take: limit,
         skip: (page - 1) * limit
@@ -103,7 +122,14 @@ export class ClientAddressRepository {
       }
     });
   }
-  async connectAddressToClient(clientId: string, clientAddressId: string) {
+  async connectAddressToClient(userId: string, clientAddressId: string) {
+    const clientAccount = await this.prisma.client.findFirst({
+      where: {
+        account: {
+          id: userId
+        }
+      }
+    });
     return this.prisma.clientAddress.update({
       where: {
         id: clientAddressId
@@ -111,30 +137,33 @@ export class ClientAddressRepository {
       data: {
         client: {
           connect: {
-            id: clientId
+            id: clientAccount?.id
           }
         }
       }
     });
   }
   async update(id: string, data: AddressFormDTO) {
-    if (!data.addressId)
-      throw new ResponseData(null, 'Endereço não encontrado', 404);
-    const address = await this.addressRepository.update(data.addressId, data);
-    return this.prisma.clientAddress.update({
+    if (!id) throw new Error('Endereço não encontrado');
+    const address = await this.prisma.address.findUnique({
       where: {
-        id
-      },
-      data: {
-        types: data.types as ClientAddressType[],
-        name: data.name,
-        address: {
-          connect: {
-            id: address.id
-          }
-        }
+        clientAddressId: id
       }
     });
+    if (!address) throw new Error('Endereço não encontrado');
+    const [clientAddress] = await Promise.all([
+      this.prisma.clientAddress.update({
+        where: {
+          id
+        },
+        data: {
+          types: data.types as ClientAddressType[],
+          name: data.name
+        }
+      }),
+      this.addressRepository.update(address.id, data)
+    ]);
+    return clientAddress;
   }
   async delete(id: string) {
     return this.prisma.clientAddress.delete({

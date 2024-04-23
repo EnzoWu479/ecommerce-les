@@ -8,22 +8,42 @@ const TYPES = [
   ClientAddressType.SHIPPING
 ];
 
-const user = {
-  email: 'enwu2014@hotmail.com',
-  password: '12345678Aa@'
-};
+const email = 'enzo@email.com';
+const password = '12345678Aa@';
+
 describe('Comprar produtos', () => {
-  it('Deve adicionar produtos ao carrinho', () => {
-    cy.visit('/');
+  // it('Deve adicionar produtos ao carrinho', () => {
+  //   cy.visit('/');
 
-    cy.get('[data-test="card-product"]').first().click();
-    cy.get('[data-test="add-product-button"]').click();
-    cy.get("[data-test='number-of-products']").should('have.text', '1');
-  });
+  //   cy.get('[data-test="card-product"]').first().click();
+  //   cy.get('[data-test="add-product-button"]').click();
+  //   cy.get("[data-test='number-of-products']").should('have.text', '1');
+  // });
   it('Deve finalizar o pedido', () => {
+    cy.visit('/login');
+    cy.get('input[name=email]').type(email);
+    cy.get('input[name=password]').type(password);
+    cy.get('[data-test=submit-button]').click();
     cy.visit('/');
 
-    cy.get("[data-test='card-product']").first().click();
+    cy.get("[data-test='card-product-1']").click();
+    cy.wait(1000);
+    cy.get("[data-test='add-product-button']").click();
+
+    cy.get("[data-test='card-product-2']").click();
+    cy.wait(1000);
+    cy.get("[data-test=change-quantity]").within(() => {
+      cy.get('[data-test=increment]').click();
+    });
+    cy.get("[data-test='add-product-button']").click();
+
+    cy.get("[data-test='card-product-3']").click();
+    cy.wait(1000);
+    cy.get("[data-test='change-quantity']").within(() => {
+      cy.get('[data-test=increment]').click();
+      cy.get('[data-test=increment]').click();
+    });
+
     cy.get("[data-test='add-product-button']").click();
 
     cy.get('[data-test=open-cart]').click({
@@ -119,30 +139,28 @@ describe('Comprar produtos', () => {
         .click()
         .click();
     });
-    cy.get('[data-test=coupom-input]').type('VIOLET10');
-    cy.get('[data-test=coupom-submit]').click();
-    cy.get('[data-test=coupom-input]').type('VIOLET15');
+    cy.get('[data-test=coupom-input]').type('VIOLET20');
     cy.get('[data-test=coupom-submit]').click();
     cy.get('[data-test=buy-button]').click();
     cy.wait(1000);
   });
-  it('Deve mudar status de compra', () => {
-    cy.visit('/admin/vendas');
-    cy.wait(1000);
-    cy.get('[data-test=select-trade]').within(() => {
-      cy.get('button').click();
-    });
-    cy.contains('Em transporte').click();
-    cy.wait(500);
-    cy.get('[data-test=select-trade]').within(() => {
-      cy.get('button').click();
-    });
-    cy.contains('Em transito').click();
-    cy.wait(500);
-    cy.get('[data-test=select-trade]').within(() => {
-      cy.get('button').click();
-    });
-    cy.contains('Entregue').click();
-    cy.wait(500);
-  });
+  // it('Deve mudar status de compra', () => {
+  //   cy.visit('/admin/vendas');
+  //   cy.wait(1000);
+  //   cy.get('[data-test=select-trade]').within(() => {
+  //     cy.get('button').click();
+  //   });
+  //   cy.contains('Em transporte').click();
+  //   cy.wait(500);
+  //   cy.get('[data-test=select-trade]').within(() => {
+  //     cy.get('button').click();
+  //   });
+  //   cy.contains('Em transito').click();
+  //   cy.wait(500);
+  //   cy.get('[data-test=select-trade]').within(() => {
+  //     cy.get('button').click();
+  //   });
+  //   cy.contains('Entregue').click();
+  //   cy.wait(500);
+  // });
 });

@@ -23,7 +23,7 @@ export const ProductPage = ({ product }: Props) => {
     productCart => productCart.bookId === product.id
   );
 
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(product.stock.quantity > 0 ? 1 : 0);
   const [loading, setLoading] = useState(false);
 
   const handleAddToBag = async () => {
@@ -37,6 +37,8 @@ export const ProductPage = ({ product }: Props) => {
       toast.error('Erro ao adicionar produto ao carrinho');
     }
   };
+  console.log(product.stock.quantity);
+
   useEffect(() => {
     if (cartHasProduct) {
       setQuantity(cartHasProduct.amount);
@@ -79,7 +81,7 @@ export const ProductPage = ({ product }: Props) => {
             <p className="text-3xl tracking-tight text-gray-900">
               {formaters.money(product.priceSell)}
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4" data-test="change-quantity">
               <InputValueControl
                 value={quantity}
                 tooltip={`${quantity}`}
@@ -91,7 +93,7 @@ export const ProductPage = ({ product }: Props) => {
               <Button
                 data-test="add-product-button"
                 onClick={handleAddToBag}
-                disabled={loading}
+                disabled={loading || quantity === 0}
               >
                 Adicionar ao carrinho
               </Button>

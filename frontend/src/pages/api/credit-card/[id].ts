@@ -1,4 +1,5 @@
 import { AddressController } from '@/server/controllers/AddressController';
+import { CreditCardController } from '@/server/controllers/CreditCardController';
 import { authorizationMiddleware } from '@/server/middlewares/authorizationMiddleware';
 import { SingletonClass } from '@/server/singleton/SingletonClass';
 import { AccountRoles } from '@prisma/client';
@@ -13,12 +14,12 @@ export const config = {
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
-const addressController = SingletonClass.getInstance(AddressController);
+const creditcardController = SingletonClass.getInstance(CreditCardController);
 // Publica
 router
   // .use(authorizationMiddleware([AccountRoles.USER]))
-  .get(addressController.findById)
-  .put(addressController.update)
-  .delete(addressController.delete);
+  .get(creditcardController.findById)
+  .put(creditcardController.update)
+  .delete(creditcardController.delete);
 
 export default router.handler();

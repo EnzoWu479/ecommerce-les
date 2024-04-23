@@ -24,7 +24,7 @@ export const InputValueControl = ({
 }: Props) => {
   const handleChange = (newValue: number) => {
     if (onChange) {
-      onChange(Math.max(min, Math.min(max || Infinity, newValue)));
+      onChange(Math.max(min, Math.min(max ?? Infinity, newValue)));
     }
   };
   return (

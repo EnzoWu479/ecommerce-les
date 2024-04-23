@@ -6,7 +6,7 @@ import { CouponFormSchema } from '@/validations/couponForm.schema';
 
 export const couponData = {
   async getByCode(code: string) {
-    const { data } = await api.get(`/api/coupon/code/${code}`);
+    const { data } = await api.get<ICoupon>(`/api/coupon/code/${code}`);
     return data;
   },
   async list({ page, limit }: PageRequest) {

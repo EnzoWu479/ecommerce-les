@@ -240,6 +240,8 @@ model Purchase {
   cartId        String         @unique
   cart          Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
   coupons       Coupon[]
+  couponTradeId String?        @unique
+  couponTrade   Coupon?        @relation("CouponPurchase")
   totalValue    Float
   totalDiscount Float
   purchasedAt   DateTime
@@ -274,19 +276,20 @@ enum PurchaseStatus {
 }
 
 model Coupon {
-  id        String        @id @default(uuid())
-  code      String        @unique
-  type      CouponType
-  expiresAt DateTime?
-  status    CouponStatus
-  value     Float
-  purchase  Purchase[]
-  tradeId   String?       @unique
-  trade     TradeRequest? @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  id             String        @id @default(uuid())
+  code           String        @unique
+  type           CouponType
+  expiresAt      DateTime?
+  status         CouponStatus
+  value          Float
+  purchase       Purchase[]
+  tradeId        String?       @unique
+  trade          TradeRequest? @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  purchaseId     String?       @unique
+  purchaseOrigin Purchase?     @relation(fields: [purchaseId], references: [id], onDelete: Cascade, name: "CouponPurchase")
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  tradeRequestId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum CouponType {

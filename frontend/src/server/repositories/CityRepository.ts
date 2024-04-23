@@ -23,6 +23,7 @@ export class CityRepository {
     if (city) {
       return city;
     }
+
     const state = await this.stateRepository.findOrCreateByUf(uf);
     return this.prisma.city.create({
       data: {

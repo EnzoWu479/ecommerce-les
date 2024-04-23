@@ -98,7 +98,7 @@ export function ClientAuthForm({ className, ...props }: UserAuthFormProps) {
             />
             <ErrorMessage error={errors.password?.message} />
           </div>
-          <Button>Fazer login</Button>
+          <Button data-test="submit-button">Fazer login</Button>
         </div>
       </form>
     </div>

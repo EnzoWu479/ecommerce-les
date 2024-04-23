@@ -1,13 +1,20 @@
 import { api } from '@/lib/axios';
 import { PageRequest } from '@/server/shared/PageRequest';
 import { PageResponse } from '@/server/shared/PageResponse';
-import { PurchaseSchema } from '@/server/validations/purchase.schema';
+import {
+  PurchaseFormSchema,
+  PurchaseSchema
+} from '@/server/validations/purchase.schema';
 import { IPurchase } from '@/types/purchase';
 import { PurchaseStatus } from '@prisma/client';
 
 export const purchaseData = {
-  async purchase(values: PurchaseSchema) {
-    const { data } = await api.post('/api/purchase', values);
+  async purchase(values: PurchaseFormSchema) {
+    const { data } = await api.post('/api/purchase', {
+      addressId: values.addressId,
+      cards: values.cards,
+      coupons: values.coupons.map(coupon => coupon.id)
+    });
     return data;
   },
   async list({ page, limit }: PageRequest<unknown>) {

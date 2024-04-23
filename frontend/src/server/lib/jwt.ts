@@ -7,6 +7,7 @@ export interface JWTResponse {
 }
 interface InfoProps {
   id: string;
+  clientId?: string;
   role: AccountRoles[];
 }
 const sign = (infos: InfoProps) => {

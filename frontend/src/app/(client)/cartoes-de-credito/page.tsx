@@ -19,6 +19,7 @@ import {
 import { ClientLayout } from '@/components/layouts/client-layout';
 import { PencilLine, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { CreditCardTable } from './credit-card-table';
 
 const Addresses = () => {
   return (
@@ -32,62 +33,7 @@ const Addresses = () => {
             <Button>Novo cartão</Button>
           </Link>
         </div>
-        <div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>CEP</TableHead>
-                <TableHead>Logradouro</TableHead>
-                <TableHead>Nº</TableHead>
-                <TableHead>Bairro</TableHead>
-                <TableHead>Cidade</TableHead>
-                <TableHead>Estado</TableHead>
-                <TableHead className="flex items-center justify-end">
-                  Opções
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell>08746-205</TableCell>
-                <TableCell>Rua Gilberto dos Santos</TableCell>
-                <TableCell>205</TableCell>
-                <TableCell>Parque Olimpico</TableCell>
-                <TableCell>Mogi das Cruzes</TableCell>
-                <TableCell>SP</TableCell>
-                <TableCell className="flex items-center justify-end">
-                  <div className="flex gap-2">
-                    <Link href={`/cartoes-de-credito/${1}`}>
-                      <PencilLine />
-                    </Link>
-                    <Dialog>
-                      <DialogTrigger>
-                        <Trash2 />
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>
-                            Tem certeza que deseja excluir esse cartão de
-                            crédito?
-                          </DialogTitle>
-                          <DialogDescription>
-                            Essa ação não poderá ser desfeita.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="flex justify-end space-x-2">
-                          <DialogClose asChild>
-                            <Button variant="ghost">Voltar</Button>
-                          </DialogClose>
-                          <Button>Excluir</Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div>
+        <CreditCardTable />
       </div>
     </ClientLayout>
   );

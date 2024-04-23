@@ -55,7 +55,11 @@ export class AccountController {
         return res.status(400).json(error);
       }
 
-      const token = jwtService.sign({ id: account.id, role: account.roles });
+      const token = jwtService.sign({
+        id: account.id,
+        role: account.roles,
+        clientId: account.clientId || undefined
+      });
 
       const cookieName =
         role === AccountRoles.ADMIN

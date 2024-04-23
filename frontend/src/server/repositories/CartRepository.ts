@@ -16,7 +16,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true,
+                priceGroup: true
               }
             }
           }
@@ -40,7 +40,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true,
+                priceGroup: true
               }
             }
           }
@@ -113,7 +113,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true,
+                priceGroup: true
               }
             }
           }
@@ -142,7 +142,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true,
+                priceGroup: true
               }
             }
           }
@@ -160,8 +160,31 @@ export class CartRepository {
       throw new Error('Cart not found');
     }
     if (quantity === 0) {
-      return this.removeProductFromCart(clientId, productId);
+      return await this.removeProductFromCart(clientId, productId);
     }
+    console.log(quantity);
+
+    const product = await this.prisma.productCart.findFirst({
+      where: {
+        cartId: currentCart.id,
+        bookId: productId
+      },
+      include: {
+        book: {
+          include: {
+            stock: true
+          }
+        }
+      }
+    });
+
+    if (!product) {
+      throw new Error('Product not found');
+    }
+    if ((product?.book?.stock?.quantity || 0) < quantity) {
+      throw new Error('Stock not available');
+    }
+
     return this.prisma.cart.update({
       where: {
         id: currentCart.id
@@ -183,7 +206,7 @@ export class CartRepository {
           include: {
             book: {
               include: {
-                priceGroup: true,
+                priceGroup: true
               }
             }
           }

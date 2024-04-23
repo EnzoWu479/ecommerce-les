@@ -33,7 +33,14 @@ export class CreditCardRepository {
           connect: {
             id: brand.id
           }
-        }
+        },
+        ...(data.clientId && {
+          client: {
+            connect: {
+              id: data.clientId
+            }
+          }
+        })
       }
     });
   }
@@ -41,6 +48,9 @@ export class CreditCardRepository {
     return this.prisma.creditCard.findUnique({
       where: {
         id
+      },
+      include: {
+        brand: true
       }
     });
   }
@@ -59,10 +69,8 @@ export class CreditCardRepository {
     clientId: string,
     { page, limit }: PageRequest<unknown>
   ): Promise<PageResponse<unknown>> {
-    console.log(clientId);
-
     const [total, content] = await Promise.all([
-      this.prisma.clientAddress.count({
+      this.prisma.creditCard.count({
         where: {
           client: {
             account: {
@@ -71,13 +79,18 @@ export class CreditCardRepository {
           }
         }
       }),
-      this.prisma.clientAddress.findMany({
+      this.prisma.creditCard.findMany({
         where: {
           client: {
             account: {
               id: clientId
             }
           }
+        },
+        include: {
+          brand: true,
+          mainCard: true
+          // mainCard: true
         },
         take: limit,
         skip: (page - 1) * limit

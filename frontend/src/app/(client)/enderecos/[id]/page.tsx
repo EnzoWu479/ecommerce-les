@@ -2,7 +2,13 @@ import { ClientLayout } from '@/components/layouts/client-layout';
 import { AddressForm } from '../components/address-form';
 import { GoBackButton } from '@/components/go-back-button';
 
-const AddressItem = () => {
+const AddressItem = ({
+  params: { id }
+}: {
+  params: {
+    id: string;
+  };
+}) => {
   return (
     <ClientLayout>
       <div className="mx-auto mt-8 max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
@@ -10,7 +16,7 @@ const AddressItem = () => {
           <GoBackButton />
           <h2 className="text-3xl font-bold tracking-tight">Editar endereço</h2>
         </div>
-        <AddressForm />
+        <AddressForm id={id} />
       </div>
     </ClientLayout>
   );

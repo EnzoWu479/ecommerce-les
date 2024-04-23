@@ -14,8 +14,14 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { CreditCardForm as RealCreditCardForm } from '@/components/creditCard-form';
-
-export const CreditCardForm = () => {
+import { creditCardData } from '@/services/data/credit-card';
+import { useQueryCreditCardItem } from '@/services/query/useQueryCreditCard';
+import { useEffect } from 'react';
+interface Props {
+  id?: string;
+}
+export const CreditCardForm = ({ id }: Props) => {
+  const { data: creditCard } = useQueryCreditCardItem(id);
   const {
     formState: { errors },
     handleSubmit,
@@ -32,14 +38,34 @@ export const CreditCardForm = () => {
 
   console.log(errors);
 
-  const onSubmit = handleSubmit(async () => {
-    toast.success('Cartão de crédito salvo com sucesso');
-    router.back();
+  const onSubmit = handleSubmit(async data => {
+    try {
+      if (id) {
+        await creditCardData.update(id, data);
+      } else {
+        await creditCardData.create(data);
+      }
+      toast.success('Cartão de crédito salvo com sucesso');
+      router.back();
+    } catch (error) {}
   });
+  useEffect(() => {
+    if (creditCard) {
+      reset({
+        id: creditCard.id,
+        name: creditCard.name,
+        holderName: creditCard.holderName,
+        number: creditCard.number,
+        expiration: creditCard.expDate,
+        cvv: creditCard.cvv,
+        brand: creditCard.brand.name
+      });
+    }
+  }, [creditCard]);
   return (
     <form onSubmit={onSubmit}>
       <RealCreditCardForm value={watch()} onChange={reset} errors={errors} />
-      <div className="col-span-3 flex justify-end">
+      <div className="col-span-3 flex justify-end mt-4">
         <Button type="submit" data-test="submit-button">
           Salvar
         </Button>

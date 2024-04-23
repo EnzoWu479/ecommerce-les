@@ -89,7 +89,6 @@ export class CartController {
   ) {
     try {
       const jwt = req.cookies[COOKIES_NAME.TOKEN];
-      console.log(jwt);
 
       if (!jwt) {
         throw new Error('Token not found');

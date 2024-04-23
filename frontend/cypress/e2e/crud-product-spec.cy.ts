@@ -4,7 +4,7 @@ describe('CRUD Product', () => {
   it('should create a product', () => {
     cy.visit('/admin/produtos/cadastrar');
     cy.wait(1000);
-    const i = 1;
+    const i = 4;
     cy.readFile('cypress/fixtures/products.json').then(
       (products: IProductDTO[]) => {
         cy.get('[name=name]').type(products[i].name);
