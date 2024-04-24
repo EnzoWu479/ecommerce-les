@@ -15,8 +15,8 @@ export class BookController {
   private bookRepository: BookRepository;
   private bookStockRepository: BookStockRepository;
   constructor() {
-    this.bookRepository = SingletonClass.getInstance(BookRepository);
-    this.bookStockRepository = SingletonClass.getInstance(BookStockRepository);
+    this.bookRepository = new BookRepository();
+    this.bookStockRepository = new BookStockRepository();
     this.create = this.create.bind(this);
     this.list = this.list.bind(this);
     this.get = this.get.bind(this);

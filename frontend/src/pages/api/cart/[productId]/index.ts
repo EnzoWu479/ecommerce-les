@@ -10,7 +10,7 @@ const router = createRouter<NextApiRequest, NextApiResponse>();
 const cartController = SingletonClass.getInstance(CartController);
 // Publica
 router
-  .use(authorizationMiddleware([AccountRoles.USER]))
+  // .use(authorizationMiddleware([AccountRoles.USER]))
   .delete(cartController.removeProductFromCart);
 
 export default router.handler();

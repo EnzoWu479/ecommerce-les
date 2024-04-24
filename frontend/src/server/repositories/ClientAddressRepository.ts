@@ -13,7 +13,7 @@ export class ClientAddressRepository {
   private addressRepository: AddressRepository;
 
   constructor() {
-    this.addressRepository = SingletonClass.getInstance(AddressRepository);
+    this.addressRepository = new AddressRepository();
     this.prisma = prisma;
   }
   async create(data: AddressFormDTO) {

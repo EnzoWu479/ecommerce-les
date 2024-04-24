@@ -17,7 +17,7 @@ const router = createRouter<NextApiRequest, NextApiResponse>();
 const purchaseController = SingletonClass.getInstance(PurchaseController);
 // Publica
 router
-  .use(authorizationMiddleware([AccountRoles.USER]))
+  // .use(authorizationMiddleware([AccountRoles.USER]))
   .get(purchaseController.listByUserId)
   .post(purchaseController.purchase);
 

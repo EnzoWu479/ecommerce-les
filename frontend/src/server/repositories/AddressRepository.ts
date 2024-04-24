@@ -10,7 +10,7 @@ export class AddressRepository {
   private cityRepository: CityRepository;
 
   constructor() {
-    this.cityRepository = SingletonClass.getInstance(CityRepository);
+    this.cityRepository = new CityRepository();
     this.prisma = prisma;
   }
 

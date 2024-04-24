@@ -9,8 +9,7 @@ import { creditCardSchema } from '@/validations/creditCard.schema';
 export class CreditCardController {
   private creditCardRepository: CreditCardRepository;
   constructor() {
-    this.creditCardRepository =
-      SingletonClass.getInstance(CreditCardRepository);
+    this.creditCardRepository = new CreditCardRepository();
     this.getAll = this.getAll.bind(this);
     this.list = this.list.bind(this);
     this.create = this.create.bind(this);

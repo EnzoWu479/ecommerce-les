@@ -9,9 +9,7 @@ import { BookCategoryRepository } from '../repositories/BookCategoryRepository';
 export class BookCategoryController {
   private bookCategoryRepository: BookCategoryRepository;
   constructor() {
-    this.bookCategoryRepository = SingletonClass.getInstance(
-      BookCategoryRepository
-    );
+    this.bookCategoryRepository = new BookCategoryRepository();
     this.create = this.create.bind(this);
     this.list = this.list.bind(this);
   }

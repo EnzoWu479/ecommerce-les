@@ -20,7 +20,7 @@ export class AccountController {
   private accountRepository: AccountRepository;
 
   constructor() {
-    this.accountRepository = SingletonClass.getInstance(AccountRepository);
+    this.accountRepository = new AccountRepository();
     this.changeClientPassword = this.changeClientPassword.bind(this);
   }
 

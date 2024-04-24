@@ -9,7 +9,7 @@ import { BookDTO } from '../repositories/dto/BookDTO';
 export class CartController {
   private cartRepository: CartRepository;
   constructor() {
-    this.cartRepository = SingletonClass.getInstance(CartRepository);
+    this.cartRepository = new CartRepository();
     this.getCurrentCart = this.getCurrentCart.bind(this);
     this.addProductToCart = this.addProductToCart.bind(this);
     this.updateProductAmount = this.updateProductAmount.bind(this);

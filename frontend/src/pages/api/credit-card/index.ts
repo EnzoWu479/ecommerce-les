@@ -6,18 +6,12 @@ import { AccountRoles } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createRouter } from 'next-connect';
 
-export const config = {
-  api: {
-    externalResolver: true
-  }
-};
-
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
 const creditCardController = SingletonClass.getInstance(CreditCardController);
 // Publica
 router
-  .use(authorizationMiddleware([AccountRoles.USER]))
+  // .use(authorizationMiddleware([AccountRoles.USER]))
   .get(creditCardController.list)
   .post(creditCardController.create)
 

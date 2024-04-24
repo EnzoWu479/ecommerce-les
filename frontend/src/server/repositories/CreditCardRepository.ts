@@ -12,9 +12,7 @@ export class CreditCardRepository {
   private creditCardBrandRepository: CreditCardBrandRepository;
 
   constructor() {
-    this.creditCardBrandRepository = SingletonClass.getInstance(
-      CreditCardBrandRepository
-    );
+    this.creditCardBrandRepository = new CreditCardBrandRepository();
     this.prisma = prisma;
   }
 

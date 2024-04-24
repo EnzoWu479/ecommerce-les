@@ -10,9 +10,7 @@ import { BookPriceGroupRepository } from '../repositories/BookPriceGroupReposito
 export class BookPriceGroupController {
   private bookPriceGroupRepository: BookPriceGroupRepository;
   constructor() {
-    this.bookPriceGroupRepository = SingletonClass.getInstance(
-      BookPriceGroupRepository
-    );
+    this.bookPriceGroupRepository = new BookPriceGroupRepository();
     // this.create = this.create.bind(this);
     this.list = this.list.bind(this);
   }

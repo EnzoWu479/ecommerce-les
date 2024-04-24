@@ -10,9 +10,7 @@ export class BookRepository {
   bookCategoryRepository: BookCategoryRepository;
   constructor() {
     this.prisma = prisma;
-    this.bookCategoryRepository = SingletonClass.getInstance(
-      BookCategoryRepository
-    );
+    this.bookCategoryRepository = new BookCategoryRepository();
   }
   public async create(data: BookFormData) {
     const categories = await Promise.all(

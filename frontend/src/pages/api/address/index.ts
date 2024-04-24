@@ -16,7 +16,7 @@ const router = createRouter<NextApiRequest, NextApiResponse>();
 const addressController = SingletonClass.getInstance(AddressController);
 // Publica
 router
-  .use(authorizationMiddleware([AccountRoles.USER]))
+  // .use(authorizationMiddleware([AccountRoles.USER]))
   .get(addressController.list)
   .post(addressController.create);
 

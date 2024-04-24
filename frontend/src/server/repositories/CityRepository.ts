@@ -11,7 +11,7 @@ export class CityRepository {
 
   constructor() {
     this.prisma = prisma;
-    this.stateRepository = SingletonClass.getInstance(StateRepository);
+    this.stateRepository = new StateRepository();
   }
 
   async findOrCreateByName({ name, uf }: ICityCreate) {

@@ -15,8 +15,8 @@ export class TradeController {
   private tradeRepository: TradeRepository;
   private couponRepository: CouponRepository;
   constructor() {
-    this.tradeRepository = SingletonClass.getInstance(TradeRepository);
-    this.couponRepository = SingletonClass.getInstance(CouponRepository);
+    this.tradeRepository = new TradeRepository();
+    this.couponRepository = new CouponRepository();
     this.request = this.request.bind(this);
     this.list = this.list.bind(this);
     this.updateStatus = this.updateStatus.bind(this);

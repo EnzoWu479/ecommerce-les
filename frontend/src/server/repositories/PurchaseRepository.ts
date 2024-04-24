@@ -14,7 +14,7 @@ export class PurchaseRepository {
   private couponRepository: CouponRepository;
   constructor() {
     this.prisma = prisma;
-    this.couponRepository = SingletonClass.getInstance(CouponRepository);
+    this.couponRepository = new CouponRepository();
   }
 
   async create({

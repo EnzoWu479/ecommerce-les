@@ -13,7 +13,7 @@ import { ResponseData } from '../shared/ResponseDataImp';
 export class CouponController {
   private couponRepository: CouponRepository;
   constructor() {
-    this.couponRepository = SingletonClass.getInstance(CouponRepository);
+    this.couponRepository = new CouponRepository();
     this.create = this.create.bind(this);
     this.getById = this.getById.bind(this);
     this.getByCode = this.getByCode.bind(this);

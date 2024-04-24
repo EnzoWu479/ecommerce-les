@@ -18,8 +18,8 @@ export class ClientController {
   private clientRepository: ClientRepository;
 
   constructor() {
-    this.accountRepository = SingletonClass.getInstance(AccountRepository);
-    this.clientRepository = SingletonClass.getInstance(ClientRepository);
+    this.accountRepository = new AccountRepository();
+    this.clientRepository = new ClientRepository();
     this.create = this.create.bind(this);
     this.list = this.list.bind(this);
     this.get = this.get.bind(this);

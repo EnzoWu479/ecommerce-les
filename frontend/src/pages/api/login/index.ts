@@ -1,10 +1,8 @@
 import { AccountController } from '@/server/controllers/AccountController';
-import { ClientController } from '@/server/controllers/ClientController';
-import container from '@/server/lib/inversify/container';
 import { SingletonClass } from '@/server/singleton/SingletonClass';
 import { AccountRoles } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createRouter, expressWrapper } from 'next-connect';
+import { createRouter } from 'next-connect';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 

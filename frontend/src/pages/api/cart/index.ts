@@ -16,7 +16,7 @@ const router = createRouter<NextApiRequest, NextApiResponse>();
 const cartController = SingletonClass.getInstance(CartController);
 // Publica
 router
-  .use(authorizationMiddleware([AccountRoles.USER]))
+  // .use(authorizationMiddleware([AccountRoles.USER]))
   .get(cartController.getCurrentCart)
   .post(cartController.addProductToCart)
   .put(cartController.updateProductAmount);

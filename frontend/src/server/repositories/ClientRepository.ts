@@ -26,10 +26,8 @@ export class ClientRepository {
 
   constructor() {
     this.prisma = prisma;
-    this.accountRepository = SingletonClass.getInstance(AccountRepository);
-    this.clientAddressRepository = SingletonClass.getInstance(
-      ClientAddressRepository
-    );
+    this.accountRepository = new AccountRepository();
+    this.clientAddressRepository = new ClientAddressRepository();
     this.creditCardRepository =
       SingletonClass.getInstance(CreditCardRepository);
   }

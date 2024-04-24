@@ -19,10 +19,10 @@ export class PurchaseController {
   private bookStockRepository: BookStockRepository;
   private couponRepository: CouponRepository;
   constructor() {
-    this.cartRepository = SingletonClass.getInstance(CartRepository);
-    this.purchaseRepository = SingletonClass.getInstance(PurchaseRepository);
-    this.bookStockRepository = SingletonClass.getInstance(BookStockRepository);
-    this.couponRepository = SingletonClass.getInstance(CouponRepository);
+    this.cartRepository = new CartRepository();
+    this.purchaseRepository = new PurchaseRepository();
+    this.bookStockRepository = new BookStockRepository();
+    this.couponRepository = new CouponRepository();
     this.purchase = this.purchase.bind(this);
     this.listByUserId = this.listByUserId.bind(this);
     this.list = this.list.bind(this);

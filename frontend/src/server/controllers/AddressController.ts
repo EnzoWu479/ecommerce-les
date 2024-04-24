@@ -9,9 +9,7 @@ import { ResponseData } from '../shared/ResponseDataImp';
 export class AddressController {
   private clientAddressRepository: ClientAddressRepository;
   constructor() {
-    this.clientAddressRepository = SingletonClass.getInstance(
-      ClientAddressRepository
-    );
+    this.clientAddressRepository = new ClientAddressRepository();
     this.list = this.list.bind(this);
     this.listDelivery = this.listDelivery.bind(this);
     this.create = this.create.bind(this);
