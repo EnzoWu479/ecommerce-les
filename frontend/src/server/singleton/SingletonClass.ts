@@ -5,6 +5,8 @@ export class SingletonClass {
   }
   public static getInstance<T>(T: new () => T): T {
     const key = T.toString();
+    console.log(T.name);
+    
     
     if (!SingletonClass.instances[key]) {
       SingletonClass.instances[key] = new T();

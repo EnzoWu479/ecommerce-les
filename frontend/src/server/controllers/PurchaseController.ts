@@ -8,21 +8,24 @@ import { ResponseData } from '../shared/ResponseDataImp';
 import { PurchaseRepository } from '../repositories/PurchaseRepository';
 import { purchaseSchema } from '../validations/purchase.schema';
 import { BookStockRepository } from '../repositories/BookStockRepository';
-import { AccountRoles, CouponStatus, CouponType } from '@prisma/client';
+import { AccountRoles, CouponStatus, CouponType, NotificationType } from '@prisma/client';
 import { IBook } from '../types/book';
 import { CouponRepository } from '../repositories/CouponRepository';
 import cuid from 'cuid';
+import { NotificationService } from '../services/NotificationService';
 
 export class PurchaseController {
   private cartRepository: CartRepository;
   private purchaseRepository: PurchaseRepository;
   private bookStockRepository: BookStockRepository;
   private couponRepository: CouponRepository;
+  private notificationService: NotificationService;
   constructor() {
     this.cartRepository = new CartRepository();
     this.purchaseRepository = new PurchaseRepository();
     this.bookStockRepository = new BookStockRepository();
     this.couponRepository = new CouponRepository();
+    this.notificationService = new NotificationService();
     this.purchase = this.purchase.bind(this);
     this.listByUserId = this.listByUserId.bind(this);
     this.list = this.list.bind(this);
@@ -78,16 +81,26 @@ export class PurchaseController {
         totalDiscount,
         totalProducts
       });
+      console.log(totalProducts - totalDiscount);
+      
       if (totalProducts - totalDiscount < 0) {
-        this.couponRepository.create({
-          value: totalProducts - totalDiscount,
+        const coupon = await this.couponRepository.create({
+          value: Math.abs(totalProducts - totalDiscount),
           type: CouponType.TRADE,
           code: cuid(),
           expiresAt: null,
           status: CouponStatus.ACTIVE,
-          purchaseId: purchase.id
+          purchaseId: purchase.id,
         });
+        await this.notificationService.create({
+          clientId: infos.clientId!,
+          title: "Cupom de troca",
+          message: `Foi criado o cupom de troca: ${coupon.code}`,
+          type: NotificationType.PURCHASE,
+          couponId: coupon.id
+        })
       }
+
 
       return res.status(200).json(purchase);
     } catch (error: any) {

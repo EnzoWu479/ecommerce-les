@@ -44,12 +44,19 @@ export class TradeRepository {
         id
       },
       data: {
-        status
+        status,
+        books: status === TradeStatus.TROCA_RECUSADA ? {
+          set: []
+        } : undefined
       },
       include: {
         books: {
           include: {
-            book: true
+            book: {
+              include: {
+                priceGroup: true,
+              }
+            }
           }
         }
       }
@@ -64,10 +71,17 @@ export class TradeRepository {
       this.prisma.tradeRequest.findMany({
         take: limit,
         skip: (page - 1) * limit,
+        orderBy: {
+          createdAt: "desc"
+        },
         include: {
           books: {
             include: {
-              book: true
+              book: {
+                include: {
+                  priceGroup: true
+                }
+              }
             }
           },
           client: true,

@@ -39,6 +39,9 @@ export const Paginate = ({
       previousLabel={<ChevronLeft />}
       pageRangeDisplayed={2}
       onPageChange={e => {
+        console.log(e.selected);
+        console.log("page" + page);
+        
         if (e.selected + 1 === page) return;
         const search = new URLSearchParams();
         search.set('page', (e.selected + 1).toString());

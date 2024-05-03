@@ -206,6 +206,7 @@ export class PurchaseRepository {
           include: {
             productCart: {
               include: {
+                TradeRequest: true,
                 book: {
                   include: {
                     categories: true,

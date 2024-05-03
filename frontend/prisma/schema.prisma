@@ -220,7 +220,7 @@ model ProductCart {
 
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
-  TradeRequest   TradeRequest? @relation(fields: [tradeRequestId], references: [id])
+  tradeRequest   TradeRequest? @relation(fields: [tradeRequestId], references: [id])
   tradeRequestId String?
 }
 

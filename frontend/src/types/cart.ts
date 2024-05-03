@@ -20,6 +20,7 @@ export interface IProductCart {
   bookId: string;
   amount: number;
   book: BookDTO;
+  TradeRequest?: unknown;
   createdAt: string | Date;
   updatedAt: string | Date;
 }

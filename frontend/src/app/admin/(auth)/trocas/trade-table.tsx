@@ -127,9 +127,6 @@ export const TradeTable = ({ trades }: Props) => {
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-end">
-        <Paginate pageCount={trades.totalPages || 1} />
-      </div>{' '}
     </>
   );
 };

@@ -49,6 +49,8 @@ interface Props {
 export const TradeTable = ({ purchase }: Props) => {
   const router = useRouter();
   const products = purchase.cart.productCart;
+  console.log(purchase);
+  
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -84,6 +86,7 @@ export const TradeTable = ({ purchase }: Props) => {
               <TableCell className="w-10">
                 <Checkbox
                   data-test={`checkbox-${index}`}
+                  disabled={!!product.TradeRequest}
                   checked={selected.includes(product.id)}
                   onCheckedChange={() => {
                     setSelected(prev =>
@@ -96,7 +99,7 @@ export const TradeTable = ({ purchase }: Props) => {
               </TableCell>
               <TableCell className="flex gap-4">{product.book.name}</TableCell>
               <TableCell>
-                {formaters.money(Math.floor(product.book.priceSell))}
+                {formaters.money(Math.floor(product.book.priceSell) * product.amount)}
               </TableCell>
               <TableCell>{product.book.publisher}</TableCell>
               <TableCell>

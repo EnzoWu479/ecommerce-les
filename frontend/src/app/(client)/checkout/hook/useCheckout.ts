@@ -23,7 +23,7 @@ export const useCheckout = () => {
   const totalPrice = total - totalDiscount;
 
   const totalMissingPercent =
-    totalDiscount < 100
+    totalDiscount < total
       ? 100 - infos.cards.reduce((acc, payment) => acc + payment.percent, 0)
       : 0;
   console.log(totalMissingPercent);
@@ -57,7 +57,7 @@ export const useCheckout = () => {
       }
       console.log(coupon.expiresAt, new Date());
 
-      if (new Date(coupon.expiresAt) < new Date()) {
+      if (coupon.expiresAt && new Date(coupon.expiresAt) < new Date()) {
         throw new Error('Cupom expirado');
       }
       setInfos({
@@ -82,8 +82,7 @@ export const useCheckout = () => {
     });
   };
 
-  const isDisabled =
-    !infos.addressId || infos.cards.length <= 0 || totalMissingPercent > 0;
+  const isDisabled = !infos.addressId || totalMissingPercent > 0;
   const handleBuy = async () => {
     try {
       await purchaseData.purchase(infos);
