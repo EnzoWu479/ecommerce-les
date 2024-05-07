@@ -99,6 +99,7 @@ export const TradeTable = ({ trades }: Props) => {
                   {trade.status === TradeStatus.EM_TROCA && (
                     <div className="flex gap-2">
                       <Button
+                        data-test="accept-button"
                         onClick={() =>
                           handleStatusChange(
                             trade.id,
@@ -110,6 +111,7 @@ export const TradeTable = ({ trades }: Props) => {
                       </Button>
                       <Button
                         variant={'destructive'}
+                        data-test="reject-button"
                         onClick={() =>
                           handleStatusChange(
                             trade.id,

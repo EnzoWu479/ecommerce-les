@@ -106,6 +106,9 @@ export class PurchaseRepository {
             }
           }
         },
+        orderBy: {
+          createdAt: 'desc'
+        },
         take: limit,
         skip: (page - 1) * limit
       }),
@@ -162,6 +165,9 @@ export class PurchaseRepository {
             }
           }
         },
+        orderBy: {
+          createdAt: 'desc'
+        },
         take: limit,
         skip: (page - 1) * limit
       }),
@@ -206,7 +212,7 @@ export class PurchaseRepository {
           include: {
             productCart: {
               include: {
-                TradeRequest: true,
+                tradeRequest: true,
                 book: {
                   include: {
                     categories: true,
