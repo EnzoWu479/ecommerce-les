@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { BookStatus, PrismaClient } from '@prisma/client';
 import { prisma } from '@/server/lib/prisma';
 
 export class BookStockRepository {
@@ -7,13 +7,15 @@ export class BookStockRepository {
     this.prisma = prisma;
   }
   public async changeStockFromProduct(productId: string, quantity: number) {
-    const stock = await this.prisma.bookStock.findFirst({
+    const book = await this.prisma.book.findUnique({
       where: {
-        book: {
-          id: productId
-        }
+        id: productId
+      },
+      include: {
+        stock: true
       }
     });
+    const stock = book?.stock;
     if (!stock) throw new Error('Estoque não encontrado');
     const result = stock.quantity + quantity;
     if (result < 0) throw new Error('Estoque insuficiente');
@@ -22,7 +24,12 @@ export class BookStockRepository {
         id: stock.id
       },
       data: {
-        quantity: stock.quantity + quantity
+        quantity: result,
+        book: {
+          update: {
+            status: result === 0 ? BookStatus.INACTIVE : undefined
+          }
+        }
       }
     });
   }
