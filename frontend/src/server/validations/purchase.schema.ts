@@ -13,7 +13,7 @@ export const purchaseCouponSchema = z.object({
   status: z.nativeEnum(CouponStatus),
   value: z.number().min(1),
   createdAt: z.string(),
-  updatedAt: z.string(),
+  updatedAt: z.string()
 });
 export const purchaseFormSchema = z.object({
   addressId: z.string().min(1),
@@ -26,7 +26,9 @@ export const purchaseSchema = z.object({
   coupons: z.array(z.string())
 });
 
-export type PurchaseSchema = z.infer<typeof purchaseSchema>;
+export type PurchaseSchema = z.infer<typeof purchaseSchema> & {
+  shipping: number;
+};
 export type PurchaseFormSchema = z.infer<typeof purchaseFormSchema>;
 export type PurchaseCardSchema = z.infer<typeof purchaseCardSchema>;
 export type PurchaseCouponSchema = z.infer<typeof purchaseCouponSchema>;

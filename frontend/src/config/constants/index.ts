@@ -8,3 +8,4 @@ export const LOCAL_STORAGE_NAME = {
   USER: `${COOKIE_PREFIX}_USER`
 };
 export const API_PUBLIC_ROUTES = ['/login'];
+export const SHIPPING_COSTS = [10, 12, 15, 20];

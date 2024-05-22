@@ -60,8 +60,9 @@ export const CheckoutForm = () => {
     handleBuy,
     handleDeleteCoupom,
     infos,
-    setInfos,
     isDisabled,
+    setInfos,
+    shippingValue,
     totalMissingPercent,
     totalDiscount,
     totalPrice
@@ -121,6 +122,14 @@ export const CheckoutForm = () => {
                 <div>Subtotal</div>
                 <div className="text-right">{formaters.money(total || 0)}</div>
               </div>
+              {shippingValue !== 0 && (
+                <div className="flex w-full items-center justify-between gap-4 pt-2 font-medium">
+                  <div>Frete</div>
+                  <div className="text-right">
+                    {formaters.money(shippingValue || 0)}
+                  </div>
+                </div>
+              )}
               {totalDiscount > 0 && (
                 <div className="flex w-full items-center justify-between gap-4 pt-2 font-medium">
                   <div>Desconto</div>

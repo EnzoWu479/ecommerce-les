@@ -244,6 +244,7 @@ model Purchase {
   couponTrade   Coupon?        @relation("CouponPurchase")
   totalValue    Float
   totalDiscount Float
+  totalShipping Float          @default(0)
   purchasedAt   DateTime
   status        PurchaseStatus
   addressId     String

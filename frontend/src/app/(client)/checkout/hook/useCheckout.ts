@@ -6,6 +6,7 @@ import { purchaseData } from '@/services/data/purchase';
 import { useQueryDeliveryAddress } from '@/services/query/useQueryAddress';
 import { useQueryCreditCardUnlist } from '@/services/query/useQueryCreditCard';
 import { ICoupon } from '@/types/coupon';
+import { getShippingValue } from '@/utils/getShippingValue';
 import { CouponType } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
@@ -20,14 +21,13 @@ export const useCheckout = () => {
 
   const totalDiscount = coupons.reduce((acc, coupon) => acc + coupon.value, 0);
 
-  const totalPrice = total - totalDiscount;
+  const shippingValue = infos.addressId ? getShippingValue() : 0;
+  const totalPrice = total + shippingValue - totalDiscount;
 
   const totalMissingPercent =
     totalDiscount < total
       ? 100 - infos.cards.reduce((acc, payment) => acc + payment.percent, 0)
       : 0;
-  console.log(totalMissingPercent);
-  console.log(totalMissingPercent);
 
   const handleAddPayment = (id: string) => {
     const hasPayment = infos.cards.some(payment => payment.cardId === id);
@@ -102,6 +102,7 @@ export const useCheckout = () => {
     totalPrice,
     totalDiscount,
     totalMissingPercent,
+    shippingValue,
     infos,
     setInfos,
     coupons

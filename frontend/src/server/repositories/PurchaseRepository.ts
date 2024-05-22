@@ -28,6 +28,8 @@ export class PurchaseRepository {
     totalDiscount: number;
     totalProducts: number;
   }) {
+    console.log(details.shipping);
+
     return this.prisma.purchase.create({
       data: {
         address: {
@@ -43,8 +45,12 @@ export class PurchaseRepository {
             }))
           }
         },
-        totalValue: Math.max(totalProducts - totalDiscount, 0),
+        totalValue: Math.max(
+          totalProducts + details.shipping - totalDiscount,
+          0
+        ),
         totalDiscount: totalDiscount,
+        totalShipping: details.shipping,
         cart: {
           connect: {
             id: cart.id

@@ -8,11 +8,18 @@ import { ResponseData } from '../shared/ResponseDataImp';
 import { PurchaseRepository } from '../repositories/PurchaseRepository';
 import { purchaseSchema } from '../validations/purchase.schema';
 import { BookStockRepository } from '../repositories/BookStockRepository';
-import { AccountRoles, CouponStatus, CouponType, NotificationType } from '@prisma/client';
+import {
+  AccountRoles,
+  CouponStatus,
+  CouponType,
+  NotificationType
+} from '@prisma/client';
 import { IBook } from '../types/book';
 import { CouponRepository } from '../repositories/CouponRepository';
 import cuid from 'cuid';
 import { NotificationService } from '../services/NotificationService';
+import { getShippingValue } from '@/utils/getShippingValue';
+import { AddressRepository } from '../repositories/AddressRepository';
 
 export class PurchaseController {
   private cartRepository: CartRepository;
@@ -20,12 +27,14 @@ export class PurchaseController {
   private bookStockRepository: BookStockRepository;
   private couponRepository: CouponRepository;
   private notificationService: NotificationService;
+  private addressRepository: AddressRepository;
   constructor() {
     this.cartRepository = new CartRepository();
     this.purchaseRepository = new PurchaseRepository();
     this.bookStockRepository = new BookStockRepository();
     this.couponRepository = new CouponRepository();
     this.notificationService = new NotificationService();
+    this.addressRepository = new AddressRepository();
     this.purchase = this.purchase.bind(this);
     this.listByUserId = this.listByUserId.bind(this);
     this.list = this.list.bind(this);
@@ -41,8 +50,10 @@ export class PurchaseController {
       const { infos } = jwtService.extract(jwt);
 
       const purchaseValid = purchaseSchema.parse(req.body);
+      console.log('a');
 
       const cart = await this.cartRepository.getCurrentCart(infos.id);
+
       const coupons = await Promise.all(
         purchaseValid.coupons.map(coupon =>
           this.couponRepository.getById(coupon)
@@ -63,6 +74,7 @@ export class PurchaseController {
           book: new BookDTO(product.book)
         };
       });
+      const shipping = getShippingValue();
       const totalDiscount = coupons.reduce(
         (acc, coupon) => acc + (coupon?.value || 0),
         0
@@ -71,7 +83,7 @@ export class PurchaseController {
         return acc + product.book.priceSell * product.amount;
       }, 0);
       const purchase = await this.purchaseRepository.create({
-        details: purchaseValid,
+        details: { ...purchaseValid, shipping },
         cart: {
           ...cart,
           productCart: products,
@@ -82,7 +94,7 @@ export class PurchaseController {
         totalProducts
       });
       console.log(totalProducts - totalDiscount);
-      
+
       if (totalProducts - totalDiscount < 0) {
         const coupon = await this.couponRepository.create({
           value: Math.abs(totalProducts - totalDiscount),
@@ -90,17 +102,16 @@ export class PurchaseController {
           code: cuid(),
           expiresAt: null,
           status: CouponStatus.ACTIVE,
-          purchaseId: purchase.id,
+          purchaseId: purchase.id
         });
         await this.notificationService.create({
           clientId: infos.clientId!,
-          title: "Cupom de troca",
+          title: 'Cupom de troca',
           message: `Foi criado o cupom de troca: ${coupon.code}`,
           type: NotificationType.PURCHASE,
           couponId: coupon.id
-        })
+        });
       }
-
 
       return res.status(200).json(purchase);
     } catch (error: any) {
