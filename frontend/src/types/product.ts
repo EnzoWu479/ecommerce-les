@@ -47,8 +47,15 @@ export interface IProduct {
   priceSell: number;
   priceGroup?: IPriceGroup;
   stock: IStock;
+  statusReason: IProductStatusReason[];
 }
-
+export interface IProductStatusReason {
+  id: string;
+  status: BookStatus;
+  reason: string;
+  createdAt: string;
+  updatedAt: string;
+}
 export interface IPriceGroup {
   id: string;
   name: string;

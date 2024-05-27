@@ -10,6 +10,7 @@ import { SingletonClass } from '../singleton/SingletonClass';
 import { BookStockRepository } from '../repositories/BookStockRepository';
 import { BookDTO } from '../repositories/dto/BookDTO';
 import { IBook } from '../types/book';
+import { productStatusSchema } from '../validations/productStatus.schema';
 
 export class BookController {
   private bookRepository: BookRepository;
@@ -23,6 +24,7 @@ export class BookController {
     this.update = this.update.bind(this);
     this.updateStock = this.updateStock.bind(this);
     this.home = this.home.bind(this);
+    this.updateStatus = this.updateStatus.bind(this);
   }
   public async create(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -114,6 +116,25 @@ export class BookController {
         id as string,
         stock
       );
+
+      api.get('/admin/produtos/revalidate');
+
+      res.status(200).json(book);
+    } catch (error: any) {
+      res.status(400).json(new ResponseData(null, error.message, 400));
+    }
+  }
+  public async updateStatus(req: NextApiRequest, res: NextApiResponse) {
+    try {
+      const { id } = req.query;
+      const { status, reason } = productStatusSchema.parse(req.body);
+
+      if (!status) throw new Error('Status inválido');
+
+      const book = await this.bookRepository.updateStatus(id as string, {
+        status,
+        reason
+      });
 
       api.get('/admin/produtos/revalidate');
 

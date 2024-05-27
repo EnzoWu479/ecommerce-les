@@ -85,6 +85,16 @@ export const useCheckout = () => {
   const isDisabled = !infos.addressId || totalMissingPercent > 0;
   const handleBuy = async () => {
     try {
+      for (const payment of infos.cards) {
+        if (payment.percent === 0) {
+          toast.error('Por favor, selecione a porcentagem de cada cartão');
+          return;
+        }
+        if (totalPrice * (payment.percent / 100) < 10) {
+          toast.error('O valor mínimo por cartão é de R$ 10,00');
+          return;
+        }
+      }
       await purchaseData.purchase(infos);
       clearInfos();
       toast.success('Compra realizada com sucesso');

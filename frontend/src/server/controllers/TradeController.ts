@@ -33,7 +33,7 @@ export class TradeController {
     this.notificationService = new NotificationService();
     this.notificationRepository = new NotificationRepository();
     this.bookStockRepository = new BookStockRepository();
-    this.request = this.request.bind(this); 
+    this.request = this.request.bind(this);
     this.list = this.list.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
   }
@@ -51,7 +51,7 @@ export class TradeController {
       });
       return res.status(201).json(trade);
     } catch (error: any) {
-      return res.status(500).json(new ResponseData(null, error.message, 400));
+      return res.status(400).json(new ResponseData(null, error.message, 400));
     }
   }
   public async list(req: NextApiRequest, res: NextApiResponse) {
@@ -69,7 +69,7 @@ export class TradeController {
         )
       });
     } catch (error: any) {
-      return res.status(500).json(new ResponseData(null, error.message, 400));
+      return res.status(400).json(new ResponseData(null, error.message, 400));
     }
   }
   public async updateStatus(req: NextApiRequest, res: NextApiResponse) {
@@ -92,12 +92,14 @@ export class TradeController {
               type: CouponType.TRADE,
               value: tradeDTO.totalValue
             }),
-            Promise.all(tradeDTO.books.map(async book => {
-              await this.bookStockRepository.changeStockFromProduct(
-                book.id,
-                book.amount 
-              );
-            })),
+            Promise.all(
+              tradeDTO.books.map(async book => {
+                await this.bookStockRepository.changeStockFromProduct(
+                  book.book.id,
+                  book.amount
+                );
+              })
+            ),
             this.notificationRepository.deleteByTrade(trade.id)
           ]);
 
@@ -129,21 +131,11 @@ export class TradeController {
           break;
       }
 
-      if (status === TradeStatus.TROCA_REALIZADA) {
-        const coupon = await this.couponRepository.create({
-          code: cuid(),
-          expiresAt: null,
-          status: CouponStatus.ACTIVE,
-          type: CouponType.TRADE,
-          value: tradeDTO.totalValue
-        });
-      }
-
       return res
         .status(200)
         .json(new ResponseData(null, 'Status updated', 200));
     } catch (error: any) {
-      return res.status(500).json(new ResponseData(null, error.message, 400));
+      return res.status(400).json(new ResponseData(null, error.message, 400));
     }
   }
 }

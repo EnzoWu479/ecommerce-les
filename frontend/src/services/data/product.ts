@@ -1,6 +1,7 @@
 import { api } from '@/lib/axios';
 import { PageRequest } from '@/server/shared/PageRequest';
 import { PageResponse } from '@/server/shared/PageResponse';
+import { ProductStatusReason } from '@/server/validations/productStatus.schema';
 import { IPage } from '@/types/page';
 import { IProduct } from '@/types/product';
 import { BookForm } from '@/validations/bookForm.schema';
@@ -50,6 +51,15 @@ export const productData = {
   async changeStock(productId: string, quantity: number) {
     await api.put(`/api/books/${productId}/stock`, {
       stock: quantity
+    });
+  },
+  async changeStatus(
+    productId: string,
+    { reason, status }: ProductStatusReason
+  ) {
+    await api.put(`/api/books/${productId}/status`, {
+      reason,
+      status
     });
   },
   async getHome(pageRequest: PageRequest<unknown>) {

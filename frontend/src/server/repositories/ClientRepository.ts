@@ -263,6 +263,11 @@ export class ClientRepository {
         skip: (page - 1) * limit,
         take: limit,
         where: where,
+        orderBy: {
+          carts: {
+            _count: 'desc'
+          }
+        },
         include: {
           account: true
         }

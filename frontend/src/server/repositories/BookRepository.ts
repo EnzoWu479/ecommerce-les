@@ -105,7 +105,12 @@ export class BookRepository {
         include: {
           categories: true,
           priceGroup: true,
-          stock: true
+          stock: true,
+          statusReason: {
+            orderBy: {
+              createdAt: 'desc'
+            }
+          }
         }
       })
     ]);
@@ -148,6 +153,31 @@ export class BookRepository {
           set: categories.map(category => ({
             id: category.id
           }))
+        }
+      }
+    });
+  }
+  public async updateStatus(
+    id: string,
+    {
+      reason,
+      status
+    }: {
+      status: BookStatus;
+      reason: string;
+    }
+  ) {
+    return this.prisma.book.update({
+      where: {
+        id
+      },
+      data: {
+        status,
+        statusReason: {
+          create: {
+            reason,
+            status
+          }
         }
       }
     });

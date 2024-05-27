@@ -13,9 +13,6 @@ import { PropsWithChildren, useState } from 'react';
 
 
 export default async function AdminLayout({ children }: PropsWithChildren) {
-  const isAuthenticated = async () => {
-    const {data} = await api.get("http")
-  }
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navCollapsedSize = 4;
   return (

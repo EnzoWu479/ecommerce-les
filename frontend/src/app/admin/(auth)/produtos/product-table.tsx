@@ -45,7 +45,7 @@ import {
 import { ActivatePopOver } from './components/activate-pop-over';
 import { getSellPrice } from '@/utils/getSellPrice';
 import { productData } from '@/services/data/product';
-import { ModalChangeStock } from './modal-change-stock';
+import { ModalChangeStock } from './components/modal-change-stock';
 
 interface Props {
   products: PageResponse<IProduct>;
@@ -144,6 +144,8 @@ export const ProductTable = async ({ products }: Props) => {
               <div>
                 <ActivatePopOver
                   active={product.status === BookStatus.ACTIVE}
+                  product={product}
+                  reason={product.statusReason?.[0]}
                 />
               </div>
             </TableCell>

@@ -144,23 +144,54 @@ describe('Comprar produtos', () => {
     cy.get('[data-test=buy-button]').click();
     cy.wait(1000);
   });
-  // it('Deve mudar status de compra', () => {
-  //   cy.visit('/admin/vendas');
-  //   cy.wait(1000);
-  //   cy.get('[data-test=select-trade]').within(() => {
-  //     cy.get('button').click();
-  //   });
-  //   cy.contains('Em transporte').click();
-  //   cy.wait(500);
-  //   cy.get('[data-test=select-trade]').within(() => {
-  //     cy.get('button').click();
-  //   });
-  //   cy.contains('Em transito').click();
-  //   cy.wait(500);
-  //   cy.get('[data-test=select-trade]').within(() => {
-  //     cy.get('button').click();
-  //   });
-  //   cy.contains('Entregue').click();
-  //   cy.wait(500);
-  // });
+  it('Deve finalizar o pedido com 1 produto e 1 cartão', () => {
+    cy.visit('/login');
+    cy.get('input[name=email]').type(email);
+    cy.get('input[name=password]').type(password);
+    cy.get('[data-test=submit-button]').click();
+    cy.visit('/');
+
+    cy.get("[data-test='card-product-2']").click();
+    cy.wait(1000);
+    cy.get("[data-test=change-quantity]").within(() => {
+      cy.get('[data-test=increment]').click();
+    });
+    cy.get("[data-test='add-product-button']").click();
+
+    cy.get('[data-test=open-cart]').click({
+      force: true
+    });
+    cy.get("[data-test='checkout-button']").click({
+      force: true
+    });
+
+    cy.get('[data-test=address-1]').click();
+    cy.get('[data-test=payment-1]').within(() => {
+      cy.get('[data-test=checkbox]').click();
+      cy.get('[data-test=increment]')
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click();
+    });
+    cy.get('[data-test=buy-button]').click();
+    cy.wait(1000);
+  });
+ 
 });

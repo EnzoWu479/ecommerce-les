@@ -1,5 +1,10 @@
 import { prisma } from '@/server/lib/prisma';
-import { PrismaClient, TradeRequest, TradeStatus } from '@prisma/client';
+import {
+  PrismaClient,
+  PurchaseStatus,
+  TradeRequest,
+  TradeStatus
+} from '@prisma/client';
 import { TradeSchema } from '../validations/trade.schema';
 import { PageRequest } from '../shared/PageRequest';
 import { PageResponse } from '../shared/PageResponse';
@@ -26,7 +31,25 @@ export class TradeRepository {
     if (!client || !client.client) {
       throw new Error('Client not found');
     }
-    console.log(client);
+    const purchase = await this.prisma.purchase.findFirst({
+      where: {
+        cart: {
+          productCart: {
+            some: {
+              id: {
+                in: values.productsId
+              }
+            }
+          }
+        }
+      }
+    });
+    if (!purchase) {
+      throw new Error('Compra não encontrada');
+    }
+    if (purchase.status !== PurchaseStatus.ENTREGUE) {
+      throw new Error('Compra não entregue');
+    }
 
     return this.prisma.tradeRequest.create({
       data: {
@@ -45,16 +68,19 @@ export class TradeRepository {
       },
       data: {
         status,
-        books: status === TradeStatus.TROCA_RECUSADA ? {
-          set: []
-        } : undefined
+        books:
+          status === TradeStatus.TROCA_RECUSADA
+            ? {
+                set: []
+              }
+            : undefined
       },
       include: {
         books: {
           include: {
             book: {
               include: {
-                priceGroup: true,
+                priceGroup: true
               }
             }
           }
@@ -72,7 +98,7 @@ export class TradeRepository {
         take: limit,
         skip: (page - 1) * limit,
         orderBy: {
-          createdAt: "desc"
+          createdAt: 'desc'
         },
         include: {
           books: {

@@ -33,6 +33,7 @@ import { Paginate } from '@/components/paginate';
 import { useQueryPurchase } from '@/services/query/useQueryPurchase';
 import { IPage } from '@/types/page';
 import { masks } from '@/helpers/masks';
+import { PurchaseStatus } from '@prisma/client';
 
 export const PurchaseTable = ({ page }: IPage) => {
   const { data: purchases } = useQueryPurchase(page || 1);
@@ -67,7 +68,7 @@ export const PurchaseTable = ({ page }: IPage) => {
                       <div className="max-h-48 overflow-auto">
                         {purchase.cart.productCart.map(product => (
                           <DropdownMenuItem key={product.id}>
-                            {product.book.name}
+                            {product.amount} x {product.book.name}
                           </DropdownMenuItem>
                         ))}
                       </div>
@@ -91,21 +92,23 @@ export const PurchaseTable = ({ page }: IPage) => {
                 <TableCell>{purchase.status}</TableCell>
                 <TableCell>
                   <div className="flex gap-2">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Link
-                            href={`/compras/troca/${purchase.id}`}
-                            data-test="request-switch"
-                          >
-                            <ArrowLeftRight />
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Trocar produto</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    {purchase.status === PurchaseStatus.ENTREGUE && (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Link
+                              href={`/compras/troca/${purchase.id}`}
+                              data-test="request-switch"
+                            >
+                              <ArrowLeftRight />
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Trocar produto</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>
@@ -114,7 +117,10 @@ export const PurchaseTable = ({ page }: IPage) => {
         </TableBody>
       </Table>
       <div className="flex justify-end">
-        <Paginate pageCount={purchases?.totalPages || 1} />
+        <Paginate
+          page={page ? Number(page) : undefined}
+          pageCount={purchases?.totalPages || 1}
+        />
       </div>{' '}
     </>
   );

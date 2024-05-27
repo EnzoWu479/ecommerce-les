@@ -26,6 +26,7 @@ export const Paginate = ({
   const page = currentPage || 1;
   const router = useRouter();
   const pathname = usePathname() as string;
+  console.log(page);
 
   const pageStyle =
     'w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-800 cursor-pointer hover:bg-slate-800 hover:text-slate-200 transition-colors duration-200';
@@ -40,9 +41,12 @@ export const Paginate = ({
       pageRangeDisplayed={2}
       onPageChange={e => {
         console.log(e.selected);
-        console.log("page" + page);
-        
+        console.log('page' + page);
+        console.log(e.selected);
+
         if (e.selected + 1 === page) return;
+        console.log('page' + page);
+
         const search = new URLSearchParams();
         search.set('page', (e.selected + 1).toString());
         for (const key in searchParams) {
