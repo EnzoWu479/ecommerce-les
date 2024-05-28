@@ -62,12 +62,15 @@ export const productData = {
       status
     });
   },
-  async getHome(pageRequest: PageRequest<unknown>) {
+  async getHome(pageRequest: PageRequest<IProduct>) {
     const { data } = await api.get<PageResponse<IProduct>>('/api/home', {
       params: {
         page: pageRequest.page,
         limit: pageRequest.limit,
-        search: JSON.stringify(pageRequest.search)
+        search: JSON.stringify({
+          ...pageRequest.search,
+          category: pageRequest.category
+        })
       }
     });
     return data;

@@ -64,7 +64,10 @@ export class BookRepository {
     page,
     limit,
     search
-  }: PageRequest<unknown>) {
+  }: PageRequest<{
+    name?: string;
+    category?: string;
+  }>) {
     const [total, content] = await Promise.all([
       this.prisma.book.count({
         where: {
@@ -75,7 +78,20 @@ export class BookRepository {
         skip: (page - 1) * limit,
         take: limit,
         where: {
-          status: BookStatus.ACTIVE
+          status: BookStatus.ACTIVE,
+          name: search?.name
+            ? {
+                contains: search.name,
+                mode: 'insensitive'
+              }
+            : undefined,
+          categories: search?.category
+            ? {
+                some: {
+                  name: search.category
+                }
+              }
+            : undefined
         },
         include: {
           categories: true,

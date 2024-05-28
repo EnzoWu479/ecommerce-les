@@ -3,6 +3,7 @@ import {
   AccountStatus,
   Client,
   Gender,
+  Prisma,
   PrismaClient
 } from '@prisma/client';
 import { prisma } from '@/server/lib/prisma';
@@ -221,26 +222,29 @@ export class ClientRepository {
     limit,
     search
   }: PageRequest<ClientSearchParams>): Promise<PageResponse<Client>> {
-    const where = {
+    const where: Prisma.ClientWhereInput = {
       ...(search?.name && {
         name: {
-          contains: search.name
+          contains: search.name,
+          mode: 'insensitive'
         }
       }),
       ...(search?.cpf && {
         cpf: {
-          contains: search.cpf
+          contains: search.cpf,
+          mode: 'insensitive'
         }
       }),
       ...((search?.email || search?.status) && {
         account: {
           ...(search?.email && {
             email: {
-              contains: search.email
+              contains: search.email,
+              mode: 'insensitive'
             }
           }),
           ...(search?.status && {
-            status: search.status as AccountStatus
+            status: search.status as AccountStatus,
           })
         }
       }),

@@ -20,6 +20,7 @@ import { useAuthStore } from '@/features/authentication/auth-store';
 import { TradePopup } from '../trade-popup';
 import { useAuthStoreClient } from '@/features/authentication/auth-store-client';
 import { useCart } from '@/features/bag/useCart';
+import { useQueryCategory } from '@/services/query/useQueryCategory';
 
 const navigation = {
   categories: [
@@ -70,6 +71,7 @@ export function ClientNavigationMenu() {
   const [isAuth, setIsAuth] = useState(false);
   const { isAuthenticated } = useAuthStoreClient();
   const { cart } = useCart();
+  const { data: categories } = useQueryCategory();
 
   // console.log(isAuthenticated);
 
@@ -294,16 +296,18 @@ export function ClientNavigationMenu() {
                     Categorias
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href={{
-                          pathname: '/livros',
-                          query: { category: 'Ação' }
-                        }}
-                      >
-                        Ação
-                      </Link>
-                    </DropdownMenuItem>
+                    {categories?.map(category => (
+                      <DropdownMenuItem asChild key={category.id}>
+                        <Link
+                          href={{
+                            pathname: '/pesquisa',
+                            query: { c: category.name }
+                          }}
+                        >
+                          {category.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
