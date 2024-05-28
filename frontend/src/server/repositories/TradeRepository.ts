@@ -9,6 +9,7 @@ import { TradeSchema } from '../validations/trade.schema';
 import { PageRequest } from '../shared/PageRequest';
 import { PageResponse } from '../shared/PageResponse';
 import { ITrade } from '@/types/trade';
+import { TradeReturn } from '../types/trade';
 
 export class TradeRepository {
   private prisma: PrismaClient;
@@ -37,7 +38,7 @@ export class TradeRepository {
           productCart: {
             some: {
               id: {
-                in: values.productsId
+                in: values.productsId.map(p => p.id)
               }
             }
           }
@@ -55,9 +56,37 @@ export class TradeRepository {
       data: {
         status: TradeStatus.EM_TROCA,
         books: {
-          connect: values.productsId.map(id => ({ id }))
+          // connect: values.productsId.map(id => ({ id }))
+          createMany: {
+            data: values.productsId.map(p => ({
+              // product: {
+              //   connect: {
+              //     id: p.id
+              //   }
+              // },
+              productId: p.id,
+              amount: p.amount
+            }))
+          }
         },
         clientId: client.client.id
+      },
+      include: {
+        books: {
+          include: {
+            product: {
+              include: {
+                book: {
+                  include: {
+                    priceGroup: true
+                  }
+                }
+              }
+            }
+          }
+        },
+        client: true,
+        coupon: true
       }
     });
   }
@@ -67,31 +96,31 @@ export class TradeRepository {
         id
       },
       data: {
-        status,
-        books:
-          status === TradeStatus.TROCA_RECUSADA
-            ? {
-                set: []
-              }
-            : undefined
+        status
       },
       include: {
         books: {
           include: {
-            book: {
+            product: {
               include: {
-                priceGroup: true
+                book: {
+                  include: {
+                    priceGroup: true
+                  }
+                }
               }
             }
           }
-        }
+        },
+        client: true,
+        coupon: true
       }
     });
   }
   public async list({
     limit,
     page
-  }: PageRequest): Promise<PageResponse<TradeRequest>> {
+  }: PageRequest): Promise<PageResponse<TradeReturn>> {
     const [total, trades] = await Promise.all([
       this.prisma.tradeRequest.count(),
       this.prisma.tradeRequest.findMany({
@@ -103,9 +132,13 @@ export class TradeRepository {
         include: {
           books: {
             include: {
-              book: {
+              product: {
                 include: {
-                  priceGroup: true
+                  book: {
+                    include: {
+                      priceGroup: true
+                    }
+                  }
                 }
               }
             }

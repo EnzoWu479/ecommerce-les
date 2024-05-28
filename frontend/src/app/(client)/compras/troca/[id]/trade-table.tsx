@@ -1,6 +1,7 @@
 'use client';
 import { ClientNavigationMenu } from '@/components/client/client-navigation-menu';
 import { ProductCard } from '@/components/client/product-card';
+import { InputValueControl } from '@/components/input-value-control';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -12,20 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger
-} from '@/components/ui/hover-card';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious
-} from '@/components/ui/pagination';
 import {
   Table,
   TableBody,
@@ -39,20 +26,27 @@ import { tradeData } from '@/services/data/trade';
 import { IPurchase } from '@/types/purchase';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface Props {
   purchase: IPurchase;
 }
-
+1;
+interface ISelectedItem {
+  id: string;
+  amount: number;
+}
 export const TradeTable = ({ purchase }: Props) => {
   const router = useRouter();
   const products = purchase.cart.productCart;
-  console.log(purchase);
-  
-  const [selected, setSelected] = useState<string[]>([]);
+
+  const [selected, setSelected] = useState<ISelectedItem[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const handleAmountChange = async (id: string, amount: number) => {
+    setSelected(prev => prev.map(i => (i.id === id ? { ...i, amount } : i)));
+  };
 
   const handleTrade = async () => {
     setLoading(true);
@@ -81,47 +75,69 @@ export const TradeTable = ({ purchase }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.map((product, index) => (
-            <TableRow key={product.id}>
-              <TableCell className="w-10">
-                <Checkbox
-                  data-test={`checkbox-${index}`}
-                  disabled={!!product.TradeRequest}
-                  checked={selected.includes(product.id)}
-                  onCheckedChange={() => {
-                    setSelected(prev =>
-                      prev.includes(product.id)
-                        ? prev.filter(i => i !== product.id)
-                        : [...prev, product.id]
-                    );
-                  }}
-                />
-              </TableCell>
-              <TableCell className="flex gap-4">{product.book.name}</TableCell>
-              <TableCell>
-                {formaters.money(Math.floor(product.book.priceSell) * product.amount)}
-              </TableCell>
-              <TableCell>{product.book.publisher}</TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="hover:underline">
-                    Ver categorias
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Categorias</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <div className="max-h-48 overflow-auto">
-                      {product.book.categories.map(category => (
-                        <DropdownMenuItem key={category.id}>
-                          {category.name}
-                        </DropdownMenuItem>
-                      ))}
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          ))}
+          {products.map((product, index) => {
+            const isChecked = selected.some(i => i.id === product.id);
+            const value = selected.find(i => i.id === product.id)?.amount || 1;
+            const amount = product.amount - (product.trades?.length || 0);
+            return (
+              <TableRow key={product.id}>
+                <TableCell className="w-10">
+                  <div className="flex items-center gap-4">
+                    <Checkbox
+                      data-test={`checkbox-${index}`}
+                      disabled={amount <= 0}
+                      checked={isChecked}
+                      onCheckedChange={() => {
+                        setSelected(prev =>
+                          prev.some(i => i.id === product.id)
+                            ? prev.filter(i => i.id !== product.id)
+                            : [...prev, { id: product.id, amount: 1 }]
+                        );
+                      }}
+                    />
+                    {isChecked && (
+                      <InputValueControl
+                        value={value}
+                        tooltip={String(
+                          formaters.money(product.book.priceSell * value)
+                        )}
+                        onChange={value =>
+                          handleAmountChange(product.id, value)
+                        }
+                        step={1}
+                        max={amount}
+                      />
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell className="flex gap-4">
+                  {product.book.name}
+                </TableCell>
+                <TableCell>
+                  {product.amount} x {formaters.money(product.book.priceSell)}
+                </TableCell>
+                <TableCell>{product.book.publisher}</TableCell>
+                <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="hover:underline">
+                      Ver categorias
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuLabel>Categorias</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <div className="max-h-48 overflow-auto">
+                        {product.book.categories.map(category => (
+                          <DropdownMenuItem key={category.id}>
+                            {category.name}
+                          </DropdownMenuItem>
+                        ))}
+                      </div>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
 

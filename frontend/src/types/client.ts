@@ -12,9 +12,9 @@ export interface IClient {
   name: string;
   cpf: string;
   birthDate: string;
-  accountId: string;
+  accountId: string | null;
   gender: string;
-  mainCardId: null;
+  mainCardId: string | null;
   mainCard?: MainCard;
   createdAt: string;
   updatedAt: string;

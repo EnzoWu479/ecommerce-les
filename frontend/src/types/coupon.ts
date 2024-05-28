@@ -4,11 +4,11 @@ export interface ICoupon {
   id: string;
   code: string;
   type: CouponType;
-  expiresAt: string;
+  expiresAt: string | null;
   status: CouponStatus;
   value: number;
   tradeId: string | null;
   createdAt: string;
   updatedAt: string;
-  tradeRequestId: string | null;
+  // tradeRequestId: string | null;
 }

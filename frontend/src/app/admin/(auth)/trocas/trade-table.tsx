@@ -75,7 +75,7 @@ export const TradeTable = ({ trades }: Props) => {
                       <div className="max-h-48 overflow-auto">
                         {trade.books.map(book => (
                           <DropdownMenuItem key={book.id}>
-                            {book.book.name}
+                            {book.amount} x {book.product.book.name}
                           </DropdownMenuItem>
                         ))}
                       </div>

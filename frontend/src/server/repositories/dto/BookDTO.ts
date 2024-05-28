@@ -1,9 +1,9 @@
-import { IBook, ICategory, IStock } from '@/server/types/book';
+import { BookReturn, IBook, ICategory, IStock } from '@/server/types/book';
 import { getSellPrice } from '@/utils/getSellPrice';
 import { $Enums, Book } from '@prisma/client';
 
 export class BookDTO {
-  constructor(book: IBook) {
+  constructor(book: BookReturn) {
     this.id = book.id;
     this.name = book.name;
     this.isbn = book.isbn;

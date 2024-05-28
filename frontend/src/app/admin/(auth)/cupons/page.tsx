@@ -34,15 +34,29 @@ import { IPage } from '@/types/page';
 import { couponData } from '@/services/data/coupon';
 import { CouponTable } from './coupon-table';
 import { Suspense } from 'react';
+import { Paginate } from '@/components/paginate';
 
 export const dynamic = 'force-dynamic';
 
 const FetchTable = async ({ page }: IPage) => {
   const coupons = await couponData.list({ page: page || 1, limit: 10 });
-  return <CouponTable coupons={coupons} />;
+  return (
+    <>
+      <div className="mt-5 rounded border">
+        {' '}
+        <CouponTable coupons={coupons} />
+      </div>
+      <div className="flex justify-end">
+        <Paginate
+          page={page ? Number(page) : undefined}
+          pageCount={coupons.totalPages || 1}
+        />
+      </div>
+    </>
+  );
 };
 
-const CategoriesPage = () => {
+const CategoriesPage = ({ searchParams }: { searchParams: IPage }) => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
@@ -53,9 +67,9 @@ const CategoriesPage = () => {
           <Button>Novo cupom</Button>
         </Link>
       </div>
-      <div className="mt-5 rounded border">
+      <div>
         <Suspense fallback="Loading">
-          <FetchTable />
+          <FetchTable {...searchParams} />
         </Suspense>
       </div>
     </>

@@ -3,6 +3,7 @@
 import { BookDTO } from '@/server/repositories/dto/BookDTO';
 import { IProduct } from './product';
 import { IClient } from './client';
+import { IProductTrade } from './trade';
 
 export interface ICart {
   id: string;
@@ -20,7 +21,7 @@ export interface IProductCart {
   bookId: string;
   amount: number;
   book: BookDTO;
-  TradeRequest?: unknown;
+  trades?: IProductTrade[];
   createdAt: string | Date;
   updatedAt: string | Date;
 }

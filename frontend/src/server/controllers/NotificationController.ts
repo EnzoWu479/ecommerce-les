@@ -1,17 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { CartRepository } from '../repositories/CartRepository';
-import { BookDTO } from '../repositories/dto/BookDTO';
 import { jwtService } from '../lib/jwt';
 import { COOKIES_NAME } from '@/config/constants';
 import { SingletonClass } from '../singleton/SingletonClass';
 import { ResponseData } from '../shared/ResponseDataImp';
-import { PurchaseRepository } from '../repositories/PurchaseRepository';
-import { purchaseSchema } from '../validations/purchase.schema';
-import { BookStockRepository } from '../repositories/BookStockRepository';
-import { AccountRoles, CouponStatus, CouponType } from '@prisma/client';
-import { IBook } from '../types/book';
-import { CouponRepository } from '../repositories/CouponRepository';
-import cuid from 'cuid';
 import { NotificationRepository } from '../repositories/NotificationRepository';
 
 export class NotificationController {

@@ -71,7 +71,7 @@ export class PurchaseController {
       const products = cart.productCart.map(product => {
         return {
           ...product,
-          book: new BookDTO(product.book)
+          book: new BookDTO({ ...product.book, stock: null, categories: [] })
         };
       });
       const shipping = getShippingValue();
@@ -173,7 +173,7 @@ export class PurchaseController {
       const products = purchase?.cart.productCart.map(product => {
         return {
           ...product,
-          book: new BookDTO(product.book as IBook)
+          book: new BookDTO({ ...product.book, stock: null, categories: [] })
         };
       });
       return res.status(200).json({

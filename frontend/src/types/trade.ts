@@ -11,7 +11,14 @@ export interface ITrade {
   status: TradeStatus;
   createdAt: string;
   updatedAt: string;
-  books: IProductCart[];
+  books: IProductTrade[];
   client: IClient;
   coupon: ICoupon | null;
+}
+export interface IProductTrade {
+  id: string;
+  product: IProductCart;
+  amount: number;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 }

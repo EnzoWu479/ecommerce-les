@@ -6,11 +6,16 @@ import { SellTable } from './sell-table';
 export const dynamic = 'force-dynamic';
 
 const FetchTableSell = async ({ page }: IPage) => {
-  const sells = await purchaseData.listAll({ page: page || 1, limit: 10 });
+  const sells = await purchaseData.listAll({
+    page: Number(page || 1),
+    limit: 10
+  });
   return <SellTable sells={sells} />;
 };
 
 const SellsPage = ({ searchParams }: { searchParams: IPage }) => {
+  console.log(searchParams);
+
   return (
     <>
       <div className="flex items-center justify-between space-y-2">

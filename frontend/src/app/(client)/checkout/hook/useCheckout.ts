@@ -62,7 +62,15 @@ export const useCheckout = () => {
       }
       setInfos({
         ...infos,
-        coupons: [...infos.coupons, coupon]
+        coupons: [
+          ...infos.coupons,
+          {
+            ...coupon,
+            createdAt: coupon.createdAt as string,
+            updatedAt: coupon.updatedAt as string,
+            expiresAt: coupon.expiresAt as string
+          }
+        ]
       });
       toast.success('Cupom adicionado com sucesso');
       return true;

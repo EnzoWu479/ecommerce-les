@@ -27,7 +27,11 @@ export class CartController {
       const products = cart.productCart.map(product => {
         return {
           ...product,
-          book: new BookDTO(product.book)
+          book: new BookDTO({
+            ...product.book,
+            stock: null,
+            categories: []
+          })
         };
       });
       return res.status(200).json({ ...cart, productCart: products });
@@ -51,7 +55,7 @@ export class CartController {
       const products = cart.productCart.map(product => {
         return {
           ...product,
-          book: new BookDTO(product.book)
+          book: new BookDTO({ ...product.book, stock: null, categories: [] })
         };
       });
       res.status(201).json({ ...cart, productCart: products });
@@ -75,7 +79,7 @@ export class CartController {
       const products = cart.productCart.map(product => {
         return {
           ...product,
-          book: new BookDTO(product.book)
+          book: new BookDTO({ ...product.book, stock: null, categories: [] })
         };
       });
       res.status(200).json({ ...cart, productCart: products });
@@ -102,7 +106,7 @@ export class CartController {
       const products = cart.productCart.map(product => {
         return {
           ...product,
-          book: new BookDTO(product.book)
+          book: new BookDTO({ ...product.book, stock: null, categories: [] })
         };
       });
       res.status(200).json({ ...cart, productCart: products });

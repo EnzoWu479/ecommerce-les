@@ -67,7 +67,9 @@ export const CouponTable = ({ coupons }: Props) => {
                 </Select>{' '}
               </div>
             </TableCell>
-            <TableCell>{formaters.date(coupon.expiresAt)}</TableCell>
+            <TableCell>
+              {coupon.expiresAt && formaters.date(coupon.expiresAt)}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

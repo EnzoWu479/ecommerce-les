@@ -64,9 +64,7 @@ export class TradeController {
       });
       return res.status(200).json({
         ...trades,
-        content: trades.content.map(
-          trade => new TradeDTO(trade as any as ITrade)
-        )
+        content: trades.content.map(trade => new TradeDTO(trade))
       });
     } catch (error: any) {
       return res.status(400).json(new ResponseData(null, error.message, 400));
@@ -80,7 +78,7 @@ export class TradeController {
         id as string,
         status
       );
-      const tradeDTO = new TradeDTO(trade as any as ITrade);
+      const tradeDTO = new TradeDTO(trade);
 
       switch (status) {
         case TradeStatus.TROCA_REALIZADA:
@@ -95,7 +93,7 @@ export class TradeController {
             Promise.all(
               tradeDTO.books.map(async book => {
                 await this.bookStockRepository.changeStockFromProduct(
-                  book.book.id,
+                  book.product.book.id,
                   book.amount
                 );
               })

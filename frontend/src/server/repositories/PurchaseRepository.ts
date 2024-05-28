@@ -218,7 +218,15 @@ export class PurchaseRepository {
           include: {
             productCart: {
               include: {
-                tradeRequest: true,
+                trades: {
+                  where: {
+                    trade: {
+                      status: {
+                        not: 'TROCA_RECUSADA'
+                      }
+                    }
+                  }
+                },
                 book: {
                   include: {
                     categories: true,

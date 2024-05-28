@@ -153,7 +153,7 @@ export const SellTable = ({ sells }: Props) => {
         </Table>
       </div>
       <div className="flex justify-end">
-        <Paginate pageCount={sells.totalPages} />
+        <Paginate page={sells.page} pageCount={sells.totalPages} />
       </div>{' '}
     </>
   );

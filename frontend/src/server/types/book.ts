@@ -1,4 +1,4 @@
-import { BookStatus } from '@prisma/client';
+import { BookCategory, BookStatus, Prisma } from '@prisma/client';
 
 export interface IBook {
   id: string;
@@ -47,3 +47,10 @@ export interface IStock {
   createdAt: Date;
   updatedAt: Date;
 }
+export type BookReturn = Prisma.BookGetPayload<{
+  include: {
+    priceGroup: true;
+    categories: true;
+    stock: true;
+  };
+}>;

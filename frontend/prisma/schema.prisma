@@ -153,9 +153,9 @@ model MainCard {
 }
 
 model Book {
-  id           String             @id @default(uuid())
+  id           String          @id @default(uuid())
   name         String
-  isbn         String             @unique
+  isbn         String          @unique
   author       String
   year         Int
   publisher    String
@@ -168,11 +168,11 @@ model Book {
   depth        Float
   priceCost    Float
   manufacturer String
-  status       BookStatus         @default(ACTIVE)
+  status       BookStatus      @default(ACTIVE)
   categories   BookCategory[]
   stock        BookStock?
   priceGroupId String?
-  priceGroup   BookPriceGroup?    @relation(fields: [priceGroupId], references: [id], onDelete: SetNull)
+  priceGroup   BookPriceGroup? @relation(fields: [priceGroupId], references: [id], onDelete: SetNull)
   productCart  ProductCart[]
 
   createdAt    DateTime           @default(now())
@@ -222,17 +222,28 @@ enum BookStatus {
 }
 
 model ProductCart {
-  id     String @id @default(uuid())
+  id     String         @id @default(uuid())
   cartId String
-  cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cart   Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
   bookId String
-  book   Book   @relation(fields: [bookId], references: [id])
+  book   Book           @relation(fields: [bookId], references: [id])
   amount Int
+  trades ProductTrade[]
 
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  tradeRequest   TradeRequest? @relation(fields: [tradeRequestId], references: [id])
-  tradeRequestId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductTrade {
+  id        String       @id @default(uuid())
+  tradeId   String
+  trade     TradeRequest @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  product   ProductCart  @relation(fields: [productId], references: [id])
+  productId String
+  amount    Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Cart {
@@ -315,15 +326,15 @@ enum CouponStatus {
 }
 
 model TradeRequest {
-  id             String        @id @default(uuid())
+  id             String         @id @default(uuid())
   clientId       String
-  client         Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  notificationId String?       @unique
+  client         Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  notificationId String?        @unique
   notification   Notification?
-  couponId       String?       @unique
+  couponId       String?        @unique
   coupon         Coupon?
   status         TradeStatus
-  books          ProductCart[]
+  books          ProductTrade[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

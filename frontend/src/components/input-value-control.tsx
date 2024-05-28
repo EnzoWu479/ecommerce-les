@@ -5,6 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from './ui/tooltip';
+import { cn } from '@/lib/utils';
 
 interface Props {
   onChange?: (value: number) => void;
@@ -24,14 +25,21 @@ export const InputValueControl = ({
 }: Props) => {
   const handleChange = (newValue: number) => {
     if (onChange) {
-      onChange(Math.max(min, Math.min(max ?? Infinity, newValue)));
+      console.log(newValue);
+
+      if (newValue <= min || (max && newValue > max)) return;
+      onChange(newValue);
     }
   };
+
   return (
     <div className="flex items-center gap-2">
       <button
         type="button"
-        className="aspect-square rounded-sm border p-1"
+        className={cn(
+          'aspect-square rounded-sm border p-1',
+          Number(value) - 1 <= min && 'cursor-not-allowed opacity-50'
+        )}
         data-test="decrement"
         onClick={() => handleChange(Number(value) - step)}
       >
@@ -48,7 +56,11 @@ export const InputValueControl = ({
 
       <button
         type="button"
-        className="aspect-square rounded-sm border p-1"
+        className={cn(
+          'aspect-square rounded-sm border p-1',
+
+          max && Number(value) + 1 > max && 'cursor-not-allowed opacity-50'
+        )}
         data-test="increment"
         onClick={() => handleChange(Number(value) + step)}
       >

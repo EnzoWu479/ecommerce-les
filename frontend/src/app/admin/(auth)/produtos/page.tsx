@@ -94,7 +94,7 @@ const ClientTableFetch = async ({ page }: Props) => {
   );
 };
 
-const ProductList = () => {
+const ProductList = ({ searchParams }: { searchParams: IPage }) => {
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
@@ -107,7 +107,7 @@ const ProductList = () => {
         </Button>
       </div>
       <Suspense fallback="Loading">
-        <ClientTableFetch />
+        <ClientTableFetch {...searchParams} />
       </Suspense>
     </>
   );
