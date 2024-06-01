@@ -1,3 +1,4 @@
+'use client';
 import { DashboardChart } from '@/components/admin/dashboard/chart';
 import { CalendarDateRangePicker } from '@/components/admin/dashboard/date-range-picker';
 import { MainNav } from '@/components/admin/dashboard/main-nav';
@@ -15,23 +16,22 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { formaters } from '@/helpers/formaters';
+import { useQueryDashboardInfos } from '@/services/query/useQueryDashboard';
 import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
 
-const AdminDashboard = ({
-  searchParams
-}: {
-  searchParams: { [key: string]: string };
-}) => {
-  const type = (searchParams.type || 'product') as 'product' | 'category';
+const AdminDashboard = () => {
+  const [dates, setDates] = useState<DateRange>({
+    from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    to: new Date()
+  });
+  const { data: dashboardInfos } = useQueryDashboardInfos({
+    start: dates.from?.toISOString(),
+    end: dates.to?.toISOString()
+  });
   return (
     <>
       <div className="md:hidden">
@@ -50,12 +50,12 @@ const AdminDashboard = ({
           className="hidden dark:block"
         />
       </div>
-      <div className="hidden flex-col md:flex">
+      <div className="flex-col md:flex">
         <div className="flex-1">
           <div className="flex items-center justify-between pb-2">
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
             <div className="flex items-center space-x-2">
-              <CalendarDateRangePicker />
+              <CalendarDateRangePicker value={dates} onValueChange={setDates} />
               {/* <Button>Download</Button> */}
             </div>
           </div>
@@ -73,7 +73,7 @@ const AdminDashboard = ({
               </TabsTrigger>
             </TabsList> */}
             <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -93,10 +93,12 @@ const AdminDashboard = ({
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">$45,231.89</div>
-                    <p className="text-xs text-muted-foreground">
-                      +20.1% from last month
-                    </p>
+                    <div className="text-2xl font-bold">
+                      {formaters.money(dashboardInfos?.amountSells || 0)}
+                    </div>
+                    {/* <p className="text-xs text-muted-foreground">
+                      +20.1% from last month 
+                    </p> */}
                   </CardContent>
                 </Card>
                 <Card>
@@ -120,10 +122,12 @@ const AdminDashboard = ({
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+2350</div>
-                    <p className="text-xs text-muted-foreground">
+                    <div className="text-2xl font-bold">
+                      +{dashboardInfos?.amountUsers || 0}
+                    </div>
+                    {/* <p className="text-xs text-muted-foreground">
                       +180.1% from last month
-                    </p>
+                    </p> */}
                   </CardContent>
                 </Card>
                 <Card>
@@ -146,13 +150,15 @@ const AdminDashboard = ({
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">12,234</div>
-                    <p className="text-xs text-muted-foreground">
+                    <div className="text-2xl font-bold">
+                      {dashboardInfos?.amountSellProducts || 0}
+                    </div>
+                    {/* <p className="text-xs text-muted-foreground">
                       +19% from last month
-                    </p>
+                    </p> */}
                   </CardContent>
                 </Card>
-                <Card>
+                {/* <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Usuários ativos
@@ -176,9 +182,9 @@ const AdminDashboard = ({
                       +201 since last hour
                     </p>
                   </CardContent>
-                </Card>
+                </Card> */}
               </div>
-              <DashboardChart type={type} />
+              <DashboardChart dates={dates} />
             </TabsContent>
           </Tabs>
         </div>

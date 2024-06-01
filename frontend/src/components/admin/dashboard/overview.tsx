@@ -1,5 +1,9 @@
 'use client';
 
+import { DashboardChart } from '@/types/dashboard';
+import { getDashboardChartProps } from '@/utils/getDashboardProps';
+import { DashboardScale } from '@/utils/getIdealDashboardScale';
+import { getRandomColor } from '@/utils/getRandomColor';
 import {
   Bar,
   BarChart,
@@ -8,73 +12,23 @@ import {
   YAxis,
   Line,
   LineChart,
-  Legend
+  Legend,
+  Tooltip
 } from 'recharts';
 
-const data = [
-  {
-    name: 'Jan',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Feb',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Mar',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Apr',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'May',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Jun',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Jul',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Aug',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Sep',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Oct',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Nov',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  },
-  {
-    name: 'Dec',
-    total: Math.floor(Math.random() * 5000) + 1000,
-    total1: Math.floor(Math.random() * 5000) + 1000
-  }
-];
 
-export function Overview() {
+interface Props {
+  dashboardChart?: DashboardChart;
+  scale?: DashboardScale;
+}
+
+export function Overview({ dashboardChart, scale }: Props) {
+  if (!dashboardChart || !scale) {
+    return null;
+  }
+  const data = getDashboardChartProps({ dashboardChart, scale });
+  console.log(data);
+
   return (
     <ResponsiveContainer width="100%" height={350}>
       <LineChart data={data}>
@@ -90,11 +44,19 @@ export function Overview() {
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={value => `$${value}`}
+          // tickFormatter={value => `$${value}`}
         />
         <Legend />
-        <Line dataKey="total" stroke="#f6c6d5" className="fill-primary" />
-        <Line dataKey="total1" fill="currentColor" className="fill-primary" />
+        <Tooltip />
+        {dashboardChart.datasets?.map(dataset => (
+          <Line
+            key={dataset.label}
+            dataKey={dataset.label}
+            fill={getRandomColor()}
+            // className="fill-primary"
+          />
+        ))}
+        {/* <Line dataKey="total1" fill="currentColor" className="fill-primary" /> */}
       </LineChart>
     </ResponsiveContainer>
   );

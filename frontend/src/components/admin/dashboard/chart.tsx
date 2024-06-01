@@ -19,19 +19,41 @@ import { SelectMultiple } from '@/components/ui/select-multiple';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Trash } from 'lucide-react';
+import { DateRange } from 'react-day-picker';
+import { DashboardRequest } from '@/types/dashboard';
+import { useQueryCategory } from '@/services/query/useQueryCategory';
+import { useQueryDashboardChart } from '@/services/query/useQueryDashboard';
+import {
+  DashboardScale,
+  getIdealDashboardScale
+} from '@/utils/getIdealDashboardScale';
+
 interface Props {
-  type: 'product' | 'category';
+  dates: DateRange;
 }
 
-const categoriesAvailable = [
-  { label: 'Categoria 1', value: '1' },
-  { label: 'Categoria 2', value: '2' },
-  { label: 'Categoria 3', value: '3' },
-  { label: 'Categoria 4', value: '4' }
-];
-
-export const DashboardChart = ({ type }: Props) => {
+export const DashboardChart = ({ dates }: Props) => {
+  const { data: categories } = useQueryCategory();
+  const categoriesAvailable =
+    categories?.map(category => ({
+      label: category.name,
+      value: category.id
+    })) || [];
   const [categoriesGroups, setCategoriesGroups] = useState<string[][]>([]);
+  const idealScale =
+    dates.from && dates.to
+      ? getIdealDashboardScale(
+          dates.from?.toISOString(),
+          dates.to?.toISOString()
+        )
+      : DashboardScale.DAILY;
+  const { data } = useQueryDashboardChart({
+    start: dates.from?.toISOString(),
+    end: dates.to?.toISOString(),
+    categoryGroups: categoriesGroups
+  });
+  console.log(data);
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
       <Card className="col-span-4">
@@ -39,7 +61,7 @@ export const DashboardChart = ({ type }: Props) => {
           <CardTitle>Overview</CardTitle>
         </CardHeader>
         <CardContent className="pl-2">
-          <Overview />
+          <Overview dashboardChart={data} scale={idealScale} />
         </CardContent>
       </Card>
       <Card className="col-span-3">

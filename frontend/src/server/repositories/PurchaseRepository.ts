@@ -172,7 +172,7 @@ export class PurchaseRepository {
           }
         },
         orderBy: {
-          createdAt: 'desc'
+          updatedAt: 'desc'
         },
         take: limit,
         skip: (page - 1) * limit

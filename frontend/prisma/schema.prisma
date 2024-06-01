@@ -99,7 +99,7 @@ model Address {
 
 model City {
   id        String    @id @default(uuid())
-  name      String
+  name      String    @unique
   stateId   String
   state     State     @relation(fields: [stateId], references: [id])
   addresses Address[]
@@ -110,7 +110,7 @@ model City {
 
 model State {
   id     String @id @default(uuid())
-  uf     String
+  uf     String @unique
   cities City[]
 
   createdAt DateTime @default(now())
@@ -192,7 +192,7 @@ model BookStatusReason {
 
 model BookCategory {
   id        String   @id @default(uuid())
-  name      String
+  name      String   @unique
   books     Book[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -209,7 +209,7 @@ model BookStock {
 
 model BookPriceGroup {
   id            String   @id @default(uuid())
-  name          String
+  name          String   @unique
   profitPercent Float
   books         Book[]
   createdAt     DateTime @default(now())

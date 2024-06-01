@@ -11,8 +11,7 @@ import { api } from '@/lib/axios';
 import { cn } from '@/lib/utils';
 import { PropsWithChildren, useState } from 'react';
 
-
-export default async function AdminLayout({ children }: PropsWithChildren) {
+export default function AdminLayout({ children }: PropsWithChildren) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navCollapsedSize = 4;
   return (
@@ -55,7 +54,7 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={100}>
-          <div className="max-h-[100dvh] w-full overflow-auto p-8 pt-6">
+          <div className="h-[100dvh] max-h-[100dvh] w-full overflow-auto p-8 pt-6">
             {children}
           </div>
         </ResizablePanel>
