@@ -9,10 +9,10 @@ export enum DashboardScale {
 export const getIdealDashboardScale = (date1: string, date2: string) => {
   const diff = Math.abs(differenceInDays(new Date(date1), new Date(date2)));
 
-  if (diff > 365) {
+  if (diff > 730) {
     return DashboardScale.YEARLY;
   }
-  if (diff > 30) {
+  if (diff > 60) {
     return DashboardScale.MONTHLY;
   }
   return DashboardScale.DAILY;
