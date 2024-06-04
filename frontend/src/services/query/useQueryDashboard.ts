@@ -3,14 +3,15 @@ import { useQuery } from '@tanstack/react-query';
 import { dashboardData } from '../data/dashboard';
 
 export const useQueryDashboardChart = (request: Partial<DashboardRequest>) => {
+  const filteredCategories =
+    request!.categoryGroups?.filter(group => group.length > 0) || [];
   const query = useQuery({
-    queryKey: ['dashboard', request.categoryGroups, request.start, request.end],
+    queryKey: ['dashboard', filteredCategories, request.start, request.end],
     queryFn: async () =>
       dashboardData.getChart({
         start: request!.start!,
         end: request!.end!,
-        categoryGroups:
-          request!.categoryGroups?.filter(group => group.length > 0) || []
+        categoryGroups: filteredCategories
       }),
     enabled:
       request.categoryGroups?.some(group => group.length > 0) &&
