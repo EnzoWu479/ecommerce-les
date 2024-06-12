@@ -29,8 +29,8 @@ const AdminDashboard = () => {
     to: new Date()
   });
   const { data: dashboardInfos } = useQueryDashboardInfos({
-    start: dates.from?.toISOString(),
-    end: dates.to?.toISOString()
+    start: dates?.from?.toISOString(),
+    end: dates?.to?.toISOString()
   });
   return (
     <>

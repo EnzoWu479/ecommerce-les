@@ -41,15 +41,15 @@ export const DashboardChart = ({ dates }: Props) => {
     })) || [];
   const [categoriesGroups, setCategoriesGroups] = useState<string[][]>([]);
   const idealScale =
-    dates.from && dates.to
+    dates?.from && dates?.to
       ? getIdealDashboardScale(
           dates.from?.toISOString(),
           dates.to?.toISOString()
         )
       : DashboardScale.DAILY;
   const { data } = useQueryDashboardChart({
-    start: dates.from?.toISOString(),
-    end: dates.to?.toISOString(),
+    start: dates?.from?.toISOString(),
+    end: dates?.to?.toISOString(),
     categoryGroups: categoriesGroups
   });
   console.log(data);

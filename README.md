@@ -32,8 +32,6 @@ Utilizamos a metodologia ágil Scrum para o desenvolvimento do LerMundo. O proje
 
 ## Requisitos
 
-Aqui está o arquivo README com os requisitos funcionais, não funcionais e as regras de negócio separados em tabelas distintas:
-
 ### Requisitos Funcionais
 
 | ID do Requisito | Nome do Requisito                    | Descrição                                                                                                                                      |
