@@ -5,31 +5,34 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue
-} from '../ui/select';
-import { Listbox } from '@headlessui/react';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
+} from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
-import { Icon, ItemIndicator } from '@radix-ui/react-select';
-import { CaretSortIcon } from '@radix-ui/react-icons';
-import { CheckIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { SelectMultiple } from '../ui/select-multiple';
+import { SelectMultiple } from '@/components/ui/select-multiple';
 import { Controller, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'react-toastify';
 import { ICategory } from '@/types/category';
 import { IOption } from '@/types/search';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BookForm, bookFormSchema } from '@/validations/bookForm.schema';
-import { ErrorMessage } from '../ui/error-message';
+import { ErrorMessage } from '@/components/ui/error-message';
 import { IPriceGroup } from '@/types/priceGroup';
 import { productData } from '@/services/data/product';
 import { IProduct } from '@/types/product';
 import { getSellPrice } from '@/utils/getSellPrice';
 import { formaters } from '@/helpers/formaters';
+import { useMutationAi } from '@/services/query/useMutationAi';
+import { Bot, MailQuestion } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '../ui/tooltip';
 
 interface Props {
   categories: ICategory[];
@@ -47,11 +50,20 @@ export const ProductForm = ({
       label: category.name
     }))
   );
+  const [takenSugestedSynopse, setTakenSugestedSynopse] = useState(false);
+  const [
+    takenSugestedGramaticalImprovement,
+    setTakenSugestedGramaticalImprovement
+  ] = useState(false);
+  const [takenSugestedAuthor, setTakenSugestedAuthor] = useState(false);
+
   const {
     control,
     formState: { errors },
+    getValues,
     handleSubmit,
     register,
+    setValue,
     watch
   } = useForm<BookForm>({
     resolver: zodResolver(bookFormSchema),
@@ -86,6 +98,12 @@ export const ProductForm = ({
   console.log(errors);
   console.log(product);
 
+  const { gramaticalImprovement, suggest } = useMutationAi();
+  const suggestCategoriesFiltered =
+    suggest.data?.categories.filter(
+      category => !watch('categories').includes(category)
+    ) || [];
+
   const onSubmit = handleSubmit(async data => {
     try {
       if (product) {
@@ -99,8 +117,33 @@ export const ProductForm = ({
       toast.error('Erro ao salvar produto');
     }
   });
+  console.log(suggest.data);
+
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
+      {!!watch('name') && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                className="pt-2"
+                onClick={() => {
+                  suggest.mutate(getValues());
+                  setTakenSugestedSynopse(false);
+                  setTakenSugestedAuthor(false);
+                }}
+                disabled={suggest.isPending}
+              >
+                <Bot />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Tenha ajuda da IA</span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
       <div className="flex flex-wrap gap-x-8 gap-y-4">
         <div className="w-72">
           <Label>Nome da produto</Label>
@@ -125,6 +168,20 @@ export const ProductForm = ({
           <Label>Autor</Label>
           <Input {...register('author')} error={errors.author?.message} />
           <ErrorMessage error={errors.author?.message} />
+          {!!suggest.data?.author && !takenSugestedAuthor && (
+            <div className="text-sm">
+              Sugestão:{' '}
+              <span
+                className="cursor-pointer text-blue-600 underline hover:text-blue-800"
+                onClick={() => {
+                  setValue('author', suggest.data.author);
+                  setTakenSugestedAuthor(true);
+                }}
+              >
+                {suggest.data.author}
+              </span>
+            </div>
+          )}
         </div>
         <div className="w-72">
           <Label>Ano</Label>
@@ -156,6 +213,9 @@ export const ProductForm = ({
           />
           <ErrorMessage error={errors.numberPages?.message as string} />
         </div>
+        {/* <div className="w-72">
+          
+        </div> */}
 
         <div className="w-full">
           <Label>Categorias</Label>
@@ -174,13 +234,89 @@ export const ProductForm = ({
             )}
           />
           <ErrorMessage error={errors.categories?.message} />
+          <div className="mt-4 flex flex-wrap gap-2">
+            {suggestCategoriesFiltered.map(category => (
+              <button
+                type="button"
+                onClick={() => {
+                  setCategories(prev => [
+                    ...prev,
+                    { value: category, label: category }
+                  ]);
+                  setValue('categories', [...watch('categories'), category]);
+                }}
+                className="rounded-md bg-slate-800 px-4 text-sm text-white"
+              >
+                {category}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="w-full">
-          <Label>Sinopse</Label>
+          <Label className="mb-2 flex items-center gap-2">
+            Sinopse{' '}
+            {!!watch('synopsis') && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        gramaticalImprovement.mutate(getValues());
+                        setTakenSugestedGramaticalImprovement(false);
+                      }}
+                      disabled={gramaticalImprovement.isPending}
+                    >
+                      <MailQuestion size={14} />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>Peça correção da IA</span>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </Label>
           <Textarea
             {...register('synopsis')}
             error={errors.synopsis?.message}
           />
+          <ErrorMessage error={errors.synopsis?.message} />
+          {!!suggest.data?.synopsis && !takenSugestedSynopse && (
+            <div className="text-sm">
+              Sugestão:{' '}
+              <span
+                className="cursor-pointer text-blue-600 underline hover:text-blue-800"
+                onClick={() => {
+                  setValue('synopsis', suggest.data.synopsis);
+                  setTakenSugestedSynopse(true);
+                }}
+              >
+                {suggest.data.synopsis}
+              </span>
+            </div>
+          )}
+          {!!gramaticalImprovement.data &&
+            !takenSugestedGramaticalImprovement && (
+              <div className="text-sm">
+                {gramaticalImprovement.data === watch('synopsis') ? (
+                  <span className="text-green-600">Texto sem erros</span>
+                ) : (
+                  <>
+                    Sugestão gramatical:
+                    <span
+                      className="ml-2 cursor-pointer text-blue-600 underline hover:text-blue-800"
+                      onClick={() => {
+                        setValue('synopsis', gramaticalImprovement.data);
+                        setTakenSugestedGramaticalImprovement(true);
+                      }}
+                    >
+                      {gramaticalImprovement.data}
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
         </div>
       </div>
       <h3 className="text-2xl font-bold tracking-tight">Dimensões</h3>

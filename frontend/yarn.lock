@@ -267,6 +267,11 @@
   resolved "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.1.tgz"
   integrity sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==
 
+"@google/generative-ai@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.12.0.tgz#86e176c783969c613c0a3515dcdb1f075bc52073"
+  integrity sha512-krWjurjEUHSFhCX4lGHMOhbnpBfYZGU31mpHpPBQwcfWm0T+/+wxC4UCAJfkxxc3/HvGJVG8r4AqrffaeDHDlA==
+
 "@headlessui/react@^1.7.18":
   version "1.7.18"
   resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.18.tgz#30af4634d2215b2ca1aa29d07f33d02bea82d9d7"

@@ -13,19 +13,22 @@ export class BookRepository {
     this.bookCategoryRepository = new BookCategoryRepository();
   }
   public async create(data: BookFormData) {
-    const categories = await Promise.all(
-      data.categories.map(category =>
-        this.bookCategoryRepository.findOrCreate(category)
-      )
-    );
     return this.prisma.book.create({
       data: {
         name: data.name,
         isbn: data.isbn,
         manufacturer: data.manufacturer,
         categories: {
-          connect: categories.map(category => ({
-            id: category.id
+          // connect: categories.map(category => ({
+          //   id: category.id
+          // }))
+          connectOrCreate: data.categories.map(category => ({
+            where: {
+              name: category
+            },
+            create: {
+              name: category
+            }
           }))
         },
         stock: {

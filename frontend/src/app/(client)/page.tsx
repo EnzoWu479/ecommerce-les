@@ -16,20 +16,7 @@ export default function Home() {
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Produtos</h2>
         </div>
-        <div className="mt-4 grid gap-4 px-8 max-lg:grid-cols-4 max-md:grid-cols-3 max-sm:grid-cols-2 lg:grid-cols-4">
-          {/* <Suspense
-            fallback={
-              <>
-                <Skeleton className="h-80 w-full" />
-                <Skeleton className="h-80 w-full" />
-                <Skeleton className="h-80 w-full" />
-                <Skeleton className="h-80 w-full" />
-              </>
-            }
-          > */}
-            <ProductSection />
-          {/* </Suspense> */}
-        </div>
+        <ProductSection />
       </div>
     </ClientLayout>
   );

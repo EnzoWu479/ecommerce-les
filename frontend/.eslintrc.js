@@ -32,7 +32,7 @@ module.exports = {
         semi: true
       }
     ],
-    camelcase: 'on',
+    camelcase: '1',
     snakecase: 'on',
     'no-unused-expressions': 'off',
     'react/jsx-uses-react': 'off',

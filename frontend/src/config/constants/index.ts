@@ -1,3 +1,6 @@
+import { GeminiAi } from '@/server/lib/ai/adapter/impl/GeminiAi';
+import { AIAdapter } from '@/server/lib/ai/adapter/interface';
+
 const COOKIE_PREFIX = '@LERMUNDO';
 export const MAX_AGE = 60 * 60 * 24 * 30;
 export const COOKIES_NAME = {
@@ -9,3 +12,4 @@ export const LOCAL_STORAGE_NAME = {
 };
 export const API_PUBLIC_ROUTES = ['/login'];
 export const SHIPPING_COSTS = [10, 12, 15, 20];
+export const AI_ADAPTER: AIAdapter = new GeminiAi();
