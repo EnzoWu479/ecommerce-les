@@ -303,16 +303,25 @@ export const ProductForm = ({
                   <span className="text-green-600">Texto sem erros</span>
                 ) : (
                   <>
-                    Sugestão gramatical:
-                    <span
-                      className="ml-2 cursor-pointer text-blue-600 underline hover:text-blue-800"
-                      onClick={() => {
-                        setValue('synopsis', gramaticalImprovement.data);
-                        setTakenSugestedGramaticalImprovement(true);
-                      }}
-                    >
-                      {gramaticalImprovement.data}
-                    </span>
+                    {gramaticalImprovement.data ===
+                    'A mensagem não tem sentido.' ? (
+                      <span className="text-red-600">
+                        A mensagem não tem sentido.
+                      </span>
+                    ) : (
+                      <>
+                        Sugestão gramatical:
+                        <span
+                          className="ml-2 cursor-pointer text-blue-600 underline hover:text-blue-800"
+                          onClick={() => {
+                            setValue('synopsis', gramaticalImprovement.data);
+                            setTakenSugestedGramaticalImprovement(true);
+                          }}
+                        >
+                          {gramaticalImprovement.data}
+                        </span>{' '}
+                      </>
+                    )}
                   </>
                 )}
               </div>
