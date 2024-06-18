@@ -8,30 +8,16 @@ const adjetivos = [
   'Incrível',
   'Misterioso',
   'Maravilhoso',
-  'Enigmático',
-  'Aventuroso',
-  'Sombrio',
-  'Brilhante'
 ];
 const substantivos = [
-  'Segredo',
-  'Mistério',
-  'Aventura',
-  'Jornada',
-  'Destino',
   'Reino',
   'Herói',
   'Lenda'
 ];
 const locais = [
   'das Sombras',
-  'do Deserto',
-  'do Oceano',
   'da Floresta',
-  'das Estrelas',
   'do Tempo',
-  'dos Sonhos',
-  'da Magia'
 ];
 const categorias = [
   'Ação',
