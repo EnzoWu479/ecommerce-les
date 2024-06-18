@@ -112,6 +112,31 @@ export class BookRepository {
       totalPages
     };
   }
+  public async getAll() {
+    const content = await this.prisma.book.findMany({
+      where: {
+        status: BookStatus.ACTIVE,
+        stock: {
+          quantity: {
+            gt: 0
+          }
+        }
+      },
+      take: 50,
+      // select: {
+      //   id: true,
+      //   name: true,
+      //   priceCost: true,
+      //   priceGroup: true,
+      // }
+      include: {
+        categories: true,
+        priceGroup: true,
+        stock: true
+      }
+    });
+    return content;
+  }
   public async list({ page, limit, search }: PageRequest<unknown>) {
     const [total, content] = await Promise.all([
       this.prisma.book.count({

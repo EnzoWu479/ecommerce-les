@@ -1,4 +1,7 @@
 import { api } from '@/lib/axios';
+import { BookDTO } from '@/server/repositories/dto/BookDTO';
+import { ChatResponse } from '@/types/chat';
+import { IProduct } from '@/types/product';
 import { BookForm } from '@/validations/bookForm.schema';
 
 export const aiData = {
@@ -22,6 +25,16 @@ export const aiData = {
       params: {
         message: book.synopsis
       }
+    });
+    return data;
+  },
+  async complementarBookSuggestion() {
+    const { data } = await api.get<IProduct[]>('/api/ai/cart');
+    return data;
+  },
+  async bookSuggestion(message: string) {
+    const { data } = await api.post<ChatResponse>('/api/ai/chat-assist', {
+      message
     });
     return data;
   }

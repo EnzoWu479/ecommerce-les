@@ -5,6 +5,14 @@ import { IBook } from '@/server/types/book';
 import { bookDetailsSuggestionPrompt } from '../prompts/book-details-suggestion-prompt';
 import { BookFormData } from '@/validations/bookForm.schema';
 import { gramaticalImprovementPrompt } from '../prompts/gramatical-improvement-prompt';
+import { bookSuggestionPrompt } from '../prompts/book-suggestion-prompt';
+import { IProductCart } from '@/types/cart';
+import {
+  BookSearchProps,
+  bookSearchPrompt
+} from '../prompts/book-search-prompt';
+import { BookSearchPromptResponse } from '../types';
+import { attempt } from '@/server/utils/attempt';
 
 export class AiService {
   private aiAdapter: AIAdapter;
@@ -40,7 +48,15 @@ export class AiService {
     ) {
       throw new Error('Book is empty');
     }
-    return await this.aiAdapter.getReply(bookDetailsSuggestionPrompt(book));
+    const answer = await this.aiAdapter.getReply(
+      bookDetailsSuggestionPrompt(book)
+    );
+
+    return JSON.parse(answer) as {
+      name: string;
+      synopsis: string;
+      categories: string[];
+    };
   }
 
   async gramaticalImprovement(message: string) {
@@ -48,5 +64,24 @@ export class AiService {
     return await this.aiAdapter.getReply(
       gramaticalImprovementPrompt({ description: message })
     );
+  }
+  async complementarBookSuggestion(bookCart: IProductCart[], books: IBook[]) {
+    const answer = await this.aiAdapter.getReply(
+      bookSuggestionPrompt({ bookCart, books })
+    );
+    return JSON.parse(answer) as string[];
+  }
+  async bookSearch({ bookCart, books, message }: BookSearchProps) {
+    const prompt = bookSearchPrompt({ bookCart, books, message });
+
+    const response = async () => {
+      const answer = await this.aiAdapter.getReply(prompt);
+      console.log('answer', answer);
+
+      const parsed = JSON.parse(answer) as BookSearchPromptResponse;
+
+      return parsed;
+    };
+    return await attempt(response);
   }
 }
