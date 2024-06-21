@@ -10,6 +10,7 @@ import { IBook } from '../types/book';
 import { BookStatus } from '@prisma/client';
 import { getSellPrice } from '@/utils/getSellPrice';
 import { ICategory } from '@/types/product';
+import { ChatMessage } from '@/types/chat';
 
 export class AIController {
   private aiService: AiService;
@@ -159,6 +160,7 @@ export class AIController {
       const { infos } = jwtService.extract(jwt);
 
       const message = req.body.message as string;
+      const messages = req.body.messages as ChatMessage[];
 
       const [cart, books] = await Promise.all([
         this.cartRepository.getCurrentCart(infos.id),
@@ -168,13 +170,16 @@ export class AIController {
       const aiAnswer = await this.aiService.bookSearch({
         bookCart: cart.productCart.map(product => ({
           id: product.book.id,
-          name: product.book.name
+          name: product.book.name,
+          description: product.book.synopsis
         })),
         books: books.map(book => ({
           id: book.id,
-          name: book.name
+          name: book.name,
+          description: book.synopsis
         })),
-        message
+        message,
+        messages
       });
 
       if (!aiAnswer.bookId || aiAnswer.bookId === 'undefined') {
@@ -187,12 +192,16 @@ export class AIController {
       if (!bookSuggested) {
         console.log(aiAnswer);
 
-        throw new Error('Book not found');
+        res.status(200).json({
+          message: aiAnswer.message
+        });
+      } else {
+        res.status(200).json({
+          book: new BookDTO(bookSuggested),
+          message: aiAnswer.message
+        });
       }
-      res.status(200).json({
-        book: new BookDTO(bookSuggested),
-        message: aiAnswer.message
-      });
+      
     } catch (error: any) {
       res.status(400).json({ message: error.message });
     }

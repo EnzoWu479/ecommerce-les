@@ -5,7 +5,7 @@ import { useChatStore } from '../store';
 
 export const useChat = () => {
   const { messages, setMessages } = useChatStore();
-  const { mutateAsync, isPending } = useMutationChatAI();
+  const { mutateAsync, isPending } = useMutationChatAI(messages);
 
   const sendMessage = async (message: string) => {
     if (!message.trim()) return false;

@@ -1,6 +1,6 @@
 import { api } from '@/lib/axios';
 import { BookDTO } from '@/server/repositories/dto/BookDTO';
-import { ChatResponse } from '@/types/chat';
+import { ChatMessage, ChatResponse } from '@/types/chat';
 import { IProduct } from '@/types/product';
 import { BookForm } from '@/validations/bookForm.schema';
 
@@ -32,9 +32,10 @@ export const aiData = {
     const { data } = await api.get<IProduct[]>('/api/ai/cart');
     return data;
   },
-  async bookSuggestion(message: string) {
+  async bookSuggestion(message: string, messages: ChatMessage[]) {
     const { data } = await api.post<ChatResponse>('/api/ai/chat-assist', {
-      message
+      message,
+      messages: messages.slice(-3),
     });
     return data;
   }
