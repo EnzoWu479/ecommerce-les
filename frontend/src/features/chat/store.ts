@@ -8,6 +8,12 @@ export interface chatStore {
 }
 
 export const useChatStore = create<chatStore>(set => ({
-  messages: [],
+  messages: [
+    {
+      message:
+        'Olá, eu sou o assistente virtual da Livraria LerMundo. Como posso te ajudar?',
+      isUser: false
+    }
+  ],
   setMessages: messages => set({ messages })
 }));
