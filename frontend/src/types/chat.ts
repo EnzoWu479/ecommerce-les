@@ -3,10 +3,10 @@ import { IProduct } from "./product";
 
 export interface ChatResponse {
   message: string;
-  book?: IProduct;
+  bookName?: string;
 }
 export interface ChatMessage {
   message?: string;
-  book?: IProduct;
+  bookName?: string;
   isUser: boolean;
 }

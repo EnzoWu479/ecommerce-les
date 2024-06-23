@@ -23,7 +23,7 @@ export const useInfiniteQueryProduct = ({ category, search }: Props) => {
       }),
     initialPageParam: 1,
     getNextPageParam: (next: PageResponse) => {
-      if (next.page === next.totalPages) {
+      if (next.page >= next.totalPages) {
         return null;
       }
       return next.page + 1;
