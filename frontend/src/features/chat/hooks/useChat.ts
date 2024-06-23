@@ -1,6 +1,4 @@
 import { useMutationChatAI } from '@/services/query/useMutationAi';
-import { ChatMessage } from '@/types/chat';
-import { useState } from 'react';
 import { useChatStore } from '../store';
 
 export const useChat = () => {
@@ -15,14 +13,16 @@ export const useChat = () => {
       isUser: true
     });
     setMessages(newMessages);
+
     try {
       const response = await mutateAsync(message);
       newMessages.push({
         message: response.message,
-        book: response.book,
+        bookName: response.bookName,
         isUser: false
       });
       setMessages(newMessages);
+
       return true;
     } catch (error) {
       console.error(error);

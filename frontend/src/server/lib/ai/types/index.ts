@@ -1,4 +1,4 @@
 export interface BookSearchPromptResponse {
-  bookId: string;
+  bookName: string | undefined;
   message: string;
 }

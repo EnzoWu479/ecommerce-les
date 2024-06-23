@@ -153,55 +153,18 @@ export class AIController {
     res: NextApiResponse
   ): Promise<void> {
     try {
-      const jwt = req.cookies[COOKIES_NAME.TOKEN];
-      if (!jwt) {
-        throw new Error('Token not found');
-      }
-      const { infos } = jwtService.extract(jwt);
-
       const message = req.body.message as string;
       const messages = req.body.messages as ChatMessage[];
 
-      const [cart, books] = await Promise.all([
-        this.cartRepository.getCurrentCart(infos.id),
-        this.bookRepository.getAll()
-      ]);
-
       const aiAnswer = await this.aiService.bookSearch({
-        bookCart: cart.productCart.map(product => ({
-          id: product.book.id,
-          name: product.book.name,
-          description: product.book.synopsis
-        })),
-        books: books.map(book => ({
-          id: book.id,
-          name: book.name,
-          description: book.synopsis
-        })),
         message,
         messages
       });
 
-      if (!aiAnswer.bookId || aiAnswer.bookId === 'undefined') {
-        res.status(200).json({
-          message: aiAnswer.message
-        });
-        return;
-      }
-      const bookSuggested = books.find(book => book.id === aiAnswer.bookId);
-      if (!bookSuggested) {
-        console.log(aiAnswer);
-
-        res.status(200).json({
-          message: aiAnswer.message
-        });
-      } else {
-        res.status(200).json({
-          book: new BookDTO(bookSuggested),
-          message: aiAnswer.message
-        });
-      }
-      
+      res.status(200).json({
+        message: aiAnswer.message,
+        bookName: aiAnswer.bookName,
+      });
     } catch (error: any) {
       res.status(400).json({ message: error.message });
     }

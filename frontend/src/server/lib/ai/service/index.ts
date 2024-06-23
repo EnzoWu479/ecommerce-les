@@ -71,12 +71,11 @@ export class AiService {
     );
     return JSON.parse(answer) as string[];
   }
-  async bookSearch({ bookCart, books, message, messages }: BookSearchProps) {
-    const prompt = bookSearchPrompt({ bookCart, books, message, messages });
+  async bookSearch({ message, messages }: BookSearchProps) {
+    const prompt = bookSearchPrompt({message, messages });
 
     const response = async () => {
       const answer = await this.aiAdapter.getReply(prompt);
-      console.log('answer', answer);
 
       const parsed = JSON.parse(answer) as BookSearchPromptResponse;
 
