@@ -13,18 +13,26 @@ export const ProductList = ({
   products,
   amount_skeleton = 4
 }: Props) => {
+  const is_empty = products.length === 0;
   return (
-    <div className="mt-4 grid gap-4 px-8 max-lg:grid-cols-4 max-md:grid-cols-3 max-sm:grid-cols-2 lg:grid-cols-4">
-      {products.map((product, i) => (
-        <ProductCard key={product.id} index={i + 1} product={product} />
-      ))}
-      {isLoading && (
-        <>
-          {Array.from({ length: amount_skeleton }).map((_, i) => (
-            <Skeleton key={i} className="h-80 w-full" />
-          ))}
-        </>
+    <>
+      <div className="mt-4 grid gap-4 px-8 max-lg:grid-cols-4 max-md:grid-cols-3 max-sm:grid-cols-2 lg:grid-cols-4">
+        {products.map((product, i) => (
+          <ProductCard key={product.id} index={i + 1} product={product} />
+        ))}
+        {isLoading && (
+          <>
+            {Array.from({ length: amount_skeleton }).map((_, i) => (
+              <Skeleton key={i} className="h-80 w-full" />
+            ))}
+          </>
+        )}
+      </div>
+      {is_empty && !isLoading && (
+        <div className="col-span-full text-center">
+          <span className="text-lg">Nenhum produto encontrado</span>
+        </div>
       )}
-    </div>
+    </>
   );
 };

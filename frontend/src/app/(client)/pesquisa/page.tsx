@@ -25,22 +25,8 @@ export default function Search(params: SearchParams) {
         {category && (
           <span className="text-lg">Filtrando por categoria: {category}</span>
         )}
-        <div className="mt-4 grid gap-4 px-8 max-lg:grid-cols-4 max-md:grid-cols-3 max-sm:grid-cols-2 lg:grid-cols-4">
-          <Suspense
-            fallback={
-              <>
-                <Skeleton className="h-80 w-full" />
-                <Skeleton className="h-80 w-full" />
-                <Skeleton className="h-80 w-full" />
-                <Skeleton className="h-80 w-full" />
-                <Skeleton className="h-80 w-full" />
-                <Skeleton className="h-80 w-full" />
-              </>
-            }
-          >
-            <ProductSection category={category} search={search} />
-          </Suspense>
-        </div>
+
+        <ProductSection category={category} search={search} />
       </div>
     </ClientLayout>
   );
