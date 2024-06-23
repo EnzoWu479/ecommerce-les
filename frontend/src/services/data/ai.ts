@@ -35,7 +35,7 @@ export const aiData = {
   async bookSuggestion(message: string, messages: ChatMessage[]) {
     const { data } = await api.post<ChatResponse>('/api/ai/chat-assist', {
       message,
-      messages: messages.slice(-3),
+      messages: messages.slice(-10)
     });
     return data;
   }

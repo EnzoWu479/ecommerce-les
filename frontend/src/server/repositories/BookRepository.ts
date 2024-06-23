@@ -74,7 +74,20 @@ export class BookRepository {
     const [total, content] = await Promise.all([
       this.prisma.book.count({
         where: {
-          status: BookStatus.ACTIVE
+          status: BookStatus.ACTIVE,
+          name: search?.name
+            ? {
+                contains: search.name,
+                mode: 'insensitive'
+              }
+            : undefined,
+          categories: search?.category
+            ? {
+                some: {
+                  name: search.category
+                }
+              }
+            : undefined
         }
       }),
       this.prisma.book.findMany({
